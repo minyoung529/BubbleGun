@@ -108,3 +108,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c177cf8b49635a048979a8f7542fd16a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sparkleEffectPrefab: {fileID: 1000011945391522, guid: 78b71003e8b357d4bbf89c8b5e5e4f0e, type: 3}
