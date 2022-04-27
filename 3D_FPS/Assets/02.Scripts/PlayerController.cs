@@ -9,12 +9,16 @@ public class PlayerController : MonoBehaviour
     private Animation playerAnimation;
     private Transform playerTransform;
 
-    void Start()
+    private IEnumerator Start()
     {
         playerTransform = GetComponent<Transform>();
         playerAnimation = GetComponent<Animation>();
 
         playerAnimation.Play();
+
+        rotationSpeed = 0f;
+        yield return new WaitForSeconds(0.3f);
+        rotationSpeed = 80.0f;
     }
 
     void Update()
