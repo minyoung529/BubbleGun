@@ -6,6 +6,8 @@ TagManager:
   tags:
   - BULLET
   - BARREL
+  - MONSTER
+  - PUNCH
   layers:
   - Default
   - TransparentFX
@@ -16,8 +18,8 @@ TagManager:
   - 
   - Green
   - BARREL
-  - 
-  - 
+  - MONSTER_BODY
+  - MONSTER_PUNCH
   - 
   - 
   - 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,16 +10,21 @@ public class PlayerController : MonoBehaviour
     private Animation playerAnimation;
     private Transform playerTransform;
 
+    private readonly float initHp = 10;
+    public  float currentHp = 0;
+
     private IEnumerator Start()
     {
         playerTransform = GetComponent<Transform>();
         playerAnimation = GetComponent<Animation>();
 
+        currentHp = initHp;
+
         playerAnimation.Play();
 
         rotationSpeed = 0f;
         yield return new WaitForSeconds(0.3f);
-        rotationSpeed = 80.0f;
+        rotationSpeed = 110.0f;
     }
 
     void Update()
@@ -65,5 +71,31 @@ public class PlayerController : MonoBehaviour
         {
             playerAnimation.CrossFade("Idle", 0.25f);
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("PUNCH") && currentHp >= 0f)
+        {
+            currentHp -= 1f;
+
+            if(currentHp <= 0.0f)
+            {
+                PlayerDie();
+            }
+        }
+    }
+
+    private void PlayerDie()
+    {
+        Debug.Log("DIE");
+        GameObject[] monsters = GameObject.FindGameObjectsWithTag("MONSTER");
+
+        foreach(GameObject obj in monsters)
+        {
+            obj.SendMessage("OnPlayerDie", SendMessageOptions.DontRequireReceiver);
+        }
+
+        GameManager.GetInstance().IsGameOver = true;
     }
 }
