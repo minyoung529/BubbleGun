@@ -12,6 +12,7 @@ public class BulletCtrl : MonoBehaviour
 
     private Rigidbody bulletRigidbody = null;
     private Transform bulletTransform = null;
+
     void Start()
     {
         bulletRigidbody = GetComponent<Rigidbody>();

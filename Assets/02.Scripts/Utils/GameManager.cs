@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class GameMgr : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     // 점수 텍스트 연결 변수
     public TMP_Text scoreText;
@@ -28,6 +28,10 @@ public class GameMgr : MonoBehaviour
 
     // 게임의 종료 여부를 저장하는 멤버 변수
     private bool isGameOver;
+    public bool isSpawnMonster = true;
+
+    private PaintManager paintManager;
+    public PaintManager PaintManager { get => paintManager; }
 
     public bool IsGameOver
     {
@@ -42,18 +46,17 @@ public class GameMgr : MonoBehaviour
         }
     }
 
-    private static GameMgr instance;
-
-    public static GameMgr GetInstance()
+    private static GameManager instance;
+    public static GameManager GetInstance()
     {
         if(instance == null)
         {
-            instance = FindObjectOfType<GameMgr>();
+            instance = FindObjectOfType<GameManager>();
 
             if( instance == null )
             {
                 GameObject container = new GameObject("GameMgr");
-                instance = container.AddComponent<GameMgr>();
+                instance = container.AddComponent<GameManager>();
             }
         }
         return instance;
@@ -65,6 +68,8 @@ public class GameMgr : MonoBehaviour
             instance = this;
 
         DontDestroyOnLoad(this.gameObject);
+
+        paintManager = FindObjectOfType<PaintManager>();
     }
 
     void Start()
@@ -86,6 +91,10 @@ public class GameMgr : MonoBehaviour
             points.Add(item);
         }
 
+        if(!isSpawnMonster)
+        {
+            return;
+        }
         // 일정 시간 간격으로 호출
         InvokeRepeating("CreateMonster", 2.0f, createTime);
 

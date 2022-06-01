@@ -185,7 +185,7 @@ public class MonsterCtrl : MonoBehaviour
     {
         if( collision.collider.CompareTag("BULLET"))
         {
-            Destroy(collision.gameObject);
+            //Destroy(collision.gameObject);
 
             // 피격 리액션 애니 트리거 발동
             anim.SetTrigger(hashHit);
@@ -203,7 +203,7 @@ public class MonsterCtrl : MonoBehaviour
             {
                 state = State.DIE;
 
-                GameMgr.GetInstance().DisplayScore(50);
+                GameManager.GetInstance().DisplayScore(50);
             }    
         }
     }

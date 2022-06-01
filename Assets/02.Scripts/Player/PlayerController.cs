@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // 게임 종료
-        GameMgr.GetInstance().IsGameOver = true;
+        GameManager.GetInstance().IsGameOver = true;
     }
 
     void DisplayHP()
