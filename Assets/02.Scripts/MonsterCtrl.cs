@@ -54,7 +54,7 @@ public class MonsterCtrl : MonoBehaviour
         // NavMeshAgent 자동 회전 기능 비활성화
         agent.updateRotation = false;
 
-        anim = GetComponent<Animator>();
+        anim = GetComponentInChildren<Animator>();
 
         bloodEffect = Resources.Load<GameObject>("BloodSprayEffect");
     }

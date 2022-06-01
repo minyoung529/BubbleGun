@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(AudioSource))]
 public class FireCtrl : MonoBehaviour
@@ -19,6 +20,10 @@ public class FireCtrl : MonoBehaviour
     // Muzzle flash의 Mesh Renderer 컴포넌트 캐싱
     private MeshRenderer muzzleFlash;
 
+    [SerializeField] private UnityEvent onPlayerShoot;
+
+    private bool isShoot = false;
+
     private void Start()
     {
         audio = GetComponent<AudioSource>();
@@ -30,20 +35,24 @@ public class FireCtrl : MonoBehaviour
     void Update()
     {
         // 마우스 왼쪽 버튼 클릭 했을 때, 
-        if( Input.GetMouseButtonDown(0) )
+        if (Input.GetMouseButtonDown(0) && !isShoot)
         {
-            Fire();
+            StartCoroutine(Fire());
         }
     }
 
-    void Fire()
+    private IEnumerator Fire()
     {
+        isShoot = true;
+        onPlayerShoot.Invoke();
+        StartCoroutine(ShowMuzzleFlash());
+
+        yield return new WaitForSeconds(0.07f);
         // 프리팹을 인스턴스화하여 생성
         Instantiate(bulletPrefab, firePos.position, firePos.rotation);
-
         audio.PlayOneShot(fireSfx, 1.0f);
 
-        StartCoroutine(ShowMuzzleFlash());
+        isShoot = false;
     }
 
     IEnumerator ShowMuzzleFlash()
