@@ -7,7 +7,7 @@ public class MonsterCtrl : MonoBehaviour
     // 몬스터의 상태 정보
     public enum State
     {
-        IDLE, 
+        IDLE,
         TRACE,
         ATTACK,
         DIE,
@@ -64,8 +64,8 @@ public class MonsterCtrl : MonoBehaviour
         state = State.IDLE;
 
         currHp = initHp;
-        isDie = false;          
-        
+        isDie = false;
+
         // 몬스터 콜라이더 활성화
         GetComponent<CapsuleCollider>().enabled = true;
         // 몬스터 펀치 콜라이더 활성화
@@ -85,12 +85,16 @@ public class MonsterCtrl : MonoBehaviour
     void Update()
     {
         // 목적지까지 남은 거리로 회전 여부 판단
-        if( agent.remainingDistance >= 2.0f)
+        if (agent.remainingDistance >= 2.0f)
         {
             // 에이전의 이동 회전
             Vector3 direction = agent.desiredVelocity;
 
+            if (direction.sqrMagnitude < 0.01f)
+                return;
+
             Quaternion rot = Quaternion.LookRotation(direction);
+
 
             monsterTransform.rotation = Quaternion.Slerp(monsterTransform.rotation, rot, Time.deltaTime * 10.0f);
         }
@@ -98,7 +102,7 @@ public class MonsterCtrl : MonoBehaviour
 
     IEnumerator CheckMonsterState()
     {
-        while(!isDie)
+        while (!isDie)
         {
             yield return new WaitForSeconds(0.3f);
 
@@ -112,11 +116,11 @@ public class MonsterCtrl : MonoBehaviour
             // 몬스터와 주인공 캐릭터 사이의 거리 측정
             float distance = Vector3.Distance(monsterTransform.position, targetTransform.position);
 
-            if( distance <= attackDist )
+            if (distance <= attackDist)
             {
                 state = State.ATTACK;
             }
-            else if( distance <= traceDist )
+            else if (distance <= traceDist)
             {
                 state = State.TRACE;
             }
@@ -129,9 +133,9 @@ public class MonsterCtrl : MonoBehaviour
 
     IEnumerator MonsterAction()
     {
-        while(!isDie)
+        while (!isDie)
         {
-            switch(state)
+            switch (state)
             {
                 case State.IDLE:
                     agent.isStopped = true;
@@ -157,7 +161,7 @@ public class MonsterCtrl : MonoBehaviour
                     GetComponent<CapsuleCollider>().enabled = false;
                     // 몬스터 펀치 콜라이더 비활성화
                     SphereCollider[] spheres = GetComponentsInChildren<SphereCollider>();
-                    foreach(SphereCollider sphere in spheres)
+                    foreach (SphereCollider sphere in spheres)
                     {
                         sphere.enabled = false;
                     }
@@ -183,9 +187,9 @@ public class MonsterCtrl : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if( collision.collider.CompareTag("BULLET"))
+        if (collision.collider.CompareTag("BULLET"))
         {
-            //Destroy(collision.gameObject);
+            Destroy(collision.gameObject);
 
             // 피격 리액션 애니 트리거 발동
             anim.SetTrigger(hashHit);
@@ -195,24 +199,15 @@ public class MonsterCtrl : MonoBehaviour
             // 총알 충돌 지점의 법선 벡터
             Quaternion rot = Quaternion.LookRotation(-collision.GetContact(0).normal);
 
-            ShowBloodEffect(pos, rot);
-
             // 몬스터의 hp 차감
             currHp -= 10;
-            if( currHp <= 0 )
+            if (currHp <= 0)
             {
                 state = State.DIE;
 
                 GameManager.GetInstance().DisplayScore(50);
-            }    
+            }
         }
-    }
-
-    void ShowBloodEffect(Vector3 pos, Quaternion rot)
-    {
-        // 혈흔 효과 생성
-        GameObject blood = Instantiate<GameObject>(bloodEffect, pos, rot, monsterTransform);
-        Destroy(blood, 1.0f);
     }
 
     void OnPlayerDie()
@@ -222,7 +217,7 @@ public class MonsterCtrl : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        if( state == State.TRACE )
+        if (state == State.TRACE)
         {
             Gizmos.color = Color.blue;
             Gizmos.DrawWireSphere(monsterTransform.position, traceDist);

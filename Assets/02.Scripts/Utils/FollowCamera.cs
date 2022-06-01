@@ -16,26 +16,38 @@ public class FollowCamera : MonoBehaviour
 
     public float moveDamping = 15f;
     public float rotateDamping = 10f;
+    public float rotateSpeed = 2.0f;
 
     public float targetOffset = 2.0f;
+    private Vector3 forward = Vector3.zero;
+    
+    float angle = 0;
 
-    // Start is called before the first frame update
+    public static Vector3 cameraDirection;
+
     void Start()
     {
         cameraTransform = GetComponent<Transform>();
+        forward = -targetTransform.forward;
     }
 
-    // Update is called once per frame
     void Update()
     {
+        float x = Input.GetAxisRaw("Mouse X") * rotateSpeed;
+        angle += x;
+        forward.x += Mathf.Sin(angle * Mathf.Deg2Rad);
+        forward.z += Mathf.Cos(angle * Mathf.Deg2Rad);
+        forward.Normalize();
+
         Vector3 pos = targetTransform.position
-                      + (-targetTransform.forward * distance)
+                      + (forward * distance)
                       + (Vector3.up * height);
 
         cameraTransform.position = Vector3.Slerp(cameraTransform.position, pos, moveDamping * Time.deltaTime);
-
-        cameraTransform.rotation = Quaternion.Slerp(cameraTransform.rotation, targetTransform.rotation, rotateDamping * Time.deltaTime);
-
         cameraTransform.LookAt(targetTransform.position + (targetTransform.up * targetOffset));
+
+        cameraDirection = cameraTransform.forward;
+        cameraDirection.y = 0f;
+        cameraDirection.Normalize();
     }
 }

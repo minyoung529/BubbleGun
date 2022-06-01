@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     public float createTime = 3.0f;
 
     // 몬스터 출연할 위치 저장 List
-    public List<Transform> points = new List<Transform>();
+    private List<Transform> points = new List<Transform>();
 
     // 몬스터를 미리 생성해서 저장할 List
     public List<GameObject> monsterPool = new List<GameObject>();

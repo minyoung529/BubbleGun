@@ -5,21 +5,24 @@ using UnityEngine;
 public class PaintingObject : MonoBehaviour
 {
     private Color color;
+    private int baseColorID = Shader.PropertyToID("_BaseColor");
 
     private void Start()
     {
-        color = GetComponent<Renderer>().material.GetColor("_BaseColor");
+        color = GetComponent<Renderer>().materials[0].GetColor(baseColorID);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        Paintable paintableObject = collision.transform.GetComponentInChildren<Paintable>();
+        Paintable[] paintableObjects = collision.transform.GetComponentsInChildren<Paintable>();
 
-        if (!paintableObject) return;
+        if (paintableObjects == null || paintableObjects.Length == 0) return;
 
         Vector3 point = collision.contacts[0].point;
 
-        Debug.Log("Paint");
-        GameManager.GetInstance().PaintManager.Paint(paintableObject, point, 0.5f, 1, 1, color);
+        foreach (Paintable obj in paintableObjects)
+        {
+            GameManager.GetInstance().PaintManager.Paint(obj, point, 0.5f, 1, 1, color);
+        }
     }
 }

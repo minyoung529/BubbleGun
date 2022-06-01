@@ -37,13 +37,16 @@ public class PlayerController : MonoBehaviour
     {
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
-        float r = Input.GetAxis("Mouse X");
 
         Vector3 moveDir = (Vector3.forward * v) + (Vector3.right * h);
         moveDir.Normalize();
 
         transform.Translate(moveDir * moveSpeed * Time.deltaTime);
-        transform.Rotate(Vector3.up * r * rotationSpeed * Time.deltaTime);
+
+        if(moveDir.sqrMagnitude > 0.01f)
+        {
+            transform.forward = Vector3.Slerp(transform.forward, FollowCamera.cameraDirection, 10f * Time.deltaTime);
+        }
 
         onMove.Invoke(h, v);
     }

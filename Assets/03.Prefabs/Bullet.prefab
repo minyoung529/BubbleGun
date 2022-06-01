@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 5799774538163304418}
   - component: {fileID: 6830414180224028308}
   - component: {fileID: 4832116175833586087}
+  - component: {fileID: 954054801463038140}
   m_Layer: 0
   m_Name: Bullet
   m_TagString: BULLET
@@ -261,8 +262,8 @@ MonoBehaviour:
   colors:
   - {r: 1, g: 0, b: 0, a: 1}
   - {r: 1, g: 0.8604099, b: 0, a: 1}
-  - {r: 0, g: 0.8584906, b: 0.05825032, a: 0}
-  - {r: 0, g: 0.5873754, b: 1, a: 0}
+  - {r: 0, g: 1, b: 0.05825032, a: 1}
+  - {r: 0, g: 0.5873754, b: 1, a: 1}
 --- !u!114 &4832116175833586087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,3 +276,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41b2611cc269802458134e5b95bd7e50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &954054801463038140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5799774538163304419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10df4504b3fad634a9aa61d135111570, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particle: {fileID: 1000012909287652, guid: abb9f519b142e304d9c45b56afa768bc, type: 3}
+  isColor: 1
+  isParent: 1

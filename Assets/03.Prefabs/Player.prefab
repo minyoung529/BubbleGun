@@ -141,6 +141,8 @@ GameObject:
   - component: {fileID: 2203012408020190724}
   - component: {fileID: 2203012408020190729}
   - component: {fileID: 2203012408020190725}
+  - component: {fileID: 1363801132}
+  - component: {fileID: 1363801131}
   m_Layer: 0
   m_Name: Player
   m_TagString: PLAYER
@@ -177,7 +179,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!136 &2203012408020190723
 CapsuleCollider:
@@ -307,7 +309,7 @@ MonoBehaviour:
   onMove:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2203012406562182989}
+      - m_Target: {fileID: 1363801131}
         m_TargetAssemblyTypeName: PlayerAnimation, Assembly-CSharp
         m_MethodName: PlayerWalkAnimation
         m_Mode: 0
@@ -337,7 +339,7 @@ MonoBehaviour:
   onPlayerShoot:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2203012406562182989}
+      - m_Target: {fileID: 1363801131}
         m_TargetAssemblyTypeName: PlayerAnimation, Assembly-CSharp
         m_MethodName: ShootAnimation
         m_Mode: 1
@@ -349,6 +351,37 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!95 &1363801132
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2203012407195507269}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 2ff373f38980b5b478d5f0a06513502c, type: 3}
+  m_Controller: {fileID: 9100000, guid: 45970f4bbae504c489389040104c4521, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1363801131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2203012407195507269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bdfa2f2bb9d1494fa6a8d6e43f9efc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2203012406562182991
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -410,7 +443,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 2ff373f38980b5b478d5f0a06513502c, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 2ff373f38980b5b478d5f0a06513502c, type: 3}
       propertyPath: m_Controller
@@ -440,7 +473,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1320616602104228382}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0bdfa2f2bb9d1494fa6a8d6e43f9efc1, type: 3}
   m_Name: 
