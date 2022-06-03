@@ -9,6 +9,11 @@ public class GenerateParticle : MonoBehaviour
     [SerializeField] private bool isColor = false;
     [SerializeField] private bool isParent = false;
 
+    private void Start()
+    {
+        
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         GameObject obj = Instantiate(particle);

@@ -16,7 +16,9 @@ public class PaintManager : MonoBehaviour
     private int radiusID = Shader.PropertyToID("_Radius");
     private int colorID = Shader.PropertyToID("_PainterColor");
     private int textureID = Shader.PropertyToID("_MainTex");
-    
+    private int uvOffsetID = Shader.PropertyToID("_OffsetUV");
+    private int uvIslandsID = Shader.PropertyToID("_UVIslands");
+
     private Material paintMaterial;
     private Material extendMaterial;
     
@@ -31,10 +33,33 @@ public class PaintManager : MonoBehaviour
         command = new CommandBuffer();
     }
 
+    public void InitTextures(Paintable paintable)
+    {
+        RenderTexture mask = paintable.getMask();
+        RenderTexture uvIslands = paintable.getUVIslands();
+        RenderTexture extend = paintable.getExtend();
+        RenderTexture support = paintable.getSupport();
+        Renderer rend = paintable.getRenderer();
+
+        command.SetRenderTarget(mask);
+        command.SetRenderTarget(extend);
+        command.SetRenderTarget(support);
+
+        paintMaterial.SetFloat(prepareUVID, 1);
+        command.SetRenderTarget(uvIslands);
+        command.DrawRenderer(rend, paintMaterial, 0);
+
+        Graphics.ExecuteCommandBuffer(command);
+        command.Clear();
+    }
+
+
     public void Paint(Paintable paintable, Vector3 pos, float radius = 1f, float hardness = .5f, float strength = .5f, Color? color = null)
     {
+        Debug.Log("Painting");
         // Render Texture => 런타임 중에 생성, 갱신되는 텍스쳐!
         RenderTexture mask = paintable.getMask();
+        RenderTexture uvIslands = paintable.getUVIslands();
         RenderTexture extend = paintable.getExtend();
         RenderTexture support = paintable.getSupport();
 
@@ -45,6 +70,8 @@ public class PaintManager : MonoBehaviour
         paintMaterial.SetFloat(radiusID, radius);
         paintMaterial.SetColor(colorID, color ?? Color.red);
         paintMaterial.SetTexture(textureID, support);
+        extendMaterial.SetFloat(uvOffsetID, paintable.extendsIslandOffset);
+        extendMaterial.SetTexture(uvIslandsID, uvIslands);
 
         // paintMaterial에 mask를,
         // rend paintMaterial에 렌더한다
@@ -58,7 +85,7 @@ public class PaintManager : MonoBehaviour
         command.SetRenderTarget(extend);
         command.Blit(mask, extend, extendMaterial);
 
-        // 위에 명령들 싹 다 함
+        // 위에 추가한 명령들 싹 다 실행하고 초기화
         Graphics.ExecuteCommandBuffer(command);
         command.Clear();
     }

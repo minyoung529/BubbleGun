@@ -199,6 +199,8 @@ public class MonsterCtrl : MonoBehaviour
             // 총알 충돌 지점의 법선 벡터
             Quaternion rot = Quaternion.LookRotation(-collision.GetContact(0).normal);
 
+            ShowBloodEffect(pos, rot);
+
             // 몬스터의 hp 차감
             currHp -= 10;
             if (currHp <= 0)
@@ -208,6 +210,13 @@ public class MonsterCtrl : MonoBehaviour
                 GameManager.GetInstance().DisplayScore(50);
             }
         }
+    }
+
+    void ShowBloodEffect(Vector3 pos, Quaternion rot)
+    {
+        // 혈흔 효과 생성
+        GameObject blood = Instantiate<GameObject>(bloodEffect, pos, rot, monsterTransform);
+        Destroy(blood, 1.0f);
     }
 
     void OnPlayerDie()

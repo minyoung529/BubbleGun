@@ -20,7 +20,7 @@ public class FollowCamera : MonoBehaviour
 
     public float targetOffset = 2.0f;
     private Vector3 forward = Vector3.zero;
-    
+
     float angle = 0;
 
     public static Vector3 cameraDirection;
@@ -35,6 +35,9 @@ public class FollowCamera : MonoBehaviour
     {
         float x = Input.GetAxisRaw("Mouse X") * rotateSpeed;
         angle += x;
+        height -= Input.GetAxisRaw("Mouse Y") * Time.deltaTime * 30f;
+        height = Mathf.Clamp(height, 0.1f, 5f);
+
         forward.x += Mathf.Sin(angle * Mathf.Deg2Rad);
         forward.z += Mathf.Cos(angle * Mathf.Deg2Rad);
         forward.Normalize();

@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class GameManager : MonoBehaviour
 {
     // 점수 텍스트 연결 변수
-    public TMP_Text scoreText;
+    public Text scoreText;
 
     // 점수 누적 변수
     private int totalScore = 0;
@@ -83,7 +84,6 @@ public class GameManager : MonoBehaviour
         Transform spawnPointGroup = GameObject.Find("SpawnPointGroup")?.transform;
 
         //spawnPointGroup?.GetComponentsInChildren<Transform>(points);
-
         //Transform[] pointArray = spawnPointGroup.GetComponentsInChildren<Transform>(true);
 
         foreach(Transform item in spawnPointGroup)
