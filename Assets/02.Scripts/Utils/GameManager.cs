@@ -76,7 +76,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         // 스코어 점수 출력
-        DisplayScore(0);
+        AddScore(0);
 
         // 몬스터 오브젝트 풀 생성
         CreateMonsterPool();
@@ -141,9 +141,9 @@ public class GameManager : MonoBehaviour
         return null;
     }
 
-    public void DisplayScore(int score)
+    public void AddScore(int score)
     {
         totalScore += score;
-        scoreText.text = $"<color=#00ff00>SCORE : </color> <color=#ff0000>{totalScore:#,##0}</color>";
+        scoreText.text = $"x {score}";
     }
 }

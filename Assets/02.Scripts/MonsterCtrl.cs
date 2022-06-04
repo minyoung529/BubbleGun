@@ -205,9 +205,8 @@ public class MonsterCtrl : MonoBehaviour
             currHp -= 10;
             if (currHp <= 0)
             {
+                GameManager.GetInstance().AddScore(1);
                 state = State.DIE;
-
-                GameManager.GetInstance().DisplayScore(50);
             }
         }
     }

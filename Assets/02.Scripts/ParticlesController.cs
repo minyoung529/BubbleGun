@@ -12,6 +12,9 @@ public class ParticlesController : MonoBehaviour
 
     private int baseColorID = Shader.PropertyToID("_BaseColor");
 
+    [SerializeField] private float minRadius = 0.1f;
+    [SerializeField] private float maxRadius = 0.3f;
+
     void Start()
     {
         part = GetComponent<ParticleSystem>();
@@ -32,7 +35,7 @@ public class ParticlesController : MonoBehaviour
         for (int i = 0; i < numCollisionEvents; i++)
         {
             Vector3 pos = collisionEvents[i].intersection;
-            float radius = Random.Range(0.1f, 0.3f);
+            float radius = Random.Range(minRadius, maxRadius);
             GameManager.GetInstance().PaintManager.Paint(p, pos, radius, 1f, 1f, paintColor);
         }
     }
