@@ -15,37 +15,37 @@ public class MonsterCtrl : MonoBehaviour
     }
 
     // 몬스터의 현재 상태
-    public State state = State.IDLE;
+    protected State state = State.IDLE;
     // 추적 사정 거리
-    public float traceDist = 10.0f;
+    protected float traceDist = 10.0f;
     // 공격 사정 거리
-    public float attackDist = 2.0f;
+    protected float attackDist = 2.0f;
     // 몬스터의 사망 여부
-    public bool isDie = false;
+    protected bool isDie = false;
 
-    private Transform monsterTransform;
-    private Transform targetTransform;
-    private NavMeshAgent agent;
-    private Animator anim;
+    protected Transform monsterTransform;
+    protected Transform targetTransform;
+    protected NavMeshAgent agent;
+    protected Animator anim;
 
     // Animator 해쉬 값 추출
-    private readonly int hashTrace = Animator.StringToHash("IsTrace");
-    private readonly int hashAttack = Animator.StringToHash("IsAttack");
-    private readonly int hashHit = Animator.StringToHash("Hit");
-    private readonly int hashPlayerDie = Animator.StringToHash("PlayerDie");
-    private readonly int hashSpeed = Animator.StringToHash("Speed");
-    private readonly int hashDie = Animator.StringToHash("Die");
+    protected readonly int hashTrace = Animator.StringToHash("IsTrace");
+    protected readonly int hashAttack = Animator.StringToHash("IsAttack");
+    protected readonly int hashHit = Animator.StringToHash("Hit");
+    protected readonly int hashPlayerDie = Animator.StringToHash("PlayerDie");
+    protected readonly int hashSpeed = Animator.StringToHash("Speed");
+    protected readonly int hashDie = Animator.StringToHash("Die");
 
     // 혈흔 효과 프리팹
-    private GameObject bloodEffect;
+    protected GameObject bloodEffect;
 
     // 몬스터 생명 초기값
-    private int initHp = 100;
-    private int currHp;
+    protected int initHp = 100;
+    protected int currHp;
 
-    [SerializeField] private GameObject gumItem;
+    [SerializeField] protected GameObject gumItem;
 
-    void Awake()
+    protected virtual void Awake()
     {
         monsterTransform = GetComponent<Transform>();
 
@@ -61,7 +61,7 @@ public class MonsterCtrl : MonoBehaviour
         bloodEffect = Resources.Load<GameObject>("BloodSprayEffect");
     }
 
-    void OnEnable()
+    protected virtual void OnEnable()
     {
         state = State.IDLE;
 
@@ -84,7 +84,7 @@ public class MonsterCtrl : MonoBehaviour
         StartCoroutine(MonsterAction());
     }
 
-    void Update()
+    protected virtual void Update()
     {
         // 목적지까지 남은 거리로 회전 여부 판단
         if (agent.remainingDistance >= 2.0f)
@@ -151,7 +151,7 @@ public class MonsterCtrl : MonoBehaviour
                     anim.SetBool(hashAttack, false);
                     break;
                 case State.ATTACK:
-                    anim.SetBool(hashAttack, true);
+                    Attack();
                     break;
                 case State.DIE:
                     // 죽음 처리
@@ -239,5 +239,10 @@ public class MonsterCtrl : MonoBehaviour
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(monsterTransform.position, attackDist);
         }
+    }
+
+    protected virtual void Attack()
+    {
+        anim.SetBool(hashAttack, true);
     }
 }

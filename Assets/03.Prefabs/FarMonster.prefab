@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8864846101476894337}
   - component: {fileID: 8864846101476894336}
   m_Layer: 9
-  m_Name: Monster
+  m_Name: FarMonster
   m_TagString: MONSTER
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 8864846101553981933}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.58, y: 0.00000023841858, z: -0.31}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.7, y: 1, z: 0.7}
   m_Children:
   - {fileID: 7753467268072195030}
   m_Father: {fileID: 0}
@@ -161,7 +161,7 @@ PrefabInstance:
     - target: {fileID: -7867560144712445386, guid: eea438137b61af54683e8885c832db01, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: 0869de84b1cccf745a0e133d0773a0a1, type: 2}
+      objectReference: {fileID: 2100000, guid: d938f177fe29fc74c91c61d201c3e585, type: 2}
     - target: {fileID: -6458213835197467615, guid: eea438137b61af54683e8885c832db01, type: 3}
       propertyPath: m_Materials.Array.size
       value: 2
@@ -209,7 +209,7 @@ PrefabInstance:
     - target: {fileID: 1630794972795428178, guid: eea438137b61af54683e8885c832db01, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: 0869de84b1cccf745a0e133d0773a0a1, type: 2}
+      objectReference: {fileID: 2100000, guid: d938f177fe29fc74c91c61d201c3e585, type: 2}
     - target: {fileID: 2715566404302941441, guid: eea438137b61af54683e8885c832db01, type: 3}
       propertyPath: m_Layer
       value: 10
@@ -277,7 +277,7 @@ PrefabInstance:
     - target: {fileID: 8413525940119630219, guid: eea438137b61af54683e8885c832db01, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: 0869de84b1cccf745a0e133d0773a0a1, type: 2}
+      objectReference: {fileID: 2100000, guid: d938f177fe29fc74c91c61d201c3e585, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eea438137b61af54683e8885c832db01, type: 3}
 --- !u!4 &7753467268072195030 stripped
