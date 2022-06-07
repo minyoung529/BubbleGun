@@ -18,9 +18,6 @@ public class GameManager : MonoBehaviour
     // 몬스터 생성 간격
     public float createTime = 3.0f;
 
-    // 몬스터 출연할 위치 저장 List
-    private List<Transform> points = new List<Transform>();
-
     // 몬스터를 미리 생성해서 저장할 List
     public List<GameObject> monsterPool = new List<GameObject>();
 
@@ -34,13 +31,16 @@ public class GameManager : MonoBehaviour
     private PaintManager paintManager;
     public PaintManager PaintManager { get => paintManager; }
 
+    private const float MAX_X_SIZE = 10f;
+    private const float MAX_Z_SIZE = 10f;
+
     public bool IsGameOver
     {
         get { return isGameOver; }
         set
         {
             isGameOver = value;
-            if(isGameOver)
+            if (isGameOver)
             {
                 CancelInvoke("CreateMonster");
             }
@@ -50,11 +50,11 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     public static GameManager GetInstance()
     {
-        if(instance == null)
+        if (instance == null)
         {
             instance = FindObjectOfType<GameManager>();
 
-            if( instance == null )
+            if (instance == null)
             {
                 GameObject container = new GameObject("GameMgr");
                 instance = container.AddComponent<GameManager>();
@@ -81,20 +81,8 @@ public class GameManager : MonoBehaviour
         // 몬스터 오브젝트 풀 생성
         CreateMonsterPool();
 
-        Transform spawnPointGroup = GameObject.Find("SpawnPointGroup")?.transform;
+        if (!isSpawnMonster) return;
 
-        //spawnPointGroup?.GetComponentsInChildren<Transform>(points);
-        //Transform[] pointArray = spawnPointGroup.GetComponentsInChildren<Transform>(true);
-
-        foreach(Transform item in spawnPointGroup)
-        {
-            points.Add(item);
-        }
-
-        if(!isSpawnMonster)
-        {
-            return;
-        }
         // 일정 시간 간격으로 호출
         InvokeRepeating("CreateMonster", 2.0f, createTime);
 
@@ -102,20 +90,21 @@ public class GameManager : MonoBehaviour
 
     void CreateMonster()
     {
-        int idx = Random.Range(0, points.Count);
+        float randX = Random.Range(-Mathf.Pow(MAX_X_SIZE, 2) * 0.5f, Mathf.Pow(MAX_X_SIZE, 2) * 0.5f);
+        float randZ = Random.Range(-Mathf.Pow(MAX_Z_SIZE, 2) * 0.5f, Mathf.Pow(MAX_Z_SIZE, 2) * 0.5f);
 
         //Instantiate(monster, points[idx].position, points[idx].rotation);
 
         GameObject _monster = GetMonsterInPool();
 
-        _monster?.transform.SetPositionAndRotation(points[idx].position, points[idx].rotation);
+        _monster?.transform.SetPositionAndRotation(new Vector3(randX, 0f, randZ), Quaternion.identity);
 
         _monster?.SetActive(true);
     }
 
     void CreateMonsterPool()
     {
-        for(int i=0; i<maxMonsters; ++i)
+        for (int i = 0; i < maxMonsters; ++i)
         {
             // 몬스터 생성
             var _monster = Instantiate<GameObject>(monster);
@@ -132,7 +121,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject GetMonsterInPool()
     {
-        foreach(var _monster in monsterPool )
+        foreach (var _monster in monsterPool)
         {
             if (_monster.activeSelf == false)
                 return _monster;

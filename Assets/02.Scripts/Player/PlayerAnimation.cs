@@ -8,6 +8,7 @@ public class PlayerAnimation : MonoBehaviour
     private readonly int dirYHash = Animator.StringToHash("dirY");
     private readonly int isMove = Animator.StringToHash("isMove");
     private readonly int shoot = Animator.StringToHash("shoot");
+    private readonly int jump = Animator.StringToHash("jump");
     private Animator animator;
 
     void Start()
@@ -26,5 +27,10 @@ public class PlayerAnimation : MonoBehaviour
     public void ShootAnimation()
     {
         animator.SetTrigger(shoot);
+    }
+
+    public void JumpAnimation()
+    {
+        animator.SetTrigger(jump);
     }
 }

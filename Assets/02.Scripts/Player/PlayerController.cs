@@ -9,17 +9,24 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 10.0f;
     public float rotationSpeed = 80.0f;
 
+    private Rigidbody rigid;
+
     private readonly float initHp = 100.0f;
     public float currHp;
+
+    [SerializeField] private float jumpForce;
 
     // Hpbar 이미지 연결
     private Image hpBar;
 
     [SerializeField] private UnityEvent<float, float> onMove;
+    [SerializeField] private UnityEvent onJump;
 
     IEnumerator Start()
     {
         float temp = rotationSpeed;
+        rigid = GetComponent<Rigidbody>();
+
         rotationSpeed = 0.0f;
         yield return new WaitForSeconds(0.3f);
         rotationSpeed = temp;
@@ -38,22 +45,26 @@ public class PlayerController : MonoBehaviour
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
-        Vector3 moveDir = (Vector3.forward * v) + (Vector3.right * h);
+        Vector3 moveDir = rigid.velocity;
+        moveDir.x = h;
+        moveDir.z = v;
         moveDir.Normalize();
 
-        transform.Translate(moveDir * moveSpeed * Time.deltaTime);
+        rigid.velocity = transform.TransformDirection(moveDir) * moveSpeed;
 
-        if(moveDir.sqrMagnitude > 0.01f)
+        if (moveDir.sqrMagnitude > 0.01f)
         {
             transform.forward = Vector3.Slerp(transform.forward, FollowCamera.cameraDirection, 10f * Time.deltaTime);
         }
+
+        Jump();
 
         onMove.Invoke(h, v);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if( other.CompareTag("PUNCH") && currHp >= 0.0f)
+        if (other.CompareTag("PUNCH") && currHp >= 0.0f)
         {
             currHp -= 10.0f;
             Debug.Log($"Player HP = {currHp}");
@@ -61,7 +72,7 @@ public class PlayerController : MonoBehaviour
             // HP 표시
             DisplayHP();
 
-            if ( currHp <= 0.0f )
+            if (currHp <= 0.0f)
             {
                 PlayerDie();
             }
@@ -73,7 +84,7 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Player Die!");
 
         GameObject[] monsters = GameObject.FindGameObjectsWithTag("MONSTER");
-        foreach(GameObject monster in monsters )
+        foreach (GameObject monster in monsters)
         {
             monster.SendMessage("OnPlayerDie", SendMessageOptions.DontRequireReceiver);
         }
@@ -85,5 +96,14 @@ public class PlayerController : MonoBehaviour
     void DisplayHP()
     {
         hpBar.fillAmount = currHp / initHp;
+    }
+
+    void Jump()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            rigid.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            onJump.Invoke();
+        }
     }
 }

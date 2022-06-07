@@ -43,6 +43,8 @@ public class MonsterCtrl : MonoBehaviour
     private int initHp = 100;
     private int currHp;
 
+    [SerializeField] private GameObject gumItem;
+
     void Awake()
     {
         monsterTransform = GetComponent<Transform>();
@@ -138,6 +140,7 @@ public class MonsterCtrl : MonoBehaviour
             switch (state)
             {
                 case State.IDLE:
+                    agent.isStopped = false;
                     agent.isStopped = true;
                     anim.SetBool(hashTrace, false);
                     break;
@@ -196,6 +199,7 @@ public class MonsterCtrl : MonoBehaviour
 
             // 충돌 지점 
             Vector3 pos = collision.GetContact(0).point;
+            Destroy(collision.gameObject);
             // 총알 충돌 지점의 법선 벡터
             Quaternion rot = Quaternion.LookRotation(-collision.GetContact(0).normal);
 
@@ -205,7 +209,7 @@ public class MonsterCtrl : MonoBehaviour
             currHp -= 10;
             if (currHp <= 0)
             {
-                GameManager.GetInstance().AddScore(1);
+                Instantiate(gumItem, transform.position, Quaternion.identity, null);
                 state = State.DIE;
             }
         }
