@@ -5,13 +5,17 @@ using UnityEngine;
 public class SkillController : MonoBehaviour
 {
     private ISkill currentSkill;
+    SkillPanel skillPanel;
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Q))
+        skillPanel = GameManager.Instance().skillPanels[KeyCode.Q];
+
+        if (Input.GetKeyDown(KeyCode.Q) && skillPanel.CanUseSkill())
         {
-            currentSkill = new CircleShoot();
+            currentSkill = new Juggling();
             currentSkill.OnEnterSkill();
+            skillPanel.UseSkill();
         }
 
         currentSkill?.OnStaySkill();

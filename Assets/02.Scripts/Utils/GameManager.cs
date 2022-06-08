@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
     // 몬스터를 미리 생성해서 저장할 List
     public List<GameObject> monsterPool = new List<GameObject>();
 
+    public Dictionary<KeyCode, SkillPanel> skillPanels = new Dictionary<KeyCode, SkillPanel>();
+
     // 오브젝트 풀에 생성할 몬스터 최대 갯수
     public int maxMonsters = 10;
 
