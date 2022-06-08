@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class FarMonsterCtrl : MonsterCtrl
 {
-    // Monster 상속받고 원거리 공격 구현하자!!
+    private float timer = 0f;
+    private float fireDelay = 3f;
+    [SerializeField] private BulletCtrl bullet;
+    [SerializeField] private Transform bulletPos;
+
     protected override void Awake()
     {
         base.Awake();
@@ -15,13 +19,17 @@ public class FarMonsterCtrl : MonsterCtrl
         base.OnEnable();
     }
 
-    protected override void Update()
+    protected override void OnAttack()
     {
-        base.Update();
-    }
+        base.OnAttack();
 
-    protected override void Attack()
-    {
-        base.Attack();
+        timer += Time.deltaTime;
+
+        if (timer > fireDelay * Time.deltaTime / 0.3f)
+        {
+            timer = 0f;
+            bulletPos.LookAt(targetTransform);
+            Instantiate(bullet, bulletPos.position, bulletPos.rotation, null);
+        }
     }
 }

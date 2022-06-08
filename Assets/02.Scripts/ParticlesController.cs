@@ -27,7 +27,6 @@ public class ParticlesController : MonoBehaviour
         if (part == null) return;
         int numCollisionEvents = part.GetCollisionEvents(other, collisionEvents);
 
-        Debug.Log("Collide");
         Paintable p = other.GetComponent<Paintable>();
 
         if (p == null) return;

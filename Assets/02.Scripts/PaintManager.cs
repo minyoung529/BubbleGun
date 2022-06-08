@@ -56,7 +56,6 @@ public class PaintManager : MonoBehaviour
 
     public void Paint(Paintable paintable, Vector3 pos, float radius = 1f, float hardness = .5f, float strength = .5f, Color? color = null)
     {
-        Debug.Log("Painting");
         // Render Texture => 런타임 중에 생성, 갱신되는 텍스쳐!
         RenderTexture mask = paintable.getMask();
         RenderTexture uvIslands = paintable.getUVIslands();

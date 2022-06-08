@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     private int totalScore = 0;
 
     // 몬스터 프리팹 연결 변수
-    public GameObject monster;
+    public List<GameObject> monster;
 
     // 몬스터 생성 간격
     public float createTime = 3.0f;
@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < maxMonsters; ++i)
         {
             // 몬스터 생성
-            var _monster = Instantiate<GameObject>(monster);
+            var _monster = Instantiate(monster[Random.Range(0, monster.Count)]);
 
             // 몬스터 이름 지정
             _monster.name = $"Monster_{i:00}";

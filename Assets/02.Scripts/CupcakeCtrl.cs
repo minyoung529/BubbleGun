@@ -33,7 +33,7 @@ public class CupcakeCtrl : MonoBehaviour
 
         GameObject obj = Instantiate(objects[index], transform);
         obj.transform.rotation = Quaternion.Euler(Vector3.up * Random.Range(0f, 360f));
-        obj.transform.localScale = Vector3.one;
+        obj.transform.localScale = Vector3.one * Random.Range(0.8f, 1.3f);
     }
 
     private void OnCollisionEnter(Collision collision)

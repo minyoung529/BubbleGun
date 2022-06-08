@@ -21,7 +21,7 @@ public class FollowCamera : MonoBehaviour
     public float targetOffset = 2.0f;
     private Vector3 forward = Vector3.zero;
 
-    float angle = 0;
+    float angle = 180;
 
     public static Vector3 cameraDirection;
 

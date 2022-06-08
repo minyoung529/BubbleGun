@@ -17,13 +17,15 @@ public class MonsterCtrl : MonoBehaviour
     // 몬스터의 현재 상태
     protected State state = State.IDLE;
     // 추적 사정 거리
+    [SerializeField]
     protected float traceDist = 10.0f;
     // 공격 사정 거리
+
+    [SerializeField]
     protected float attackDist = 2.0f;
     // 몬스터의 사망 여부
     protected bool isDie = false;
 
-    protected Transform monsterTransform;
     protected Transform targetTransform;
     protected NavMeshAgent agent;
     protected Animator anim;
@@ -40,6 +42,7 @@ public class MonsterCtrl : MonoBehaviour
     protected GameObject bloodEffect;
 
     // 몬스터 생명 초기값
+    [SerializeField]
     protected int initHp = 100;
     protected int currHp;
 
@@ -47,8 +50,6 @@ public class MonsterCtrl : MonoBehaviour
 
     protected virtual void Awake()
     {
-        monsterTransform = GetComponent<Transform>();
-
         targetTransform = GameObject.FindWithTag("PLAYER").GetComponent<Transform>();
 
         agent = GetComponent<NavMeshAgent>();
@@ -96,13 +97,11 @@ public class MonsterCtrl : MonoBehaviour
                 return;
 
             Quaternion rot = Quaternion.LookRotation(direction);
-
-
-            monsterTransform.rotation = Quaternion.Slerp(monsterTransform.rotation, rot, Time.deltaTime * 10.0f);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 10.0f);
         }
     }
 
-    IEnumerator CheckMonsterState()
+    protected IEnumerator CheckMonsterState()
     {
         while (!isDie)
         {
@@ -116,7 +115,7 @@ public class MonsterCtrl : MonoBehaviour
                 yield break;
 
             // 몬스터와 주인공 캐릭터 사이의 거리 측정
-            float distance = Vector3.Distance(monsterTransform.position, targetTransform.position);
+            float distance = Vector3.Distance(transform.position, targetTransform.position);
 
             if (distance <= attackDist)
             {
@@ -133,55 +132,30 @@ public class MonsterCtrl : MonoBehaviour
         }
     }
 
-    IEnumerator MonsterAction()
+    protected IEnumerator MonsterAction()
     {
         while (!isDie)
         {
             switch (state)
             {
                 case State.IDLE:
-                    agent.isStopped = false;
-                    agent.isStopped = true;
-                    anim.SetBool(hashTrace, false);
+                    OnIdle();
                     break;
+
                 case State.TRACE:
-                    agent.SetDestination(targetTransform.position);
-                    agent.isStopped = false;
-                    anim.SetBool(hashTrace, true);
-                    anim.SetBool(hashAttack, false);
+                    OnTrace();
                     break;
+
                 case State.ATTACK:
-                    Attack();
+                    OnAttack();
                     break;
+
                 case State.DIE:
-                    // 죽음 처리
-                    isDie = true;
-                    // 추적 중지
-                    agent.isStopped = true;
-                    // Die 트리거 발동
-                    anim.SetTrigger(hashDie);
-                    // 몬스터 콜라이더 비활성화
-                    GetComponent<CapsuleCollider>().enabled = false;
-                    // 몬스터 펀치 콜라이더 비활성화
-                    SphereCollider[] spheres = GetComponentsInChildren<SphereCollider>();
-                    foreach (SphereCollider sphere in spheres)
-                    {
-                        sphere.enabled = false;
-                    }
-
-                    // 일정 시간 대기 후 오브젝트 풀링 환원
-                    yield return new WaitForSeconds(3.0f);
-
-                    // 몬스터 비활성화
-                    this.gameObject.SetActive(false);
+                    StartCoroutine(OnDie());
                     break;
-                case State.PLAYERDIE:
-                    StopAllCoroutines();
 
-                    // 추적 정지
-                    agent.isStopped = true;
-                    anim.SetFloat(hashSpeed, Random.Range(0.8f, 1.3f));
-                    anim.SetTrigger(hashPlayerDie);
+                case State.PLAYERDIE:
+                    OnPlayerDie();
                     break;
             }
             yield return new WaitForSeconds(0.3f);
@@ -192,57 +166,93 @@ public class MonsterCtrl : MonoBehaviour
     {
         if (collision.collider.CompareTag("BULLET"))
         {
-            Destroy(collision.gameObject);
-
-            // 피격 리액션 애니 트리거 발동
             anim.SetTrigger(hashHit);
 
-            // 충돌 지점 
             Vector3 pos = collision.GetContact(0).point;
-            Destroy(collision.gameObject);
-            // 총알 충돌 지점의 법선 벡터
             Quaternion rot = Quaternion.LookRotation(-collision.GetContact(0).normal);
 
             ShowBloodEffect(pos, rot);
 
-            // 몬스터의 hp 차감
             currHp -= 10;
             if (currHp <= 0)
             {
                 Instantiate(gumItem, transform.position, Quaternion.identity, null);
                 state = State.DIE;
             }
+
+            Destroy(collision.gameObject);
         }
     }
 
     void ShowBloodEffect(Vector3 pos, Quaternion rot)
     {
-        // 혈흔 효과 생성
-        GameObject blood = Instantiate<GameObject>(bloodEffect, pos, rot, monsterTransform);
+        GameObject blood = Instantiate(bloodEffect, pos, rot, transform);
         Destroy(blood, 1.0f);
     }
 
-    void OnPlayerDie()
+    private void PlayerDie()
     {
         state = State.PLAYERDIE;
     }
+
+    #region State
+    protected virtual void OnPlayerDie()
+    {
+        StopAllCoroutines();
+        agent.isStopped = true;
+        anim.SetFloat(hashSpeed, Random.Range(0.8f, 1.3f));
+        anim.SetTrigger(hashPlayerDie);
+    }
+
+    protected virtual void OnAttack()
+    {
+        anim.SetBool(hashAttack, true);
+    }
+
+    protected virtual void OnIdle()
+    {
+        agent.isStopped = false;
+        agent.isStopped = true;
+        anim.SetBool(hashTrace, false);
+    }
+
+    protected virtual void OnTrace()
+    {
+        agent.SetDestination(targetTransform.position);
+        agent.isStopped = false;
+        anim.SetBool(hashTrace, true);
+        anim.SetBool(hashAttack, false);
+    }
+
+    protected virtual IEnumerator OnDie()
+    {
+        isDie = true;
+        agent.isStopped = true;
+        anim.SetTrigger(hashDie);
+        GetComponent<CapsuleCollider>().enabled = false;
+        SphereCollider[] spheres = GetComponentsInChildren<SphereCollider>();
+        foreach (SphereCollider sphere in spheres)
+        {
+            sphere.enabled = false;
+        }
+
+        yield return new WaitForSeconds(3.0f);
+
+        gameObject.SetActive(false);
+    }
+    #endregion
 
     void OnDrawGizmos()
     {
         if (state == State.TRACE)
         {
             Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(monsterTransform.position, traceDist);
+            Gizmos.DrawWireSphere(transform.position, traceDist);
         }
         if (state == State.ATTACK)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(monsterTransform.position, attackDist);
+            Gizmos.DrawWireSphere(transform.position, attackDist);
         }
-    }
-
-    protected virtual void Attack()
-    {
-        anim.SetBool(hashAttack, true);
     }
 }

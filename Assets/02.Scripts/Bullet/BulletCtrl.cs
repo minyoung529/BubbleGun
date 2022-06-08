@@ -20,5 +20,7 @@ public class BulletCtrl : MonoBehaviour
 
         // 총알의 전진방향으로 힘을 가한다.
         bulletRigidbody.AddForce(bulletTransform.forward * force);
+
+        Destroy(gameObject, 10f);
     }
 }
