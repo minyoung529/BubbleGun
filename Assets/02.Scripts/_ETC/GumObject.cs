@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class GumObject : MonoBehaviour
 {
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if(collision.transform.CompareTag("PLAYER"))
+        if (other.transform.CompareTag("PLAYER"))
         {
-            GameManager.GetInstance().AddScore(1);
-            Destroy(collision.gameObject);
+            GameManager.Instance().AddScore(1);
+            Destroy(gameObject);
         }
     }
 }

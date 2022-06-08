@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 5669120548091156930}
   - component: {fileID: 4953973130698833169}
   - component: {fileID: 5365614426139214947}
+  - component: {fileID: 485843357852871893}
   m_Layer: 0
   m_Name: Gum
   m_TagString: BULLET
@@ -61,7 +62,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5365614426139214950}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.2
@@ -262,3 +263,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   height: 0.6
   speed: 300
+--- !u!114 &485843357852871893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5365614426139214950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e82efd749d358fa4fb475520a1c11445, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

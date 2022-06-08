@@ -37,18 +37,16 @@ public class FireCtrl : MonoBehaviour
         // 마우스 왼쪽 버튼 클릭 했을 때, 
         if (Input.GetMouseButtonDown(0) && !isShoot)
         {
-            StartCoroutine(Fire());
+            Shoot();
         }
     }
 
-    private IEnumerator Fire()
+    public void Shoot()
     {
         isShoot = true;
         onPlayerShoot.Invoke();
         StartCoroutine(ShowMuzzleFlash());
 
-        yield return new WaitForSeconds(0.07f);
-        // 프리팹을 인스턴스화하여 생성
         Instantiate(bulletPrefab, firePos.position, firePos.rotation);
         audio.PlayOneShot(fireSfx, 1.0f);
 

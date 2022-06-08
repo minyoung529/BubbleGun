@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour
     private PaintManager paintManager;
     public PaintManager PaintManager { get => paintManager; }
 
+    public PlayerController PlayerController { get; private set; }
+
     private const float MAX_X_SIZE = 10f;
     private const float MAX_Z_SIZE = 10f;
 
@@ -48,7 +50,7 @@ public class GameManager : MonoBehaviour
     }
 
     private static GameManager instance;
-    public static GameManager GetInstance()
+    public static GameManager Instance()
     {
         if (instance == null)
         {
@@ -86,6 +88,7 @@ public class GameManager : MonoBehaviour
         // 일정 시간 간격으로 호출
         InvokeRepeating("CreateMonster", 2.0f, createTime);
 
+        PlayerController = FindObjectOfType<PlayerController>();
     }
 
     void CreateMonster()

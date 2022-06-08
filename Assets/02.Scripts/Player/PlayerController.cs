@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private UnityEvent<float, float> onMove;
     [SerializeField] private UnityEvent onJump;
 
+    public bool IsMove { get; set; } = true;
+
     IEnumerator Start()
     {
         float temp = rotationSpeed;
@@ -42,6 +44,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!IsMove) return;
+
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
@@ -90,7 +94,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // 게임 종료
-        GameManager.GetInstance().IsGameOver = true;
+        GameManager.Instance().IsGameOver = true;
     }
 
     void DisplayHP()

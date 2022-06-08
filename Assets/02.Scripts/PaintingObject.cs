@@ -22,7 +22,7 @@ public class PaintingObject : MonoBehaviour
 
         foreach (Paintable obj in paintableObjects)
         {
-            GameManager.GetInstance().PaintManager.Paint(obj, point, 0.5f, 1, 1, color);
+            GameManager.Instance().PaintManager.Paint(obj, point, 0.5f, 1, 1, color);
         }
     }
 }
