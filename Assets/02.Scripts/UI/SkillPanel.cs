@@ -32,6 +32,6 @@ public class SkillPanel : MonoBehaviour
 
     public bool CanUseSkill()
     {
-        return (filledImage.fillAmount < 0.01f);
+        return (filledImage.fillAmount <= 0.01f);
     }
 }

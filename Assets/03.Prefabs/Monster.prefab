@@ -82,10 +82,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d32203e197a192340822388b77df891f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: 0
-  traceDist: 8
+  traceDist: 30
   attackDist: 2
-  isDie: 0
+  initHp: 100
   gumItem: {fileID: 5365614426139214950, guid: 3110a3b629240164da15df06741ee964, type: 3}
 --- !u!1001 &7787673853722010685
 PrefabInstance:

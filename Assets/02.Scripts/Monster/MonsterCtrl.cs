@@ -37,6 +37,7 @@ public class MonsterCtrl : MonoBehaviour
     protected readonly int hashPlayerDie = Animator.StringToHash("PlayerDie");
     protected readonly int hashSpeed = Animator.StringToHash("Speed");
     protected readonly int hashDie = Animator.StringToHash("Die");
+    protected readonly int hashStun = Animator.StringToHash("Stun");
 
     // Ç÷Èç È¿°ú ÇÁ¸®ÆÕ
     protected GameObject bloodEffect;
@@ -47,6 +48,8 @@ public class MonsterCtrl : MonoBehaviour
     protected int currHp;
 
     [SerializeField] protected GameObject gumItem;
+
+    public bool IsMove { get; set; } = true;
 
     protected virtual void Awake()
     {
@@ -136,28 +139,32 @@ public class MonsterCtrl : MonoBehaviour
     {
         while (!isDie)
         {
-            switch (state)
+            if (IsMove)
             {
-                case State.IDLE:
-                    OnIdle();
-                    break;
+                switch (state)
+                {
+                    case State.IDLE:
+                        OnIdle();
+                        break;
 
-                case State.TRACE:
-                    OnTrace();
-                    break;
+                    case State.TRACE:
+                        OnTrace();
+                        break;
 
-                case State.ATTACK:
-                    OnAttack();
-                    break;
+                    case State.ATTACK:
+                        OnAttack();
+                        break;
 
-                case State.DIE:
-                    StartCoroutine(OnDie());
-                    break;
+                    case State.DIE:
+                        StartCoroutine(OnDie());
+                        break;
 
-                case State.PLAYERDIE:
-                    OnPlayerDie();
-                    break;
+                    case State.PLAYERDIE:
+                        OnPlayerDie();
+                        break;
+                }
             }
+
             yield return new WaitForSeconds(0.3f);
         }
     }
@@ -239,6 +246,12 @@ public class MonsterCtrl : MonoBehaviour
         yield return new WaitForSeconds(3.0f);
 
         gameObject.SetActive(false);
+    }
+
+    public virtual void Stun()
+    {
+        IsMove = false;
+        anim.SetTrigger(hashStun);
     }
     #endregion
 

@@ -23,4 +23,12 @@ public class BulletCtrl : MonoBehaviour
 
         Destroy(gameObject, 10f);
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.transform.CompareTag("PLATFORM"))
+        {
+            Destroy(gameObject);
+        }
+    }
 }

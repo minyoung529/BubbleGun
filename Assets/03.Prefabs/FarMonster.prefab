@@ -113,7 +113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be62ffdf76610f947b26f4a9f62cb58f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  traceDist: 25
+  traceDist: 40
   attackDist: 20
   initHp: 50
   gumItem: {fileID: 5365614426139214950, guid: 3110a3b629240164da15df06741ee964, type: 3}
