@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ParticlesController : MonoBehaviour
+public class ParticlesPainting : MonoBehaviour
 {
     private Color paintColor;
 
