@@ -190,7 +190,6 @@ public class MonsterCtrl : MonoBehaviour
             currHp -= 10;
             if (currHp <= 0)
             {
-                Instantiate(gumItem, transform.position + Vector3.up * 4f, Quaternion.identity, null);
                 state = State.DIE;
             }
 
@@ -249,6 +248,8 @@ public class MonsterCtrl : MonoBehaviour
         {
             sphere.enabled = false;
         }
+
+        Instantiate(gumItem, transform.position + Vector3.up * 2f, Quaternion.identity, null);
 
         yield return new WaitForSeconds(3.0f);
 

@@ -8,13 +8,15 @@ public class SkillPanel : MonoBehaviour
     // 스킬 활성 버튼
     [SerializeField]  private KeyCode keyCode;
 
+    // 스킬 쿨 타임
     [SerializeField]  private float coolingTime;
 
+    // 스킬 쿨 타임 이미지
     [SerializeField] private Image filledImage;
 
     private void Awake()
     {
-        GameManager.Instance().skillPanels.Add(keyCode, this);
+        GameManager.Instance.skillPanels.Add(keyCode, this);
     }
 
     void Update()

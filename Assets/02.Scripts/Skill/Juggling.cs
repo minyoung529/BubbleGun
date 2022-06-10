@@ -18,7 +18,7 @@ public class Juggling : ISkill
 
     public void OnEnterSkill()
     {
-        character = GameManager.Instance().PlayerController;
+        character = GameManager.Instance.PlayerController;
         fireController = character.GetComponent<FireCtrl>();
 
         rotation = character.transform.eulerAngles;

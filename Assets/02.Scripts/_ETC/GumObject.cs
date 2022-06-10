@@ -8,7 +8,7 @@ public class GumObject : MonoBehaviour
     {
         if (other.transform.CompareTag("PLAYER"))
         {
-            GameManager.Instance().AddScore(1);
+            GameManager.Instance.AddScore(1);
             Destroy(gameObject);
         }
     }

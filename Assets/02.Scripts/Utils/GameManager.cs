@@ -52,29 +52,37 @@ public class GameManager : MonoBehaviour
     }
 
     private static GameManager instance;
-    public static GameManager Instance()
+    public static GameManager Instance
     {
-        if (instance == null)
+        get
         {
-            instance = FindObjectOfType<GameManager>();
-
             if (instance == null)
             {
-                GameObject container = new GameObject("GameMgr");
-                instance = container.AddComponent<GameManager>();
+                instance = FindObjectOfType<GameManager>();
+
+                if (instance == null)
+                {
+                    GameObject container = new GameObject("GameMgr");
+                    instance = container.AddComponent<GameManager>();
+                }
             }
+            return instance;
         }
-        return instance;
     }
+
+    public Camera MainCam { get; set; }
 
     void Awake()
     {
         if (instance == null)
             instance = this;
 
-        DontDestroyOnLoad(this.gameObject);
+        //DontDestroyOnLoad(this.gameObject);
 
         paintManager = FindObjectOfType<PaintManager>();
+        PlayerController = FindObjectOfType<PlayerController>();
+
+        MainCam = Camera.main;
     }
 
     void Start()
@@ -89,8 +97,6 @@ public class GameManager : MonoBehaviour
 
         // 일정 시간 간격으로 호출
         InvokeRepeating("CreateMonster", 2.0f, createTime);
-
-        PlayerController = FindObjectOfType<PlayerController>();
     }
 
     void CreateMonster()

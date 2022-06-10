@@ -20,14 +20,14 @@ public class SkillController : MonoBehaviour
             UseSkill(KeyCode.E, new Firecracker());
 
         if (Input.GetKeyDown(KeyCode.Q))
-            UseSkill(KeyCode.Q, new BulletMeteor(), false);
+            UseSkill(KeyCode.Q, new ShootingStar(), false);
 
         currentSkill?.OnStaySkill();
     }
 
     private void UseSkill(KeyCode keyCode, ISkill skill, bool isAutoUse = true)
     {
-        SkillPanel skillPanel = GameManager.Instance().skillPanels[keyCode];
+        SkillPanel skillPanel = GameManager.Instance.skillPanels[keyCode];
 
         if (skillPanel.CanUseSkill())
         {

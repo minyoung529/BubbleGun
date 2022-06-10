@@ -35,7 +35,7 @@ public class ParticlesPainting : MonoBehaviour
         {
             Vector3 pos = collisionEvents[i].intersection;
             float radius = Random.Range(minRadius, maxRadius);
-            GameManager.Instance().PaintManager.Paint(p, pos, radius, 1f, 1f, paintColor);
+            GameManager.Instance.PaintManager.Paint(p, pos, radius, 1f, 1f, paintColor);
         }
     }
 }

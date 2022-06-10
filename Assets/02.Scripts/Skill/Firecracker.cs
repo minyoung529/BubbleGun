@@ -14,7 +14,7 @@ public class Firecracker : ISkill
     public void OnEnterSkill()
     {
         firecrackerObject = Resources.Load<GameObject>("Firecracker");
-        Transform player = GameManager.Instance().PlayerController.transform;
+        Transform player = GameManager.Instance.PlayerController.transform;
         Vector3 skillPos = player.position + player.forward * 5f;
         GameObject particle = GameObject.Instantiate(firecrackerObject, skillPos, Quaternion.identity, null);
         GameObject.Destroy(particle, 3f);

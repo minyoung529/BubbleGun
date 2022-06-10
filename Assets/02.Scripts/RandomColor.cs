@@ -5,6 +5,10 @@ using UnityEngine;
 public class RandomColor : MonoBehaviour
 {
     [SerializeField] private Color[] colors;
+    [SerializeField] private Color[] baseColors;
+
+    [SerializeField] private bool isPairColorAndBase;
+
     private TrailRenderer trailRenderer;
 
     void Start()
@@ -12,20 +16,15 @@ public class RandomColor : MonoBehaviour
         MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
         trailRenderer = GetComponentInChildren<TrailRenderer>();
 
-        Color randomColor = colors[Random.Range(0, colors.Length)];
-        meshRenderer.material.SetColor("_BaseColor", randomColor);
+        int index = Random.Range(0, colors.Length);
+        meshRenderer.material.SetColor("_BaseColor", colors[index]);
 
-        Color32 color = randomColor;
-        color.r -= 50;
-        color.r = (byte)Mathf.Clamp(color.r, 0, 255);
-        color.g -= 50;
-        color.r = (byte)Mathf.Clamp(color.g, 0, 255);
-        color.b -= 50;
-        color.r = (byte)Mathf.Clamp(color.b, 0, 255);
+        if(!isPairColorAndBase)
+        {
+            index = Random.Range(0, baseColors.Length);
+        }
 
-        randomColor = color;
-
-        meshRenderer.material.SetColor("_1st_ShadeColor", randomColor);
+        meshRenderer.material.SetColor("_1st_ShadeColor", baseColors[index]);
 
         trailRenderer.material = meshRenderer.material;
     }
