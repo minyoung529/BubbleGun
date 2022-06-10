@@ -8,11 +8,19 @@ public class SkillController : MonoBehaviour
 
     void Update()
     {
+        if (currentSkill != null && currentSkill.IsEnd)
+        {
+            currentSkill = null;
+        }
+
         if (Input.GetKeyDown(KeyCode.LeftShift))
             UseSkill(KeyCode.LeftShift, new Juggling());
 
         if (Input.GetKeyDown(KeyCode.E))
             UseSkill(KeyCode.E, new Firecracker());
+
+        if (Input.GetKeyDown(KeyCode.Q))
+            UseSkill(KeyCode.Q, new BulletMeteor());
 
         currentSkill?.OnStaySkill();
     }

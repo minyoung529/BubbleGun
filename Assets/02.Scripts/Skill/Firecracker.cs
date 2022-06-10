@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Firecracker : ISkill
 {
+    public bool IsEnd { get; set; } = false;
+
     private GameObject firecrackerObject;
     private float timer = 0f;
     private List<MonsterCtrl> monsterCtrls;
@@ -18,12 +20,13 @@ public class Firecracker : ISkill
         GameObject.Destroy(particle, 3f);
 
         // 오류 쫌 있음...
-        monsterCtrls = GameObject.FindObjectsOfType<MonsterCtrl>().ToList().FindAll(x => Vector3.Distance(x.transform.position, skillPos) < 6f);
+        monsterCtrls = GameObject.FindObjectsOfType<MonsterCtrl>().ToList().FindAll(x => Vector3.Distance(x.transform.position, skillPos) < 7f);
     }
 
     public void OnExitSkill()
     {
         monsterCtrls.ForEach(x => x.IsMove = true);
+        IsEnd = true;
     }
 
     public void OnStaySkill()
@@ -32,7 +35,6 @@ public class Firecracker : ISkill
 
         if (timer < 2f)
         {
-            Debug.Log(monsterCtrls.Count);
             monsterCtrls.ForEach(x => x.Stun());
         }
         else

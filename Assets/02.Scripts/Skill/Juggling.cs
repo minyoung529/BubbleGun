@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Juggling : ISkill
 {
+    public bool IsEnd { get; set; } = false;
+
     private const int SHOOT_COUNT = 18;
     private const float SHOOT_ANGLE = 360f / SHOOT_COUNT;
 
@@ -24,12 +26,15 @@ public class Juggling : ISkill
 
     public void OnExitSkill()
     {
+        IsEnd = true;
     }
+
 
     public void OnStaySkill()
     {
         if (angle > 360f)
         {
+            OnExitSkill();
             return;
         }
 
@@ -41,7 +46,7 @@ public class Juggling : ISkill
 
         angle += Time.deltaTime * 360f;
 
-        if(angle > curShootAngle)
+        if (angle > curShootAngle)
         {
             curShootAngle += SHOOT_ANGLE;
             fireController.Shoot();

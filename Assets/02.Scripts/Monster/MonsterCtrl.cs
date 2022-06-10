@@ -91,6 +91,8 @@ public class MonsterCtrl : MonoBehaviour
     protected virtual void Update()
     {
         // 목적지까지 남은 거리로 회전 여부 판단
+        if (!IsMove) return;
+
         if (agent.remainingDistance >= 2.0f)
         {
             // 에이전의 이동 회전
@@ -102,6 +104,11 @@ public class MonsterCtrl : MonoBehaviour
             Quaternion rot = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 10.0f);
         }
+
+        Vector3 animPos = anim.transform.position;
+        animPos.y = 0f;
+
+        anim.transform.position = animPos;
     }
 
     protected IEnumerator CheckMonsterState()
@@ -183,7 +190,7 @@ public class MonsterCtrl : MonoBehaviour
             currHp -= 10;
             if (currHp <= 0)
             {
-                Instantiate(gumItem, transform.position, Quaternion.identity, null);
+                Instantiate(gumItem, transform.position + Vector3.up * 4f, Quaternion.identity, null);
                 state = State.DIE;
             }
 
@@ -251,6 +258,7 @@ public class MonsterCtrl : MonoBehaviour
     public virtual void Stun()
     {
         IsMove = false;
+        agent.isStopped = true;
         anim.SetTrigger(hashStun);
     }
     #endregion
