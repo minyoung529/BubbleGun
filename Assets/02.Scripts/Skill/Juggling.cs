@@ -10,7 +10,7 @@ public class Juggling : ISkill
     private const float SHOOT_ANGLE = 360f / SHOOT_COUNT;
 
     private PlayerController character;
-    private FireCtrl fireController;
+    private WeaponCtrl fireController;
 
     private float angle = 0f;
     private Vector3 rotation = Vector3.zero;
@@ -19,7 +19,7 @@ public class Juggling : ISkill
     public void OnEnterSkill()
     {
         character = GameManager.Instance.PlayerController;
-        fireController = character.GetComponent<FireCtrl>();
+        fireController = character.GetComponent<WeaponCtrl>();
 
         rotation = character.transform.eulerAngles;
     }

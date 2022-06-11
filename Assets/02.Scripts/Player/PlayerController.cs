@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private UnityEvent onJump;
 
     public bool IsMove { get; set; } = true;
+    public static WeaponType WeaponType { get; set; } = WeaponType.Hammer;
 
     IEnumerator Start()
     {

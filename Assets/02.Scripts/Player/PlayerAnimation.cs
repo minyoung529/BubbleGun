@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerAnimation : MonoBehaviour
 {
@@ -9,11 +10,19 @@ public class PlayerAnimation : MonoBehaviour
     private readonly int isMove = Animator.StringToHash("isMove");
     private readonly int shoot = Animator.StringToHash("shoot");
     private readonly int jump = Animator.StringToHash("jump");
+    private readonly int weaponHash = Animator.StringToHash("Weapon");
+
     private Animator animator;
+
 
     void Start()
     {
         animator = GetComponent<Animator>();
+    }
+
+    public void ChangeWeapon()
+    {
+        animator.SetInteger(weaponHash, (int)PlayerController.WeaponType);
     }
 
     public void PlayerWalkAnimation(float h, float v)

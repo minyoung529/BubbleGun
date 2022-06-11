@@ -11,6 +11,7 @@ TagManager:
   - MONSTER
   - HPBAR
   - PLATFORM
+  - HAMMER
   layers:
   - Default
   - TransparentFX

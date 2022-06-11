@@ -90,12 +90,10 @@ public class GameManager : MonoBehaviour
         // 스코어 점수 출력
         AddScore(0);
 
-        // 몬스터 오브젝트 풀 생성
         CreateMonsterPool();
 
         if (!isSpawnMonster) return;
-
-        // 일정 시간 간격으로 호출
+        
         InvokeRepeating("CreateMonster", 2.0f, createTime);
     }
 
@@ -103,8 +101,6 @@ public class GameManager : MonoBehaviour
     {
         float randX = Random.Range(-Mathf.Pow(MAX_X_SIZE, 2) * 0.5f, Mathf.Pow(MAX_X_SIZE, 2) * 0.5f);
         float randZ = Random.Range(-Mathf.Pow(MAX_Z_SIZE, 2) * 0.5f, Mathf.Pow(MAX_Z_SIZE, 2) * 0.5f);
-
-        //Instantiate(monster, points[idx].position, points[idx].rotation);
 
         GameObject _monster = GetMonsterInPool();
 

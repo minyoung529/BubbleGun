@@ -39,9 +39,6 @@ public class MonsterCtrl : MonoBehaviour
     protected readonly int hashDie = Animator.StringToHash("Die");
     protected readonly int hashStun = Animator.StringToHash("Stun");
 
-    // Ç÷Èç È¿°ú ÇÁ¸®ÆÕ
-    protected GameObject bloodEffect;
-
     // ¸ó½ºÅÍ »ý¸í ÃÊ±â°ª
     [SerializeField]
     protected int initHp = 100;
@@ -61,8 +58,6 @@ public class MonsterCtrl : MonoBehaviour
         agent.updateRotation = false;
 
         anim = GetComponentInChildren<Animator>();
-
-        bloodEffect = Resources.Load<GameObject>("BloodSprayEffect");
     }
 
     protected virtual void OnEnable()
@@ -178,14 +173,9 @@ public class MonsterCtrl : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("BULLET"))
+        if (collision.collider.CompareTag("BULLET") || collision.collider.CompareTag("HAMMER"))
         {
             anim.SetTrigger(hashHit);
-
-            Vector3 pos = collision.GetContact(0).point;
-            Quaternion rot = Quaternion.LookRotation(-collision.GetContact(0).normal);
-
-            ShowBloodEffect(pos, rot);
 
             currHp -= 10;
             if (currHp <= 0)
@@ -193,14 +183,11 @@ public class MonsterCtrl : MonoBehaviour
                 state = State.DIE;
             }
 
-            Destroy(collision.gameObject);
+            if (collision.collider.CompareTag("BULLET"))
+            {
+                Destroy(collision.gameObject);
+            }
         }
-    }
-
-    void ShowBloodEffect(Vector3 pos, Quaternion rot)
-    {
-        GameObject blood = Instantiate(bloodEffect, pos, rot, transform);
-        Destroy(blood, 1.0f);
     }
 
     private void PlayerDie()
@@ -249,7 +236,7 @@ public class MonsterCtrl : MonoBehaviour
             sphere.enabled = false;
         }
 
-        Instantiate(gumItem, transform.position + Vector3.up * 2f, Quaternion.identity, null);
+        Instantiate(gumItem, transform.position + Vector3.up * 1.5f, Quaternion.identity, null);
 
         yield return new WaitForSeconds(3.0f);
 

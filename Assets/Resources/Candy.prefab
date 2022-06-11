@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4860786177173609160}
   - component: {fileID: 7864650698580670935}
   - component: {fileID: 2699900780835589247}
+  - component: {fileID: 5859387152143040771}
   m_Layer: 0
   m_Name: Candy
   m_TagString: BULLET
@@ -165,7 +166,7 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 0.9142746, b: 0, a: 1}
+      key0: {r: 1, g: 0.9938143, b: 0.9283019, a: 1}
       key1: {r: 1, g: 1, b: 1, a: 0.48235294}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
@@ -253,3 +254,21 @@ MonoBehaviour:
   - {r: 0.34773937, g: 0.8301887, b: 0.37853408, a: 1}
   - {r: 0.8065504, g: 0.9056604, b: 0.8971097, a: 1}
   isPairColorAndBase: 1
+  isUpdate: 0
+  maxTime: 1
+  isTrailRenderer: 0
+--- !u!114 &5859387152143040771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1211779706490476312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10df4504b3fad634a9aa61d135111570, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particle: {fileID: 1000012909287652, guid: abb9f519b142e304d9c45b56afa768bc, type: 3}
+  isColor: 1
+  isParent: 1

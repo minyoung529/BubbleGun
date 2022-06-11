@@ -9,15 +9,13 @@ public class ShootingStar : ISkill
     private GameObject spotLight;
     private float yPosition = 0f;
 
-    private float timer = 0f;
-
     private bool isUsingSkill;
 
     private readonly KeyCode TARGET_KEY = KeyCode.Q;
     private readonly LayerMask TARGET_LAYER = LayerMask.GetMask("PLATFORM");
 
     private const float RADIUS = 6.5f;
-    private const int BULLET_COUNT = 30;
+    private const int BULLET_COUNT = 60;
     private const float SKILL_DURATION = 3f;
 
     private readonly WaitForSeconds DURATION_DELAY = new WaitForSeconds(SKILL_DURATION / BULLET_COUNT);
@@ -34,14 +32,13 @@ public class ShootingStar : ISkill
     {
         isUsingSkill = false;
         IsEnd = true;
+
         if (spotLight)
             GameObject.Destroy(spotLight);
     }
 
     public void OnStaySkill()
     {
-        timer += Time.deltaTime;
-
         RaycastHit hitInfo;
         if (Physics.Raycast(GameManager.Instance.MainCam.ScreenPointToRay(Input.mousePosition), out hitInfo, 1000f, TARGET_LAYER))
         {
@@ -54,8 +51,9 @@ public class ShootingStar : ISkill
             UseSkill();
         }
 
-        if (Input.GetMouseButtonDown(1) && Input.GetKeyDown(TARGET_KEY) && timer > Time.deltaTime && !isUsingSkill)
+        if (Input.GetMouseButtonDown(1) && !isUsingSkill)
         {
+            Debug.Log("EXIT");
             OnExitSkill();
         }
     }
@@ -77,17 +75,18 @@ public class ShootingStar : ISkill
     {
         GameObject bulletPrefab = Resources.Load<GameObject>("Candy");
         isUsingSkill = true;
+        if (spotLight == null) yield break;
         Vector3 spot = spotLight.transform.position;
         GameObject.Destroy(spotLight);
 
         for (int i = 0; i < BULLET_COUNT; i++)
         {
-           GameObject obj = GameObject.Instantiate
-                (
-                    bulletPrefab,
-                    MyExtension.RandomPositionInRadius(spot, RADIUS),
-                    MyExtension.RandomRotation()
-                );
+            GameObject obj = GameObject.Instantiate
+                 (
+                     bulletPrefab,
+                     MyExtension.RandomPositionInRadius(spot, RADIUS),
+                     MyExtension.RandomRotation()
+                 );
 
             Vector3 destination = MyExtension.RandomPositionInRadius(spot, RADIUS);
             destination.y = 0f;
