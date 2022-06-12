@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 8864846101476894339}
   - component: {fileID: 8864846101476894337}
   - component: {fileID: 673137713}
+  - component: {fileID: 7147139978274016700}
   m_Layer: 9
   m_Name: FarMonster
   m_TagString: MONSTER
@@ -57,7 +58,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8864846101553981933}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.58, y: 0.00000023841858, z: -0.31}
+  m_LocalPosition: {x: 0, y: 0.00000023841858, z: 0}
   m_LocalScale: {x: 0.7, y: 1, z: 0.7}
   m_Children:
   - {fileID: 6122423226891555037}
@@ -119,6 +120,25 @@ MonoBehaviour:
   gumItem: {fileID: 5365614426139214950, guid: 3110a3b629240164da15df06741ee964, type: 3}
   bullet: {fileID: -8983896420181358243, guid: de9b941616e6b934fb46f51b21860037, type: 3}
   bulletPos: {fileID: 6122423226891555037}
+--- !u!95 &7147139978274016700
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8864846101553981933}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: eea438137b61af54683e8885c832db01, type: 3}
+  m_Controller: {fileID: 22100000, guid: f8348e7cdf2423a4db2e89fdb35879b2, type: 2}
+  m_CullingMode: 1
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &7787673853722010685
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -277,7 +297,7 @@ PrefabInstance:
     - target: {fileID: 5866666021909216657, guid: eea438137b61af54683e8885c832db01, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 8f690f3f74924334a8ea7fc2b9ae5670, type: 2}
+      objectReference: {fileID: 22100000, guid: f8348e7cdf2423a4db2e89fdb35879b2, type: 2}
     - target: {fileID: 6446875454118609672, guid: eea438137b61af54683e8885c832db01, type: 3}
       propertyPath: m_Layer
       value: 0
@@ -310,7 +330,8 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: d938f177fe29fc74c91c61d201c3e585, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5866666021909216657, guid: eea438137b61af54683e8885c832db01, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: eea438137b61af54683e8885c832db01, type: 3}
 --- !u!4 &7753467268072195030 stripped
 Transform:

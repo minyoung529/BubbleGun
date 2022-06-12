@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     public List<GameObject> monster;
 
     // 몬스터 생성 간격
-    public float createTime = 3.0f;
+    public float createTime = 1.50f;
 
     // 몬스터를 미리 생성해서 저장할 List
     public List<GameObject> monsterPool = new List<GameObject>();
@@ -83,6 +83,9 @@ public class GameManager : MonoBehaviour
         PlayerController = FindObjectOfType<PlayerController>();
 
         MainCam = Camera.main;
+
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Start()
@@ -93,8 +96,8 @@ public class GameManager : MonoBehaviour
         CreateMonsterPool();
 
         if (!isSpawnMonster) return;
-        
-        InvokeRepeating("CreateMonster", 2.0f, createTime);
+
+        InvokeRepeating("CreateMonster", 1.0f, createTime);
     }
 
     void CreateMonster()

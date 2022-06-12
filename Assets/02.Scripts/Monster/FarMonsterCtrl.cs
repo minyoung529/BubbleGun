@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class FarMonsterCtrl : MonsterCtrl
 {
-    private float timer = 0f;
-    private float fireDelay = 3f;
     [SerializeField] private BulletCtrl bullet;
     [SerializeField] private Transform bulletPos;
 
     protected override void Awake()
     {
         base.Awake();
+    }
+
+    protected override void Update()
+    {
+        base.Update();
     }
 
     protected override void OnEnable()
@@ -22,14 +25,12 @@ public class FarMonsterCtrl : MonsterCtrl
     protected override void OnAttack()
     {
         base.OnAttack();
+    }
 
-        timer += Time.deltaTime;
-
-        if (timer > fireDelay * Time.deltaTime / 0.3f)
-        {
-            timer = 0f;
-            bulletPos.LookAt(targetTransform);
-            Instantiate(bullet, bulletPos.position, bulletPos.rotation, null);
-        }
+    // 애니메이션에서 Event로 재생
+    public void Attack()
+    {
+        bulletPos.LookAt(targetTransform);
+        Instantiate(bullet, bulletPos.position, bulletPos.rotation, null);
     }
 }

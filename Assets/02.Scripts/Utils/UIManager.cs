@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
-public class UIMgr : MonoBehaviour
+public class UIManager : MonoBehaviour
 {
     // 버튼연결
     public Button startButton;

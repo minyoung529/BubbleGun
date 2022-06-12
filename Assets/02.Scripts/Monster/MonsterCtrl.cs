@@ -90,7 +90,7 @@ public class MonsterCtrl : MonoBehaviour
 
         if (agent.remainingDistance >= 2.0f)
         {
-            // 에이전의 이동 회전
+            // 에이전트의 이동 회전
             Vector3 direction = agent.desiredVelocity;
 
             if (direction.sqrMagnitude < 0.01f)
@@ -222,6 +222,9 @@ public class MonsterCtrl : MonoBehaviour
         agent.isStopped = false;
         anim.SetBool(hashTrace, true);
         anim.SetBool(hashAttack, false);
+
+        Quaternion rot = Quaternion.LookRotation(targetTransform.position);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 10.0f);
     }
 
     protected virtual IEnumerator OnDie()
