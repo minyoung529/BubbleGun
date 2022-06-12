@@ -207,6 +207,9 @@ public class MonsterCtrl : MonoBehaviour
     protected virtual void OnAttack()
     {
         anim.SetBool(hashAttack, true);
+
+        Quaternion rot = Quaternion.LookRotation(targetTransform.position);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 10.0f);
     }
 
     protected virtual void OnIdle()

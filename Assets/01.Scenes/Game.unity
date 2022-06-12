@@ -4476,6 +4476,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2203012408020190725, guid: b13ecdbc92773a445b0819cee81be74c, type: 3}
+      propertyPath: onPlayerShoot.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2203012408020190725, guid: b13ecdbc92773a445b0819cee81be74c, type: 3}
+      propertyPath: onPlayerShoot.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2203012408020190725, guid: b13ecdbc92773a445b0819cee81be74c, type: 3}
+      propertyPath: onPlayerShoot.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2203012408020190725, guid: b13ecdbc92773a445b0819cee81be74c, type: 3}
+      propertyPath: onPlayerShoot.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2203012408020190725, guid: b13ecdbc92773a445b0819cee81be74c, type: 3}
+      propertyPath: onPlayerShoot.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2203012408020190725, guid: b13ecdbc92773a445b0819cee81be74c, type: 3}
+      propertyPath: onPlayerShoot.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: PlayerAnimation, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2203012408020190725, guid: b13ecdbc92773a445b0819cee81be74c, type: 3}
+      propertyPath: onPlayerShoot.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b13ecdbc92773a445b0819cee81be74c, type: 3}
 --- !u!1001 &8580828007882583168
