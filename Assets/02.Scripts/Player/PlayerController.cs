@@ -34,11 +34,9 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         rotationSpeed = temp;
 
-        // hp 초기화
         currHp = initHp;
-        // hpbar 이미지 연결
         hpBar = GameObject.FindGameObjectWithTag("HPBAR")?.GetComponent<Image>();
-        // 초기화 된 HP 표시
+        
         DisplayHP();
     }
 
@@ -53,9 +51,11 @@ public class PlayerController : MonoBehaviour
         Vector3 moveDir = rigid.velocity;
         moveDir.x = h;
         moveDir.z = v;
-        moveDir.Normalize();
 
-        rigid.velocity = transform.TransformDirection(moveDir) * moveSpeed;
+        moveDir = transform.TransformDirection(moveDir) * moveSpeed;
+        moveDir.y = rigid.velocity.y;
+
+        rigid.velocity = moveDir;
 
         if (moveDir.sqrMagnitude > 0.01f)
         {
@@ -74,7 +74,6 @@ public class PlayerController : MonoBehaviour
             currHp -= 10.0f;
             Debug.Log($"Player HP = {currHp}");
 
-            // HP 표시
             DisplayHP();
 
             if (currHp <= 0.0f)
@@ -94,7 +93,6 @@ public class PlayerController : MonoBehaviour
             monster.SendMessage("OnPlayerDie", SendMessageOptions.DontRequireReceiver);
         }
 
-        // 게임 종료
         GameManager.Instance.IsGameOver = true;
     }
 
@@ -107,7 +105,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            rigid.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            rigid.AddForce(Vector3.up * jumpForce);
             onJump.Invoke();
         }
     }

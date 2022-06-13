@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
+using DG.Tweening;
+
 public class MonsterCtrl : MonoBehaviour
 {
     // 몬스터의 상태 정보
@@ -28,16 +31,6 @@ public class MonsterCtrl : MonoBehaviour
 
     protected Transform targetTransform;
     protected NavMeshAgent agent;
-    protected Animator anim;
-
-    // Animator 해쉬 값 추출
-    protected readonly int hashTrace = Animator.StringToHash("IsTrace");
-    protected readonly int hashAttack = Animator.StringToHash("IsAttack");
-    protected readonly int hashHit = Animator.StringToHash("Hit");
-    protected readonly int hashPlayerDie = Animator.StringToHash("PlayerDie");
-    protected readonly int hashSpeed = Animator.StringToHash("Speed");
-    protected readonly int hashDie = Animator.StringToHash("Die");
-    protected readonly int hashStun = Animator.StringToHash("Stun");
 
     // 몬스터 생명 초기값
     [SerializeField]
@@ -48,16 +41,22 @@ public class MonsterCtrl : MonoBehaviour
 
     public bool IsMove { get; set; } = true;
 
+    private Sequence stunSequence;
+
+    [SerializeField] protected UnityEvent onGotHit;
+    [SerializeField] protected UnityEvent onPlayerDie;
+    [SerializeField] protected UnityEvent onAttack;
+    [SerializeField] protected UnityEvent onDie;
+    [SerializeField] protected UnityEvent onTrace;
+    [SerializeField] protected UnityEvent onStun;
+    [SerializeField] protected UnityEvent onIdle;
+
     protected virtual void Awake()
     {
         targetTransform = GameObject.FindWithTag("PLAYER").GetComponent<Transform>();
 
         agent = GetComponent<NavMeshAgent>();
-
-        // NavMeshAgent 자동 회전 기능 비활성화
         agent.updateRotation = false;
-
-        anim = GetComponentInChildren<Animator>();
     }
 
     protected virtual void OnEnable()
@@ -99,11 +98,6 @@ public class MonsterCtrl : MonoBehaviour
             Quaternion rot = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 10.0f);
         }
-
-        Vector3 animPos = anim.transform.position;
-        animPos.y = 0f;
-
-        anim.transform.position = animPos;
     }
 
     protected IEnumerator CheckMonsterState()
@@ -175,7 +169,18 @@ public class MonsterCtrl : MonoBehaviour
     {
         if (collision.collider.CompareTag("BULLET") || collision.collider.CompareTag("HAMMER"))
         {
-            anim.SetTrigger(hashHit);
+            onGotHit.Invoke();
+
+            float stunTime = collision.collider.CompareTag("BULLET") ? 0.5f : 1f;
+
+            if (stunSequence != null)
+                stunSequence.Restart();
+            else
+            {
+                stunSequence = DOTween.Sequence().SetAutoKill(false);
+                stunSequence.AppendCallback(() => IsMove = false);
+                stunSequence.InsertCallback(stunTime, () => IsMove = false);
+            }
 
             currHp -= 10;
             if (currHp <= 0)
@@ -200,13 +205,13 @@ public class MonsterCtrl : MonoBehaviour
     {
         StopAllCoroutines();
         agent.isStopped = true;
-        anim.SetFloat(hashSpeed, Random.Range(0.8f, 1.3f));
-        anim.SetTrigger(hashPlayerDie);
+
+        onPlayerDie.Invoke();
     }
 
     protected virtual void OnAttack()
     {
-        anim.SetBool(hashAttack, true);
+        onAttack.Invoke();
 
         Quaternion rot = Quaternion.LookRotation(targetTransform.position);
         transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 10.0f);
@@ -216,15 +221,16 @@ public class MonsterCtrl : MonoBehaviour
     {
         agent.isStopped = false;
         agent.isStopped = true;
-        anim.SetBool(hashTrace, false);
+
+        onIdle.Invoke();
     }
 
     protected virtual void OnTrace()
     {
         agent.SetDestination(targetTransform.position);
         agent.isStopped = false;
-        anim.SetBool(hashTrace, true);
-        anim.SetBool(hashAttack, false);
+
+        onTrace.Invoke();
 
         Quaternion rot = Quaternion.LookRotation(targetTransform.position);
         transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 10.0f);
@@ -234,7 +240,7 @@ public class MonsterCtrl : MonoBehaviour
     {
         isDie = true;
         agent.isStopped = true;
-        anim.SetTrigger(hashDie);
+        onDie.Invoke();
         GetComponent<CapsuleCollider>().enabled = false;
         SphereCollider[] spheres = GetComponentsInChildren<SphereCollider>();
         foreach (SphereCollider sphere in spheres)
@@ -253,7 +259,7 @@ public class MonsterCtrl : MonoBehaviour
     {
         IsMove = false;
         agent.isStopped = true;
-        anim.SetTrigger(hashStun);
+        onStun.Invoke();
     }
     #endregion
 

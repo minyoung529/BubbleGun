@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8864846101476894339}
   - component: {fileID: 8864846101476894337}
   - component: {fileID: 8864846101476894336}
+  - component: {fileID: 6374193820267823960}
   m_Layer: 9
   m_Name: Monster
   m_TagString: MONSTER
@@ -86,6 +87,124 @@ MonoBehaviour:
   attackDist: 2
   initHp: 100
   gumItem: {fileID: 5365614426139214950, guid: 3110a3b629240164da15df06741ee964, type: 3}
+  onGotHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6374193820267823960}
+        m_TargetAssemblyTypeName: MonsterAnimation, Assembly-CSharp
+        m_MethodName: PlayHitAnimation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onPlayerDie:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6374193820267823960}
+        m_TargetAssemblyTypeName: MonsterAnimation, Assembly-CSharp
+        m_MethodName: PlayGangNamStyle
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onAttack:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6374193820267823960}
+        m_TargetAssemblyTypeName: MonsterAnimation, Assembly-CSharp
+        m_MethodName: PlayAttackAnimation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onDie:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6374193820267823960}
+        m_TargetAssemblyTypeName: MonsterAnimation, Assembly-CSharp
+        m_MethodName: PlayDieAnimation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onTrace:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6374193820267823960}
+        m_TargetAssemblyTypeName: MonsterAnimation, Assembly-CSharp
+        m_MethodName: PlayTraceAnimation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onStun:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6374193820267823960}
+        m_TargetAssemblyTypeName: MonsterAnimation, Assembly-CSharp
+        m_MethodName: PlayStunAnimation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onIdle:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6374193820267823960}
+        m_TargetAssemblyTypeName: MonsterAnimation, Assembly-CSharp
+        m_MethodName: PlayIdleAnimation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &6374193820267823960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8864846101553981933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df023ba3271b8d0458c8dcb6cc794409, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 4429841853725153708}
 --- !u!1001 &7787673853722010685
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -282,6 +401,11 @@ PrefabInstance:
 --- !u!4 &7753467268072195030 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: eea438137b61af54683e8885c832db01, type: 3}
+  m_PrefabInstance: {fileID: 7787673853722010685}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &4429841853725153708 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: eea438137b61af54683e8885c832db01, type: 3}
   m_PrefabInstance: {fileID: 7787673853722010685}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &7260518524344975445 stripped

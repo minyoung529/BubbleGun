@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 8864846101476894337}
   - component: {fileID: 673137713}
   - component: {fileID: 7147139978274016700}
+  - component: {fileID: 1995770306012784741}
   m_Layer: 9
   m_Name: FarMonster
   m_TagString: MONSTER
@@ -118,6 +119,111 @@ MonoBehaviour:
   attackDist: 20
   initHp: 50
   gumItem: {fileID: 5365614426139214950, guid: 3110a3b629240164da15df06741ee964, type: 3}
+  onGotHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1995770306012784741}
+        m_TargetAssemblyTypeName: MonsterAnimation, Assembly-CSharp
+        m_MethodName: PlayHitAnimation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onPlayerDie:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1995770306012784741}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onAttack:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1995770306012784741}
+        m_TargetAssemblyTypeName: MonsterAnimation, Assembly-CSharp
+        m_MethodName: PlayAttackAnimation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onDie:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1995770306012784741}
+        m_TargetAssemblyTypeName: MonsterAnimation, Assembly-CSharp
+        m_MethodName: PlayDieAnimation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onTrace:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1995770306012784741}
+        m_TargetAssemblyTypeName: MonsterAnimation, Assembly-CSharp
+        m_MethodName: PlayTraceAnimation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onStun:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1995770306012784741}
+        m_TargetAssemblyTypeName: MonsterAnimation, Assembly-CSharp
+        m_MethodName: PlayStunAnimation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onIdle:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1995770306012784741}
+        m_TargetAssemblyTypeName: MonsterAnimation, Assembly-CSharp
+        m_MethodName: PlayIdleAnimation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   bullet: {fileID: -8983896420181358243, guid: de9b941616e6b934fb46f51b21860037, type: 3}
   bulletPos: {fileID: 6122423226891555037}
 --- !u!95 &7147139978274016700
@@ -139,6 +245,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1995770306012784741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8864846101553981933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df023ba3271b8d0458c8dcb6cc794409, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 7147139978274016700}
 --- !u!1001 &7787673853722010685
 PrefabInstance:
   m_ObjectHideFlags: 0
