@@ -30,15 +30,15 @@ public class WeaponCtrl : MonoBehaviour
 
     void Update()
     {
-        if (Mathf.Abs(Input.GetAxisRaw("Mouse ScrollWheel")) >= 0.1f)
-        {
-            int nextType = (int)PlayerController.WeaponType + 1;
-            PlayerController.WeaponType = (WeaponType)(nextType % (int)WeaponType.Count);
+        //if (Mathf.Abs(Input.GetAxisRaw("Mouse ScrollWheel")) >= 0.1f)
+        //{
+        //    int nextType = (int)PlayerController.WeaponType + 1;
+        //    PlayerController.WeaponType = (WeaponType)(nextType % (int)WeaponType.Count);
 
-            onChangeWeapon.Invoke();
-            weapons.ForEach(x => x.SetActive(false));
-            weapons[(int)PlayerController.WeaponType].SetActive(true);
-        }
+        //    onChangeWeapon.Invoke();
+        //    weapons.ForEach(x => x.SetActive(false));
+        //    weapons[(int)PlayerController.WeaponType].SetActive(true);
+        //}
 
         if (Input.GetMouseButtonDown(0))
         {

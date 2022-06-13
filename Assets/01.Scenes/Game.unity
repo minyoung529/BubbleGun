@@ -5319,6 +5319,18 @@ PrefabInstance:
       propertyPath: m_Center.z
       value: 0.025742728
       objectReference: {fileID: 0}
+    - target: {fileID: 1320616600479160648, guid: b13ecdbc92773a445b0819cee81be74c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1320616600781746665, guid: b13ecdbc92773a445b0819cee81be74c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1320616600849424555, guid: b13ecdbc92773a445b0819cee81be74c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1320616600849424555, guid: b13ecdbc92773a445b0819cee81be74c, type: 3}
       propertyPath: m_TagString
       value: HAMMER

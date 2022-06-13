@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private UnityEvent onJump;
 
     public bool IsMove { get; set; } = true;
-    public static WeaponType WeaponType { get; set; } = WeaponType.Hammer;
+    public static WeaponType WeaponType { get; set; } = WeaponType.Gun;
 
     IEnumerator Start()
     {
@@ -40,7 +40,6 @@ public class PlayerController : MonoBehaviour
         DisplayHP();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (!IsMove) return;

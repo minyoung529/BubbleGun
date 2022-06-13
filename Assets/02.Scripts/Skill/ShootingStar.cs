@@ -33,8 +33,7 @@ public class ShootingStar : ISkill
         isUsingSkill = false;
         IsEnd = true;
 
-        if (spotLight)
-            GameObject.Destroy(spotLight);
+        if (spotLight) GameObject.Destroy(spotLight);
     }
 
     public void OnStaySkill()
