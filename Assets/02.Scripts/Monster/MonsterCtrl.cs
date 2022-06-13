@@ -19,6 +19,8 @@ public class MonsterCtrl : MonoBehaviour
 
     // 몬스터의 현재 상태
     protected State state = State.IDLE;
+    public State MonsterState { get => state; set => state = value; }
+
     // 추적 사정 거리
     [SerializeField]
     protected float traceDist = 10.0f;

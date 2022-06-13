@@ -13,13 +13,14 @@ public class GameManager : MonoBehaviour
     private int totalScore = 0;
 
     // 몬스터 프리팹 연결 변수
-    public List<GameObject> monster;
+    public List<GameObject> monsterPrefabs;
 
     // 몬스터 생성 간격
     public float createTime = 1.50f;
 
     // 몬스터를 미리 생성해서 저장할 List
     public List<GameObject> monsterPool = new List<GameObject>();
+    public List<MonsterCtrl> monsters = new List<MonsterCtrl>();
 
     public Dictionary<KeyCode, SkillPanel> skillPanels = new Dictionary<KeyCode, SkillPanel>();
 
@@ -117,7 +118,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < maxMonsters; ++i)
         {
             // 몬스터 생성
-            var _monster = Instantiate(monster[Random.Range(0, monster.Count)]);
+            var _monster = Instantiate(monsterPrefabs[Random.Range(0, monsterPrefabs.Count)]);
 
             // 몬스터 이름 지정
             _monster.name = $"Monster_{i:00}";
@@ -134,7 +135,13 @@ public class GameManager : MonoBehaviour
         foreach (var _monster in monsterPool)
         {
             if (_monster.activeSelf == false)
+            {
+                MonsterCtrl ctrl = _monster.GetComponent<MonsterCtrl>();
+                if (!monsters.Contains(ctrl))
+                    monsters.Add(ctrl);
+
                 return _monster;
+            }
         }
 
         return null;
