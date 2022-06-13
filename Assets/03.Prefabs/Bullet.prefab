@@ -245,7 +245,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ecb99d8ed0771b458d419271024d36f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 20
   force: 1500
 --- !u!114 &6830414180224028308
 MonoBehaviour:
@@ -271,6 +270,9 @@ MonoBehaviour:
   - {r: 0, g: 1, b: 0.91201234, a: 1}
   - {r: 1, g: 0, b: 0.9890919, a: 1}
   isPairColorAndBase: 0
+  isUpdate: 0
+  maxTime: 1
+  isTrailRenderer: 1
 --- !u!114 &4832116175833586087
 MonoBehaviour:
   m_ObjectHideFlags: 0

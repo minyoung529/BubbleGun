@@ -366,6 +366,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 0
+--- !u!114 &85117303 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2203012408020190725, guid: b13ecdbc92773a445b0819cee81be74c, type: 3}
+  m_PrefabInstance: {fileID: 2203012408021315183}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf3c2aaba67a560479b8066ac94d5a3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &107466620
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1538,6 +1549,7 @@ GameObject:
   - component: {fileID: 558439212}
   - component: {fileID: 558439211}
   - component: {fileID: 558439213}
+  - component: {fileID: 558439214}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1561,10 +1573,10 @@ MonoBehaviour:
   monsterPrefabs:
   - {fileID: 8864846101553981933, guid: 87caacdcdb56f174790d2bfd548008c4, type: 3}
   - {fileID: 8864846101553981933, guid: c660fd6a01e49994b8a826e01f9692d7, type: 3}
-  createTime: 1.5
+  createTime: 1
   monsterPool: []
   monsters: []
-  maxMonsters: 10
+  maxMonsters: 30
   isSpawnMonster: 1
 --- !u!4 &558439212
 Transform:
@@ -1594,6 +1606,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   texturePaint: {fileID: 4800000, guid: d010b74949227c34c896950606bf73a1, type: 3}
   extendIslands: {fileID: 4800000, guid: fa01cf78713fb704e97a2adbdb3054ba, type: 3}
+--- !u!114 &558439214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 558439210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c05216fb1b194f7438f57e9b4394a2e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &563249894 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8115346758631456581, guid: 270337ed7e1ea0f45b6bf54175c34b66, type: 3}
@@ -3264,7 +3288,7 @@ GameObject:
   - component: {fileID: 1432898028}
   - component: {fileID: 1432898027}
   m_Layer: 5
-  m_Name: Q
+  m_Name: R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3915,7 +3939,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyCode: 114
-  coolingTime: 3
+  coolingTime: 20
   filledImage: {fileID: 260126499}
 --- !u!331 &1665043175
 SpriteMask:
@@ -5429,7 +5453,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2203012408020190725, guid: b13ecdbc92773a445b0819cee81be74c, type: 3}
       propertyPath: onPlayerShoot.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Hammer, Assembly-CSharp
+      value: HammerAttack, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 2203012408020190725, guid: b13ecdbc92773a445b0819cee81be74c, type: 3}
       propertyPath: onPlayerShoot.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -5438,6 +5462,34 @@ PrefabInstance:
     - target: {fileID: 2203012408020190729, guid: b13ecdbc92773a445b0819cee81be74c, type: 3}
       propertyPath: jumpForce
       value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 2203012408020190729, guid: b13ecdbc92773a445b0819cee81be74c, type: 3}
+      propertyPath: onChangeWeapon.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2203012408020190729, guid: b13ecdbc92773a445b0819cee81be74c, type: 3}
+      propertyPath: onChangeWeapon.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2203012408020190729, guid: b13ecdbc92773a445b0819cee81be74c, type: 3}
+      propertyPath: onChangeWeapon.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 85117303}
+    - target: {fileID: 2203012408020190729, guid: b13ecdbc92773a445b0819cee81be74c, type: 3}
+      propertyPath: onChangeWeapon.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2203012408020190729, guid: b13ecdbc92773a445b0819cee81be74c, type: 3}
+      propertyPath: onChangeWeapon.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ChangeWeapon
+      objectReference: {fileID: 0}
+    - target: {fileID: 2203012408020190729, guid: b13ecdbc92773a445b0819cee81be74c, type: 3}
+      propertyPath: onChangeWeapon.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: WeaponCtrl, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2203012408020190729, guid: b13ecdbc92773a445b0819cee81be74c, type: 3}
+      propertyPath: onChangeWeapon.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2144134439, guid: b13ecdbc92773a445b0819cee81be74c, type: 3}

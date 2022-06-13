@@ -30,7 +30,7 @@ public class SkillController : MonoBehaviour
 
     private void UseSkill(KeyCode keyCode, ISkill skill, bool isAutoUse = true)
     {
-        SkillPanel skillPanel = GameManager.Instance.skillPanels[keyCode];
+        SkillPanel skillPanel = GameManager.Instance.SkillPanels[keyCode];
 
         if (skillPanel.CanUseSkill())
         {

@@ -192,7 +192,7 @@ public class MonsterCtrl : MonoBehaviour
 
             if (collision.collider.CompareTag("BULLET"))
             {
-                Destroy(collision.gameObject);
+                PoolManager.Push(collision.gameObject);
             }
         }
     }
@@ -250,7 +250,7 @@ public class MonsterCtrl : MonoBehaviour
             sphere.enabled = false;
         }
 
-        Instantiate(gumItem, transform.position + Vector3.up * 1.5f, Quaternion.identity, null);
+        PoolManager.Pop(gumItem, transform.position + Vector3.up * 1.5f, Quaternion.identity);
 
         yield return new WaitForSeconds(3.0f);
 

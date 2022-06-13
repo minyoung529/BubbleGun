@@ -11,7 +11,7 @@ public class GenerateParticle : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        GameObject obj = Instantiate(particle);
+        GameObject obj = PoolManager.Pop(particle);
 
         Vector3 pos = collision.GetContact(0).point;
         Quaternion rot = Quaternion.LookRotation(-collision.GetContact(0).normal);
@@ -24,15 +24,14 @@ public class GenerateParticle : MonoBehaviour
             ParticleSystemRenderer[] objs = obj.GetComponentsInChildren<ParticleSystemRenderer>();
 
             foreach(ParticleSystemRenderer p in objs)
-            {
                 p.material.color = myColor;
-            }
         }
 
         if(isParent)
         {
             obj.transform.SetParent(collision.transform);
         }
-        Destroy(obj, 3f);
+        Destroy(
+            obj, 3f);
     }
 }

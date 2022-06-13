@@ -6,24 +6,23 @@ using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
-    public float moveSpeed = 10.0f;
-    public float rotationSpeed = 80.0f;
+    private float moveSpeed = 5;
+    private float rotationSpeed = 130;
 
     private Rigidbody rigid;
 
+    private float jumpForce = 200f;
+
     private readonly float initHp = 100.0f;
-    public float currHp;
+    private float currHp;
 
-    [SerializeField] private float jumpForce;
+    public static WeaponType WeaponType { get; private set; } = WeaponType.Gun;
 
-    // Hpbar 이미지 연결
     private Image hpBar;
 
     [SerializeField] private UnityEvent<float, float> onMove;
     [SerializeField] private UnityEvent onJump;
-
-    public bool IsMove { get; set; } = true;
-    public static WeaponType WeaponType { get; set; } = WeaponType.Gun;
+    [SerializeField] private UnityEvent<WeaponType> onChangeWeapon;
 
     IEnumerator Start()
     {
@@ -36,34 +35,14 @@ public class PlayerController : MonoBehaviour
 
         currHp = initHp;
         hpBar = GameObject.FindGameObjectWithTag("HPBAR")?.GetComponent<Image>();
-        
+
         DisplayHP();
     }
 
     void Update()
     {
-        if (!IsMove) return;
-
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
-
-        Vector3 moveDir = rigid.velocity;
-        moveDir.x = h;
-        moveDir.z = v;
-
-        moveDir = transform.TransformDirection(moveDir) * moveSpeed;
-        moveDir.y = rigid.velocity.y;
-
-        rigid.velocity = moveDir;
-
-        if (moveDir.sqrMagnitude > 0.01f)
-        {
-            transform.forward = Vector3.Slerp(transform.forward, FollowCamera.cameraDirection, 10f * Time.deltaTime);
-        }
-
+        Move();
         Jump();
-
-        onMove.Invoke(h, v);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -82,6 +61,44 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    #region Abount Movement
+    private void Move()
+    {
+        float h = Input.GetAxis("Horizontal");
+        float v = Input.GetAxis("Vertical");
+
+        Vector3 moveDir = rigid.velocity;
+        moveDir.x = h;
+        moveDir.z = v;
+
+        moveDir = transform.TransformDirection(moveDir) * moveSpeed;
+        moveDir.y = rigid.velocity.y;
+
+        rigid.velocity = moveDir;
+
+        if (moveDir.sqrMagnitude > 0.01f)
+        {
+            transform.forward = Vector3.Slerp(transform.forward, FollowCamera.cameraDirection, 10f * Time.deltaTime);
+        }
+
+        onMove.Invoke(h, v);
+    }
+
+    void Jump()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            rigid.AddForce(Vector3.up * jumpForce);
+            onJump.Invoke();
+        }
+    }
+    #endregion
+
+    public void SetWeaponType(WeaponType weaponType)
+    {
+        WeaponType = weaponType;
+        onChangeWeapon.Invoke(weaponType);
+    }
     void PlayerDie()
     {
         Debug.Log("Player Die!");
@@ -95,17 +112,8 @@ public class PlayerController : MonoBehaviour
         GameManager.Instance.IsGameOver = true;
     }
 
-    void DisplayHP()
+    private void DisplayHP()
     {
         hpBar.fillAmount = currHp / initHp;
-    }
-
-    void Jump()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            rigid.AddForce(Vector3.up * jumpForce);
-            onJump.Invoke();
-        }
     }
 }

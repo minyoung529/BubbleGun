@@ -4947,10 +4947,10 @@ GameObject:
   - component: {fileID: 2203012408020190722}
   - component: {fileID: 2203012408020190723}
   - component: {fileID: 2203012408020190724}
-  - component: {fileID: 2203012408020190729}
-  - component: {fileID: 2203012408020190725}
   - component: {fileID: 1363801132}
+  - component: {fileID: 2203012408020190729}
   - component: {fileID: 1363801131}
+  - component: {fileID: 2203012408020190725}
   - component: {fileID: 494309263}
   m_Layer: 0
   m_Name: Player
@@ -5102,6 +5102,25 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!95 &1363801132
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2203012407195507269}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 2ff373f38980b5b478d5f0a06513502c, type: 3}
+  m_Controller: {fileID: 9100000, guid: 45970f4bbae504c489389040104c4521, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &2203012408020190729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5116,8 +5135,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   rotationSpeed: 130
-  currHp: 0
   jumpForce: 0
+  currHp: 0
   onMove:
     m_PersistentCalls:
       m_Calls:
@@ -5148,6 +5167,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onChangeWeapon:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1363801131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2203012407195507269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bdfa2f2bb9d1494fa6a8d6e43f9efc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2203012408020190725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5195,37 +5229,6 @@ MonoBehaviour:
   weapons:
   - {fileID: 1320616600781746665}
   - {fileID: 1320616600849424555}
---- !u!95 &1363801132
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2203012407195507269}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 2ff373f38980b5b478d5f0a06513502c, type: 3}
-  m_Controller: {fileID: 9100000, guid: 45970f4bbae504c489389040104c4521, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &1363801131
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2203012407195507269}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bdfa2f2bb9d1494fa6a8d6e43f9efc1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &494309263
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -16,8 +16,8 @@ public class Firecracker : ISkill
         firecrackerObject = Resources.Load<GameObject>("Firecracker");
         Transform player = GameManager.Instance.PlayerController.transform;
         Vector3 skillPos = player.position + player.forward * 5f;
-        GameObject particle = GameObject.Instantiate(firecrackerObject, skillPos, Quaternion.identity, null);
-        GameObject.Destroy(particle, 3f);
+        GameObject particle = PoolManager.Pop(firecrackerObject, skillPos, Quaternion.identity);
+        PoolManager.Push(particle, 3f);
 
         // 오류 쫌 있음...
         monsterCtrls = GameObject.FindObjectsOfType<MonsterCtrl>().ToList().FindAll(x => Vector3.Distance(x.transform.position, skillPos) < 7f);

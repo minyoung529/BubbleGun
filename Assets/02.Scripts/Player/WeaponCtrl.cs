@@ -17,7 +17,7 @@ public class WeaponCtrl : MonoBehaviour
 
     [SerializeField] List<GameObject> weapons;
 
-    Action[] weaponAttacks = new Action[(int)WeaponType.Count]; 
+    private Action[] weaponAttacks = new Action[(int)WeaponType.Count];
 
     private void Start()
     {
@@ -30,16 +30,6 @@ public class WeaponCtrl : MonoBehaviour
 
     void Update()
     {
-        //if (Mathf.Abs(Input.GetAxisRaw("Mouse ScrollWheel")) >= 0.1f)
-        //{
-        //    int nextType = (int)PlayerController.WeaponType + 1;
-        //    PlayerController.WeaponType = (WeaponType)(nextType % (int)WeaponType.Count);
-
-        //    onChangeWeapon.Invoke();
-        //    weapons.ForEach(x => x.SetActive(false));
-        //    weapons[(int)PlayerController.WeaponType].SetActive(true);
-        //}
-
         if (Input.GetMouseButtonDown(0))
         {
             weaponAttacks[(int)PlayerController.WeaponType].Invoke();
@@ -50,8 +40,7 @@ public class WeaponCtrl : MonoBehaviour
     {
         onPlayerShoot.Invoke();
         StartCoroutine(ShowMuzzleFlash());
-
-        Instantiate(bulletPrefab, firePos.position, firePos.rotation);
+        PoolManager.Pop(bulletPrefab, firePos.position, firePos.rotation);
     }
 
     IEnumerator ShowMuzzleFlash()
@@ -64,6 +53,13 @@ public class WeaponCtrl : MonoBehaviour
     public void Hammer()
     {
         onPlayerShoot.Invoke();
+    }
 
+    public void ChangeWeapon(WeaponType weapon)
+    {
+        weapons.ForEach(x => x.gameObject.SetActive(false));
+        weapons[(int)weapon].SetActive(true);
+
+        onChangeWeapon.Invoke();
     }
 }

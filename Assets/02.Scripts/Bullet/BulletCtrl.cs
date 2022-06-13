@@ -4,31 +4,39 @@ using UnityEngine;
 
 public class BulletCtrl : MonoBehaviour
 {
-    // ÃÑ¾Ë ÆÄ±«·Â
-    public float damage = 20.0f;
-
     // ÃÑ¾Ë ¹ß»ç Èû
     public float force = 1500.0f;
-
     private Rigidbody bulletRigidbody = null;
-    private Transform bulletTransform = null;
+    private TrailRenderer trailRenderer;
 
-    void Start()
+    private void OnEnable()
     {
-        bulletRigidbody = GetComponent<Rigidbody>();
-        bulletTransform = GetComponent<Transform>();
+        bulletRigidbody ??= GetComponent<Rigidbody>();
+        trailRenderer ??= GetComponentInChildren<TrailRenderer>();
 
-        // ÃÑ¾ËÀÇ ÀüÁø¹æÇâÀ¸·Î ÈûÀ» °¡ÇÑ´Ù.
-        bulletRigidbody.AddForce(bulletTransform.forward * force);
+        bulletRigidbody.velocity = Vector3.zero;
+        trailRenderer?.gameObject.SetActive(true);
+        
+        StartCoroutine(WaitOneFrame());
+        PoolManager.Push(gameObject, 10f);
+    }
 
-        Destroy(gameObject, 10f);
+    private IEnumerator WaitOneFrame()
+    {
+        yield return null;
+        bulletRigidbody.AddForce(transform.forward * force);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.transform.CompareTag("PLATFORM"))
         {
-            Destroy(gameObject);
+            PoolManager.Push(gameObject);
         }
+    }
+
+    private void OnDisable()
+    {
+        trailRenderer?.gameObject.SetActive(false);
     }
 }

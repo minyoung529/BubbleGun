@@ -16,16 +16,10 @@ public class GameManager : MonoBehaviour
     public List<GameObject> monsterPrefabs;
 
     // 몬스터 생성 간격
-    public float createTime = 1.50f;
+    [SerializeField] private float createTime = 1.50f;
 
-    // 몬스터를 미리 생성해서 저장할 List
-    public List<GameObject> monsterPool = new List<GameObject>();
-    public List<MonsterCtrl> monsters = new List<MonsterCtrl>();
-
-    public Dictionary<KeyCode, SkillPanel> skillPanels = new Dictionary<KeyCode, SkillPanel>();
-
-    // 오브젝트 풀에 생성할 몬스터 최대 갯수
-    public int maxMonsters = 10;
+    public List<MonsterCtrl> CurrentMonster { get; private set; } = new List<MonsterCtrl>();
+    public Dictionary<KeyCode, SkillPanel> SkillPanels { get; private set; } = new Dictionary<KeyCode, SkillPanel>();
 
     // 게임의 종료 여부를 저장하는 멤버 변수
     private bool isGameOver;
@@ -78,8 +72,6 @@ public class GameManager : MonoBehaviour
         if (instance == null)
             instance = this;
 
-        //DontDestroyOnLoad(this.gameObject);
-
         paintManager = FindObjectOfType<PaintManager>();
         PlayerController = FindObjectOfType<PlayerController>();
 
@@ -94,10 +86,7 @@ public class GameManager : MonoBehaviour
         // 스코어 점수 출력
         AddScore(0);
 
-        CreateMonsterPool();
-
         if (!isSpawnMonster) return;
-
         InvokeRepeating("CreateMonster", 1.0f, createTime);
     }
 
@@ -106,50 +95,18 @@ public class GameManager : MonoBehaviour
         float randX = Random.Range(-Mathf.Pow(MAX_X_SIZE, 2) * 0.5f, Mathf.Pow(MAX_X_SIZE, 2) * 0.5f);
         float randZ = Random.Range(-Mathf.Pow(MAX_Z_SIZE, 2) * 0.5f, Mathf.Pow(MAX_Z_SIZE, 2) * 0.5f);
 
-        GameObject _monster = GetMonsterInPool();
-
-        _monster?.transform.SetPositionAndRotation(new Vector3(randX, 0f, randZ), Quaternion.identity);
-
-        _monster?.SetActive(true);
-    }
-
-    void CreateMonsterPool()
-    {
-        for (int i = 0; i < maxMonsters; ++i)
-        {
-            // 몬스터 생성
-            var _monster = Instantiate(monsterPrefabs[Random.Range(0, monsterPrefabs.Count)]);
-
-            // 몬스터 이름 지정
-            _monster.name = $"Monster_{i:00}";
-
-            // 몬스터 비활성화
-            _monster.SetActive(false);
-
-            monsterPool.Add(_monster);
-        }
-    }
-
-    public GameObject GetMonsterInPool()
-    {
-        foreach (var _monster in monsterPool)
-        {
-            if (_monster.activeSelf == false)
-            {
-                MonsterCtrl ctrl = _monster.GetComponent<MonsterCtrl>();
-                if (!monsters.Contains(ctrl))
-                    monsters.Add(ctrl);
-
-                return _monster;
-            }
-        }
-
-        return null;
+        GameObject _monster = monsterPrefabs[Random.Range(0, monsterPrefabs.Count)];
+        _monster = PoolManager.Pop(_monster, new Vector3(randX, 0f, randZ), Quaternion.identity);
+        
+        MonsterCtrl monster = _monster.GetComponent<MonsterCtrl>();
+        
+        if (!CurrentMonster.Contains(monster))
+            CurrentMonster.Add(monster);
     }
 
     public void AddScore(int score)
     {
         totalScore += score;
-        scoreText.text = $"x {score}";
+        scoreText.text = $"x {totalScore}";
     }
 }

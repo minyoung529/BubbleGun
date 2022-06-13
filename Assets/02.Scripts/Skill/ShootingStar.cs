@@ -11,7 +11,6 @@ public class ShootingStar : ISkill
 
     private bool isUsingSkill;
 
-    private readonly KeyCode TARGET_KEY = KeyCode.Q;
     private readonly LayerMask TARGET_LAYER = LayerMask.GetMask("PLATFORM");
 
     private const float RADIUS = 6.5f;
@@ -24,8 +23,9 @@ public class ShootingStar : ISkill
     {
         GameObject prefab = Resources.Load<GameObject>("SpotLight");
         yPosition = prefab.transform.position.y;
+        spotLight = PoolManager.Pop(prefab);
 
-        spotLight = GameObject.Instantiate(prefab);
+        Cursor.lockState = CursorLockMode.None;
     }
 
     public void OnExitSkill()
@@ -33,7 +33,8 @@ public class ShootingStar : ISkill
         isUsingSkill = false;
         IsEnd = true;
 
-        if (spotLight) GameObject.Destroy(spotLight);
+        if (spotLight) PoolManager.Push(spotLight);
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void OnStaySkill()
@@ -66,7 +67,7 @@ public class ShootingStar : ISkill
 
     private void UseSkill()
     {
-        GameManager.Instance.skillPanels[TARGET_KEY].UseSkill();
+        GameManager.Instance.SkillPanels[KeyCode.Q].UseSkill();
         ActEvent.ActCoroutine(ShootingCoroutine(), SKILL_DURATION);
     }
 
@@ -76,12 +77,12 @@ public class ShootingStar : ISkill
         isUsingSkill = true;
         if (spotLight == null) yield break;
         Vector3 spot = spotLight.transform.position;
-        GameObject.Destroy(spotLight);
+        PoolManager.Push(spotLight);
 
         for (int i = 0; i < BULLET_COUNT; i++)
         {
-            GameObject obj = GameObject.Instantiate
-                 (
+            GameObject obj = PoolManager.Pop
+                ( 
                      bulletPrefab,
                      MyExtension.RandomPositionInRadius(spot, RADIUS),
                      MyExtension.RandomRotation()

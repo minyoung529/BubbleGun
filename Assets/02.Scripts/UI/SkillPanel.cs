@@ -16,7 +16,7 @@ public class SkillPanel : MonoBehaviour
 
     private void Awake()
     {
-        GameManager.Instance.skillPanels.Add(keyCode, this);
+        GameManager.Instance.SkillPanels.Add(keyCode, this);
     }
 
     void Update()

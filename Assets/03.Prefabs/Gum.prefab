@@ -257,6 +257,7 @@ MonoBehaviour:
   isPairColorAndBase: 0
   isUpdate: 1
   maxTime: 0.1
+  isTrailRenderer: 1
 --- !u!114 &5365614426139214947
 MonoBehaviour:
   m_ObjectHideFlags: 0

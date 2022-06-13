@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -41,6 +42,8 @@ public class HammerAttack : MonoBehaviour
 
     public void Attack()
     {
+        if (PlayerController.WeaponType != WeaponType.Hammer) return;
+
         particles.ForEach(x => x.Play());
         DamageMonster();
         trail.gameObject.SetActive(true);
@@ -49,9 +52,8 @@ public class HammerAttack : MonoBehaviour
 
     private void DamageMonster()
     {
-        monsterCtrls = GameManager.Instance.monsters.FindAll
-            (x => Vector3.Distance(x.transform.position, transform.parent.position) < distance);
-
+        Predicate<MonsterCtrl> match = x => Vector3.Distance(x.transform.position, transform.parent.position) < distance;
+        monsterCtrls = GameManager.Instance.CurrentMonster.FindAll(match);
         monsterCtrls.ForEach(x => x.MonsterState = MonsterCtrl.State.DIE);
     }
 }

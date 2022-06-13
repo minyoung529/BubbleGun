@@ -31,6 +31,6 @@ public class FarMonsterCtrl : MonsterCtrl
     public void Attack()
     {
         bulletPos.LookAt(targetTransform);
-        Instantiate(bullet, bulletPos.position, bulletPos.rotation, null);
+        PoolManager.Pop(bullet.gameObject, bulletPos.position, bulletPos.rotation);
     }
 }
