@@ -22,6 +22,9 @@ public class SkillController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
             UseSkill(KeyCode.Q, new ShootingStar(), false);
 
+        if (Input.GetKeyDown(KeyCode.R))
+            //UseSkill(KeyCode.Q, new ShootingStar(), false);
+
         currentSkill?.OnStaySkill();
     }
 

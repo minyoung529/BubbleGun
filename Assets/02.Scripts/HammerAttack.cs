@@ -11,7 +11,7 @@ public class HammerAttack : MonoBehaviour
 
     [SerializeField] int count;
     [SerializeField] float distance = 7f;
-    [SerializeField] ParticleSystem particle;
+    [SerializeField] List<ParticleSystem> particles;
 
     private List<MonsterCtrl> monsterCtrls;
 
@@ -41,6 +41,7 @@ public class HammerAttack : MonoBehaviour
 
     public void Attack()
     {
+        particles.ForEach(x => x.Play());
         DamageMonster();
         trail.gameObject.SetActive(true);
         isAttack = true;
@@ -50,8 +51,6 @@ public class HammerAttack : MonoBehaviour
     {
         monsterCtrls = GameManager.Instance.monsters.FindAll
             (x => Vector3.Distance(x.transform.position, transform.parent.position) < distance);
-
-        particle.Play();
 
         monsterCtrls.ForEach(x => x.MonsterState = MonsterCtrl.State.DIE);
     }
