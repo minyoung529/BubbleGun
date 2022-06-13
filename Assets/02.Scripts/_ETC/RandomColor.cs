@@ -19,7 +19,7 @@ public class RandomColor : MonoBehaviour
     [Header("Apply Trail Renderer")]
     [SerializeField] private bool isTrailRenderer = true;
 
-    void Start()
+    private void OnEnable()
     {
         meshRenderer = GetComponent<MeshRenderer>();
 

@@ -193,7 +193,7 @@ Material:
     - _Clipping_Level: 0
     - _ColorShift_Speed: 0
     - _Cull: 2
-    - _CullMode: 2
+    - _CullMode: 0
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
