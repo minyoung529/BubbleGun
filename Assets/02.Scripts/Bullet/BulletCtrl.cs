@@ -14,9 +14,6 @@ public class BulletCtrl : MonoBehaviour
         bulletRigidbody ??= GetComponent<Rigidbody>();
         trailRenderer ??= GetComponentInChildren<TrailRenderer>();
 
-        bulletRigidbody.velocity = Vector3.zero;
-        trailRenderer?.gameObject.SetActive(true);
-        
         StartCoroutine(WaitOneFrame());
         PoolManager.Push(gameObject, 10f);
     }
@@ -24,6 +21,15 @@ public class BulletCtrl : MonoBehaviour
     private IEnumerator WaitOneFrame()
     {
         yield return null;
+
+        if (trailRenderer)
+        {
+            trailRenderer.gameObject.SetActive(true);
+            trailRenderer.time = 0f;
+            trailRenderer.Clear();
+            trailRenderer.time = 1f;
+        }
+
         bulletRigidbody.AddForce(transform.forward * force);
     }
 
@@ -37,6 +43,7 @@ public class BulletCtrl : MonoBehaviour
 
     private void OnDisable()
     {
+        trailRenderer?.Clear();
         trailRenderer?.gameObject.SetActive(false);
     }
 }

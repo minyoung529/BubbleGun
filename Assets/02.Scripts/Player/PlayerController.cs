@@ -14,11 +14,9 @@ public class PlayerController : MonoBehaviour
     private float jumpForce = 200f;
 
     private readonly float initHp = 100.0f;
-    private float currHp;
+    private float curHp;
 
     public static WeaponType WeaponType { get; private set; } = WeaponType.Gun;
-
-    private Image hpBar;
 
     [SerializeField] private UnityEvent<float, float> onMove;
     [SerializeField] private UnityEvent onJump;
@@ -33,28 +31,27 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         rotationSpeed = temp;
 
-        currHp = initHp;
-        hpBar = GameObject.FindGameObjectWithTag("HPBAR")?.GetComponent<Image>();
-
-        DisplayHP();
+        curHp = initHp;
     }
 
     void Update()
     {
+        if (!GameManager.Instance.IsGameStart) return;
+
         Move();
         Jump();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("PUNCH") && currHp >= 0.0f)
+        if (other.CompareTag("PUNCH") && curHp >= 0.0f)
         {
-            currHp -= 10.0f;
-            Debug.Log($"Player HP = {currHp}");
+            curHp -= 10.0f;
+            Debug.Log($"Player HP = {curHp}");
 
-            DisplayHP();
+            GameManager.Instance.UIManager.UpdateHp(curHp, initHp);
 
-            if (currHp <= 0.0f)
+            if (curHp <= 0.0f)
             {
                 PlayerDie();
             }
@@ -110,10 +107,5 @@ public class PlayerController : MonoBehaviour
         }
 
         GameManager.Instance.IsGameOver = true;
-    }
-
-    private void DisplayHP()
-    {
-        hpBar.fillAmount = currHp / initHp;
     }
 }

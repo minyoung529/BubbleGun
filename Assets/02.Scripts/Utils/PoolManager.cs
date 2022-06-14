@@ -52,6 +52,8 @@ public class PoolManager : MonoBehaviour
         if (isActive)
             value.SetActive(isActive);
 
+        value.transform.position = Vector3.zero;
+
         return value;
     }
 

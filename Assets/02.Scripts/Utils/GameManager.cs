@@ -6,8 +6,6 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    public Text scoreText;
-
     private int totalScore = 0;
 
     public List<GameObject> monsterPrefabs;
@@ -24,6 +22,9 @@ public class GameManager : MonoBehaviour
 
     private PaintManager paintManager;
     public PaintManager PaintManager { get => paintManager; }
+
+    private UIManager uiManager;
+    public UIManager UIManager { get => uiManager; }
 
     public PlayerController PlayerController { get; private set; }
 
@@ -42,6 +43,7 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+    public bool IsGameStart { get; set; } = false;
 
     private static GameManager instance;
     public static GameManager Instance
@@ -70,6 +72,7 @@ public class GameManager : MonoBehaviour
             instance = this;
 
         paintManager = FindObjectOfType<PaintManager>();
+        uiManager = FindObjectOfType<UIManager>();
         PlayerController = FindObjectOfType<PlayerController>();
 
         MainCam = Camera.main;
@@ -84,16 +87,30 @@ public class GameManager : MonoBehaviour
         AddScore(0);
 
         if (!isSpawnMonster) return;
-        InvokeRepeating("CreateMonster", 1.0f, createTime);
+    }
+
+    public void GameStart()
+    {
+        IsGameStart = true;
+
+        for(int i = 0; i < 50; i++)
+        {
+            CreateMonster();
+        }
+
+        EventManager.TriggerEvent("GameStart");
     }
 
     void CreateMonster()
     {
-        float randX = Random.Range(-Mathf.Pow(MAX_X_SIZE, 2) * 0.5f, Mathf.Pow(MAX_X_SIZE, 2) * 0.5f);
-        float randZ = Random.Range(-Mathf.Pow(MAX_Z_SIZE, 2) * 0.5f, Mathf.Pow(MAX_Z_SIZE, 2) * 0.5f);
+        //float randX = Random.Range(-Mathf.Pow(MAX_X_SIZE, 2) * 0.5f, Mathf.Pow(MAX_X_SIZE, 2) * 0.5f);
+        //float randZ = Random.Range(-Mathf.Pow(MAX_Z_SIZE, 2) * 0.5f, Mathf.Pow(MAX_Z_SIZE, 2) * 0.5f);
+
+        float randX = Random.Range(-100f, 100f);
+        float randZ = Random.Range(-350f, 60f);
 
         GameObject _monster = monsterPrefabs[Random.Range(0, monsterPrefabs.Count)];
-        _monster = PoolManager.Pop(_monster, new Vector3(randX, 0f, randZ), Quaternion.identity);
+        _monster = Instantiate(_monster, new Vector3(randX, 0f, randZ), Quaternion.identity);
         
         MonsterCtrl monster = _monster.GetComponent<MonsterCtrl>();
         
@@ -104,6 +121,6 @@ public class GameManager : MonoBehaviour
     public void AddScore(int score)
     {
         totalScore += score;
-        scoreText.text = $"x {totalScore}";
+        UIManager.UpdateScore(totalScore);
     }
 }

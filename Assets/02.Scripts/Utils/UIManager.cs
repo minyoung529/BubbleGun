@@ -3,37 +3,37 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
-using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 public class UIManager : MonoBehaviour
 {
-    // 버튼연결
-    public Button startButton;
-    public Button optionButton;
-    public Button shopButton;
+    [SerializeField] private CanvasGroup inGameUI;
+    [SerializeField] private Text infoText;
+    [SerializeField] private Text playerText;
+    [SerializeField] private Text scoreText;
 
-    private UnityAction action;
+    [SerializeField] private Image hpBar;
 
-    void Start()
+    private void Start()
     {
-        // StartButton 이벤트연결
-        action = () => OnStartClick();
-        startButton.onClick.AddListener(action);
-
-        // 무명 메서드를 활용한 이벤트 연결
-        optionButton.onClick.AddListener(delegate { OnButtonClick(optionButton.name); });
-
-        // 람다식 활용한 이벤트 연결 방식
-        shopButton.onClick.AddListener(() => OnButtonClick(shopButton.name));
+        inGameUI.gameObject.SetActive(false);
     }
 
-    void OnStartClick()
+    public void UpdateScore(int score)
     {
-        SceneManager.LoadScene("SampleScene");
+        scoreText.text = score.ToString();
     }
 
-    void OnButtonClick(string str)
+    public void UpdateHp(float curHp, float initHp)
     {
-        Debug.Log($"Click Button : { str}");
+        hpBar.fillAmount = curHp / initHp;
+    }
+
+    public void ShowInfoText(string info)
+    {
+        infoText.text = info;
+        Sequence textSequence = DOTween.Sequence();
+        textSequence.Append(infoText.transform.parent.DOScaleX(1f, 0.3f));
+        textSequence.Insert(1.5f, infoText.transform.parent.DOScaleX(0f, 0.3f));
     }
 }

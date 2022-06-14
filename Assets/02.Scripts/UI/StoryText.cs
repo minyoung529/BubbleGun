@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 using DG.Tweening;
 
 public class StoryText : MonoBehaviour
@@ -12,6 +13,9 @@ public class StoryText : MonoBehaviour
 
     private WaitForSeconds textDelay = new WaitForSeconds(2.5f);
 
+    [SerializeField] UnityEvent startEvent;
+    [SerializeField] UnityEvent endEvent;
+
     private void OnEnable()
     {
         text = GetComponent<Text>();
@@ -20,6 +24,7 @@ public class StoryText : MonoBehaviour
 
     private IEnumerator ShowTextCoroutine()
     {
+        startEvent.Invoke();
         float delay = 0.1f;
         yield return textDelay;
 
@@ -32,5 +37,6 @@ public class StoryText : MonoBehaviour
         }
 
         text.text = "";
+        endEvent.Invoke();
     }
 }
