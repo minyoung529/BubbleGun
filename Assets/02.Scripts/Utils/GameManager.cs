@@ -6,13 +6,10 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    // 점수 텍스트 연결 변수
     public Text scoreText;
 
-    // 점수 누적 변수
     private int totalScore = 0;
 
-    // 몬스터 프리팹 연결 변수
     public List<GameObject> monsterPrefabs;
 
     // 몬스터 생성 간격
