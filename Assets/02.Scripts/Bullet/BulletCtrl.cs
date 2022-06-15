@@ -14,6 +14,7 @@ public class BulletCtrl : MonoBehaviour
         bulletRigidbody ??= GetComponent<Rigidbody>();
         trailRenderer ??= GetComponentInChildren<TrailRenderer>();
 
+        bulletRigidbody.velocity = Vector3.zero;
         StartCoroutine(WaitOneFrame());
         PoolManager.Push(gameObject, 10f);
     }

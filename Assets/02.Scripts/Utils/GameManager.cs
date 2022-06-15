@@ -86,19 +86,20 @@ public class GameManager : MonoBehaviour
         // 스코어 점수 출력
         AddScore(0);
 
-        if (!isSpawnMonster) return;
     }
 
     public void GameStart()
     {
         IsGameStart = true;
+        EventManager.TriggerEvent("GameStart");
 
-        for(int i = 0; i < 50; i++)
+        if (!isSpawnMonster) return;
+
+        for (int i = 0; i < 50; i++)
         {
             CreateMonster();
         }
 
-        EventManager.TriggerEvent("GameStart");
     }
 
     void CreateMonster()

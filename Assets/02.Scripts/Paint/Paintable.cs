@@ -36,7 +36,15 @@ public class Paintable : MonoBehaviour
         supportTexture.filterMode = FilterMode.Bilinear;
 
         rend = GetComponent<Renderer>();
-        rend.material.SetTexture(maskTextureID, extendIslandsRenderTexture);
+        if (gameObject.layer == LayerMask.GetMask("PLATFORM"))
+        {
+            Debug.Log("fsd");
+            rend.material.SetTexture(maskTextureID, extendIslandsRenderTexture);
+        }
+        else
+        {
+            rend.material.SetTexture(maskTextureID, extendIslandsRenderTexture);
+        }
 
         GameManager.Instance.PaintManager.InitTextures(this);
     }

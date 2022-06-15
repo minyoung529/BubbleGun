@@ -89,16 +89,12 @@ public class MonsterCtrl : MonoBehaviour
         // 목적지까지 남은 거리로 회전 여부 판단
         if (!IsMove) return;
 
-        if (agent.remainingDistance >= 2.0f)
+        if (state == State.ATTACK || state == State.TRACE)
         {
-            // 에이전트의 이동 회전
-            Vector3 direction = agent.desiredVelocity;
+            //Quaternion rot = Quaternion.LookRotation(targetTransform.position);
+            //transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 10.0f);
 
-            if (direction.sqrMagnitude < 0.01f)
-                return;
-
-            Quaternion rot = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 10.0f);
+            transform.DOLookAt(targetTransform.position, 0.1f);
         }
     }
 
@@ -181,7 +177,7 @@ public class MonsterCtrl : MonoBehaviour
             {
                 stunSequence = DOTween.Sequence().SetAutoKill(false);
                 stunSequence.AppendCallback(() => IsMove = false);
-                stunSequence.InsertCallback(stunTime, () => IsMove = false);
+                stunSequence.InsertCallback(stunTime, () => IsMove = true);
             }
 
             currHp -= 10;
@@ -233,9 +229,6 @@ public class MonsterCtrl : MonoBehaviour
         agent.isStopped = false;
 
         onTrace.Invoke();
-
-        Quaternion rot = Quaternion.LookRotation(targetTransform.position);
-        transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 10.0f);
     }
 
     protected virtual IEnumerator OnDie()

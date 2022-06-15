@@ -7,17 +7,11 @@ using DG.Tweening;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private CanvasGroup inGameUI;
     [SerializeField] private Text infoText;
     [SerializeField] private Text playerText;
     [SerializeField] private Text scoreText;
 
     [SerializeField] private Image hpBar;
-
-    private void Start()
-    {
-        inGameUI.gameObject.SetActive(false);
-    }
 
     public void UpdateScore(int score)
     {
@@ -35,5 +29,16 @@ public class UIManager : MonoBehaviour
         Sequence textSequence = DOTween.Sequence();
         textSequence.Append(infoText.transform.parent.DOScaleX(1f, 0.3f));
         textSequence.Insert(1.5f, infoText.transform.parent.DOScaleX(0f, 0.3f));
+    }
+
+    public void ShowCanvasGroup(CanvasGroup group)
+    {
+        group.alpha = 0f;
+        group.DOFade(1f, 1f);
+    }
+
+    public void UnShowCanvasGroup(CanvasGroup group)
+    {
+        group.DOFade(0f, 1f);
     }
 }

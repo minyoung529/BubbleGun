@@ -10,8 +10,9 @@ public class StoryText : MonoBehaviour
     [TextArea]
     [SerializeField] private List<string> storyText;
     [SerializeField] private Text text;
+    [SerializeField] private float textDelay = 0.1f;
 
-    private WaitForSeconds textDelay = new WaitForSeconds(2.5f);
+    private WaitForSeconds delay = new WaitForSeconds(0.5f);
 
     [SerializeField] UnityEvent startEvent;
     [SerializeField] UnityEvent endEvent;
@@ -25,15 +26,14 @@ public class StoryText : MonoBehaviour
     private IEnumerator ShowTextCoroutine()
     {
         startEvent.Invoke();
-        float delay = 0.1f;
-        yield return textDelay;
+        yield return delay;
 
         for (int i = 0; i < storyText.Count; i++)
         {
             text.text = "";
-            text.DOText(storyText[i], storyText[i].Length * delay);
+            text.DOText(storyText[i], storyText[i].Length * textDelay);
 
-            yield return textDelay;
+            yield return delay;
         }
 
         text.text = "";
