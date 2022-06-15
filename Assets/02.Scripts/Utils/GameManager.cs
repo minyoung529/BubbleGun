@@ -7,14 +7,14 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     private int totalScore = 0;
-    public List<GameObject> monsterPrefabs;
+    public GameObject[] monsterPrefabs;
 
     public List<MonsterCtrl> CurrentMonster { get; private set; } = new List<MonsterCtrl>();
     public Dictionary<KeyCode, SkillPanel> SkillPanels { get; private set; } = new Dictionary<KeyCode, SkillPanel>();
 
     public bool isSpawnMonster = true;
 
-    public Transform[] areaTransforms;
+    public List<Area> areas;
     private Vector3 areaLeftTop;
     private Vector3 areaRightBottom;
     private int areaIndex = -1;
@@ -70,6 +70,15 @@ public class GameManager : MonoBehaviour
         AddScore(0);
     }
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            deadEnemyCount = maxEnemyCount - 1;
+            OnEnemyDie();
+        }
+    }
+
     public void GameStart()
     {
         IsGameStart = true;
@@ -80,7 +89,7 @@ public class GameManager : MonoBehaviour
 
     public void ClearArea()
     {
-        Transform curArea = areaTransforms[++areaIndex];
+        Transform curArea = areas[++areaIndex].areaTransform;
 
         areaLeftTop = curArea.position;
         areaRightBottom = curArea.position;
@@ -91,22 +100,26 @@ public class GameManager : MonoBehaviour
         areaRightBottom.x += curArea.localScale.x * 5f;
         areaRightBottom.z -= curArea.localScale.z * 5f;
 
-        for (int i = 0; i < 50; i++)
+        for (int i = 0; i < monsterPrefabs.Length; ++i)
         {
-            maxEnemyCount = 50;
-            if (isSpawnMonster)
-                CreateMonster(areaLeftTop, areaRightBottom);
+            for(int j = 0; j < areas[areaIndex].monsterCount[i]; ++j)
+            {
+                if (isSpawnMonster)
+                    CreateMonster(monsterPrefabs[i], areaLeftTop, areaRightBottom);
+
+                ++maxEnemyCount;
+            }
         }
 
+        UIManager.ShowInfoText("영역 내 모든 몬스터를 공격해 '껌'으로 만드세요. ()");
         UIManager.UpdateInfo(maxEnemyCount, deadEnemyCount);
     }
 
-    private void CreateMonster(Vector3 lt, Vector3 rb)
+    private void CreateMonster(GameObject _monster, Vector3 lt, Vector3 rb)
     {
         float randX = Random.Range(lt.x, rb.x);
         float randZ = Random.Range(lt.z, rb.z);
 
-        GameObject _monster = monsterPrefabs[Random.Range(0, monsterPrefabs.Count)];
         _monster = Instantiate(_monster, new Vector3(randX, 0f, randZ), Quaternion.identity);
 
         MonsterCtrl monster = _monster.GetComponent<MonsterCtrl>();
@@ -132,6 +145,13 @@ public class GameManager : MonoBehaviour
     public void OnEnemyDie()
     {
         deadEnemyCount++;
+
+        if(deadEnemyCount == maxEnemyCount)
+        {
+            EventManager<Area>.TriggerEvent("AreaClear", areas[++areaIndex]);
+            UIManager.ShowInfoText("신호기의 빛을 따라가세요.");
+        }
+
         UIManager.UpdateInfo(maxEnemyCount, deadEnemyCount);
     }
 }
