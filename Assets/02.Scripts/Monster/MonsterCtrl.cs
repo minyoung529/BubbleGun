@@ -243,6 +243,7 @@ public class MonsterCtrl : MonoBehaviour
             sphere.enabled = false;
         }
 
+        GameManager.Instance.OnEnemyDie();
         PoolManager.Pop(gumItem, transform.position + Vector3.up * 1.5f, Quaternion.identity);
 
         yield return new WaitForSeconds(3.0f);

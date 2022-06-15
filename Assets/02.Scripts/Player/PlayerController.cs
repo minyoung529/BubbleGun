@@ -47,8 +47,6 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("PUNCH") && curHp >= 0.0f)
         {
             curHp -= 10.0f;
-            Debug.Log($"Player HP = {curHp}");
-
             GameManager.Instance.UIManager.UpdateHp(curHp, initHp);
 
             if (curHp <= 0.0f)
@@ -106,7 +104,5 @@ public class PlayerController : MonoBehaviour
         {
             monster.SendMessage("OnPlayerDie", SendMessageOptions.DontRequireReceiver);
         }
-
-        GameManager.Instance.IsGameOver = true;
     }
 }

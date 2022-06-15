@@ -40,8 +40,8 @@ public class WeaponCtrl : MonoBehaviour
     {
         onPlayerShoot.Invoke();
         StartCoroutine(ShowMuzzleFlash());
-        //PoolManager.Pop(bulletPrefab, firePos.position, firePos.rotation);
-        PoolManager.Instantiate(bulletPrefab, firePos.position, firePos.rotation);
+        PoolManager.Pop(bulletPrefab, firePos.position, firePos.rotation);
+        //PoolManager.Instantiate(bulletPrefab, firePos.position, firePos.rotation);
     }
 
     IEnumerator ShowMuzzleFlash()
@@ -60,7 +60,6 @@ public class WeaponCtrl : MonoBehaviour
     {
         weapons.ForEach(x => x.gameObject.SetActive(false));
         weapons[(int)weapon].SetActive(true);
-        Debug.Log("SDf");
         onChangeWeapon.Invoke();
     }
 }

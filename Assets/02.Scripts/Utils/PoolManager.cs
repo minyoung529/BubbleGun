@@ -31,7 +31,11 @@ public class PoolManager : MonoBehaviour
     public static void Push(GameObject obj, float delay)
     {
         Sequence sequence = DOTween.Sequence();
-        sequence.InsertCallback(delay, () => Push(obj));
+        sequence.InsertCallback(delay, () =>
+        {
+            if (obj.activeSelf)
+                Push(obj);
+        });
     }
 
     public static GameObject Pop(GameObject item, bool isActive = true)

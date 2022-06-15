@@ -23,7 +23,7 @@ public class SkillController : MonoBehaviour
             UseSkill(KeyCode.Q, new ShootingStar(), false);
 
         if (Input.GetKeyDown(KeyCode.R))
-            UseSkill(KeyCode.R, new Birthday(), false);
+            UseSkill(KeyCode.R, new Birthday());
 
         currentSkill?.OnStaySkill();
     }

@@ -81,17 +81,16 @@ public class ShootingStar : ISkill
 
         for (int i = 0; i < BULLET_COUNT; i++)
         {
-            GameObject obj = PoolManager.Pop
-                ( 
-                     bulletPrefab,
-                     MyExtension.RandomPositionInRadius(spot, RADIUS),
-                     MyExtension.RandomRotation()
-                 );
+            Vector3 radomDestination = MinLib.RandomPositionInRadius(spot, RADIUS);
+            radomDestination.y = 0f;
+            Vector3 bulletPos = MinLib.RandomPositionInRadius(spot, RADIUS);
 
-            Vector3 destination = MyExtension.RandomPositionInRadius(spot, RADIUS);
-            destination.y = 0f;
-
-            obj.GetComponent<Rigidbody>().velocity = (destination - obj.transform.position);
+            PoolManager.Pop
+            (
+                 bulletPrefab,
+                 bulletPos,
+                 Quaternion.LookRotation(radomDestination - bulletPos)
+            );
 
             yield return DURATION_DELAY;
         }

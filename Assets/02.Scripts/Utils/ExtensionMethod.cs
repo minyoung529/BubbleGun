@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ExtensionMethods
 {
-    public static class MyExtension
+    public static class MinLib
     {
         public static Quaternion RandomRotation()
         {
