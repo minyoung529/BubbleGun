@@ -39,7 +39,7 @@ public class UIManager : MonoBehaviour
             yield return new WaitForSeconds(3f);
         }
 
-        if (info[info.Length - 1] != '&')
+        if (info[info.Length - 1] != '&')   
         {
             infoText.transform.parent.DOScaleX(0f, 0.3f);
         }
