@@ -78,6 +78,7 @@ public class PlayerController : MonoBehaviour
             transform.forward = Vector3.Slerp(transform.forward, FollowCamera.cameraDirection, 10f * Time.deltaTime);
         }
 
+        transform.position = GameManager.Instance.ClampArea(transform.position);
         onMove.Invoke(h, v);
     }
 

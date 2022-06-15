@@ -36,6 +36,7 @@ public class HammerAttack : MonoBehaviour
                 monsterCtrls.Clear();
                 isAttack = false;
                 trail.gameObject.SetActive(false);
+                GameManager.Instance.PlayerController.SetWeaponType(WeaponType.Gun);
             }
         }
     }

@@ -20,6 +20,11 @@ public class GameManager : MonoBehaviour
     private bool isGameOver;
     public bool isSpawnMonster = true;
 
+    public Transform[] areaTransforms;
+    private int transformIndex = -1;
+    private Vector3 areaLeftTop;
+    private Vector3 areaRightBottom;
+
     private PaintManager paintManager;
     public PaintManager PaintManager { get => paintManager; }
 
@@ -27,9 +32,6 @@ public class GameManager : MonoBehaviour
     public UIManager UIManager { get => uiManager; }
 
     public PlayerController PlayerController { get; private set; }
-
-    private const float MAX_X_SIZE = 10f;
-    private const float MAX_Z_SIZE = 10f;
 
     public bool IsGameOver
     {
@@ -94,27 +96,41 @@ public class GameManager : MonoBehaviour
         EventManager.TriggerEvent("GameStart");
 
         if (!isSpawnMonster) return;
+        ClearArea();
+    }
+
+    public void ClearArea()
+    {
+        transformIndex++;
+        Transform curArea = areaTransforms[transformIndex];
+
+        areaLeftTop = curArea.position;
+        areaLeftTop.x -= curArea.localScale.x * 5f;
+        areaLeftTop.z += curArea.localScale.z * 5f;
+
+        areaRightBottom = curArea.position;
+        areaRightBottom.x += curArea.localScale.x * 5f;
+        areaRightBottom.z -= curArea.localScale.z * 5f;
+
+        Debug.DrawRay(new Vector3(areaRightBottom.x, 0f, areaRightBottom.z), Vector3.up * 999f, Color.yellow, 999f);
+        Debug.DrawRay(new Vector3(areaLeftTop.x, 0f, areaLeftTop.z), Vector3.up * 999f, Color.yellow, 999f);
 
         for (int i = 0; i < 50; i++)
         {
-            CreateMonster();
+            CreateMonster(areaLeftTop, areaRightBottom);
         }
-
     }
 
-    void CreateMonster()
+    private void CreateMonster(Vector3 lt, Vector3 rb)
     {
-        //float randX = Random.Range(-Mathf.Pow(MAX_X_SIZE, 2) * 0.5f, Mathf.Pow(MAX_X_SIZE, 2) * 0.5f);
-        //float randZ = Random.Range(-Mathf.Pow(MAX_Z_SIZE, 2) * 0.5f, Mathf.Pow(MAX_Z_SIZE, 2) * 0.5f);
-
-        float randX = Random.Range(-100f, 100f);
-        float randZ = Random.Range(-350f, 60f);
+        float randX = Random.Range(lt.x, rb.x);
+        float randZ = Random.Range(lt.z, rb.z);
 
         GameObject _monster = monsterPrefabs[Random.Range(0, monsterPrefabs.Count)];
         _monster = Instantiate(_monster, new Vector3(randX, 0f, randZ), Quaternion.identity);
-        
+
         MonsterCtrl monster = _monster.GetComponent<MonsterCtrl>();
-        
+
         if (!CurrentMonster.Contains(monster))
             CurrentMonster.Add(monster);
     }
@@ -123,5 +139,13 @@ public class GameManager : MonoBehaviour
     {
         totalScore += score;
         UIManager.UpdateScore(totalScore);
+    }
+
+    public Vector3 ClampArea(Vector3 position)
+    {
+        position.x = Mathf.Clamp(position.x, areaLeftTop.x, areaRightBottom.x);
+        position.z = Mathf.Clamp(position.z, areaRightBottom.z, areaLeftTop.z);
+
+        return position;
     }
 }

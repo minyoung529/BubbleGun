@@ -60,7 +60,7 @@ public class WeaponCtrl : MonoBehaviour
     {
         weapons.ForEach(x => x.gameObject.SetActive(false));
         weapons[(int)weapon].SetActive(true);
-
+        Debug.Log("SDf");
         onChangeWeapon.Invoke();
     }
 }
