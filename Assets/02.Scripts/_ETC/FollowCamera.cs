@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class FollowCamera : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class FollowCamera : MonoBehaviour
 
     [Range(2.0f, 20.0f)]
     public float distance = 10.0f;
+    private float curDistance;
 
     [Range(0.0f, 10.0f)]
     public float height = 2.0f;
@@ -25,9 +27,12 @@ public class FollowCamera : MonoBehaviour
 
     public static Vector3 cameraDirection;
 
+    [SerializeField] private LayerMask obstacleLayer;
+
     void Start()
     {
         cameraTransform = GetComponent<Transform>();
+        curDistance = distance;
         forward = -targetTransform.forward;
     }
 
@@ -35,18 +40,31 @@ public class FollowCamera : MonoBehaviour
     {
         float x = Input.GetAxisRaw("Mouse X") * rotateSpeed;
         angle += x;
-        //height -= Input.GetAxisRaw("Mouse Y") * Time.deltaTime * 30f;
-        //height = Mathf.Clamp(height, 0.1f, 5f);
 
         forward.x += Mathf.Sin(angle * Mathf.Deg2Rad);
         forward.z += Mathf.Cos(angle * Mathf.Deg2Rad);
         forward.Normalize();
 
         Vector3 pos = targetTransform.position
-                      + (forward * distance)
+                      + (forward * curDistance)
                       + (Vector3.up * height);
 
-        cameraTransform.position = Vector3.Slerp(cameraTransform.position, pos, moveDamping * Time.deltaTime);
+        Ray ray = new Ray(targetTransform.position, transform.position - targetTransform.position);
+        RaycastHit hitInfo;
+
+        if (Physics.Raycast(ray, out hitInfo, distance, obstacleLayer))
+        {
+            pos = targetTransform.position
+                      + (forward * (hitInfo.distance - 2.5f))
+                      + (Vector3.up * height);
+
+            cameraTransform.position = Vector3.Slerp(cameraTransform.position, pos, moveDamping * Time.deltaTime);
+        }
+        else
+        {
+            cameraTransform.position = Vector3.Slerp(cameraTransform.position, pos, moveDamping * Time.deltaTime);
+        }
+
         cameraTransform.LookAt(targetTransform.position + (targetTransform.up * targetOffset));
 
         cameraDirection = cameraTransform.forward;

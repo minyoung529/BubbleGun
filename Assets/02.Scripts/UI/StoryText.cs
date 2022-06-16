@@ -12,7 +12,8 @@ public class StoryText : MonoBehaviour
     [SerializeField] private Text text;
     [SerializeField] private float textDelay = 0.1f;
 
-    private WaitForSeconds delay = new WaitForSeconds(0.5f);
+    [SerializeField] private float sentenceDelay = 2.5f;
+    private WaitForSeconds delay;
 
     [SerializeField] UnityEvent startEvent;
     [SerializeField] UnityEvent endEvent;
@@ -20,6 +21,7 @@ public class StoryText : MonoBehaviour
     private void OnEnable()
     {
         text = GetComponent<Text>();
+        delay = new WaitForSeconds(sentenceDelay);
         StartCoroutine(ShowTextCoroutine());
     }
 

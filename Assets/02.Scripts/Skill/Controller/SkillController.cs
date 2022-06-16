@@ -8,6 +8,8 @@ public class SkillController : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance.GameState != GameState.Game) return;
+
         if (currentSkill != null && currentSkill.IsEnd)
         {
             currentSkill = null;

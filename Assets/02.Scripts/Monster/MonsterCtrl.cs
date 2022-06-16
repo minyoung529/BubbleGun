@@ -64,7 +64,6 @@ public class MonsterCtrl : MonoBehaviour
     protected virtual void OnEnable()
     {
         state = State.IDLE;
-
         currHp = initHp;
         isDie = false;
 

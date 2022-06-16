@@ -39,7 +39,7 @@ public class UIManager : MonoBehaviour
             yield return new WaitForSeconds(3f);
         }
 
-        if (info[info.Length - 1] != '&')   
+        if (info.Length != 0 && info[info.Length - 1] != '&')
         {
             infoText.transform.parent.DOScaleX(0f, 0.3f);
         }
@@ -56,7 +56,7 @@ public class UIManager : MonoBehaviour
     public void ShowCanvasGroup(CanvasGroup group)
     {
         group.alpha = 0f;
-        group.DOFade(1f, 1f);
+        group.DOFade(1f, 2f);
     }
 
     public void UnShowCanvasGroup(CanvasGroup group)

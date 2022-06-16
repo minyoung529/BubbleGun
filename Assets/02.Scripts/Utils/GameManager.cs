@@ -17,14 +17,14 @@ public class GameManager : MonoBehaviour
     public List<Area> areas;
     private Vector3 areaLeftTop;
     private Vector3 areaRightBottom;
-    private int areaIndex = -1;
+    private int areaIndex = 0;
 
     public PaintManager PaintManager { get; private set; }
     public UIManager UIManager { get; private set; }
 
     public PlayerController PlayerController { get; private set; }
 
-    public bool IsGameStart { get; set; } = false;
+    public GameState GameState { get; set; }
 
     private static GameManager instance;
     public static GameManager Instance
@@ -74,14 +74,27 @@ public class GameManager : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.LeftControl))
         {
-            deadEnemyCount = maxEnemyCount - 1;
-            OnEnemyDie();
+            if(isSpawnMonster)
+            {
+                foreach (var m in CurrentMonster)
+                {
+                    if (m.MonsterState != MonsterCtrl.State.DIE)
+                    {
+                        m.MonsterState = MonsterCtrl.State.DIE;
+                    }
+                }
+            }
+            else
+            {
+                deadEnemyCount = maxEnemyCount - 1;
+                OnEnemyDie();
+            }
         }
     }
 
     public void GameStart()
     {
-        IsGameStart = true;
+        GameState = GameState.Game;
         EventManager.TriggerEvent("GameStart");
 
         ClearArea();
@@ -89,7 +102,7 @@ public class GameManager : MonoBehaviour
 
     public void ClearArea()
     {
-        Transform curArea = areas[++areaIndex].areaTransform;
+        Transform curArea = areas[areaIndex].areaTransform;
 
         areaLeftTop = curArea.position;
         areaRightBottom = curArea.position;
@@ -119,7 +132,7 @@ public class GameManager : MonoBehaviour
         float randX = Random.Range(lt.x, rb.x);
         float randZ = Random.Range(lt.z, rb.z);
 
-        _monster = PoolManager.Pop(_monster, new Vector3(randX, 0f, randZ), Quaternion.identity);
+        _monster = PoolManager.Instantiate(_monster, new Vector3(randX, 0f, randZ),Quaternion.identity);
 
         MonsterCtrl monster = _monster.GetComponent<MonsterCtrl>();
 
@@ -147,8 +160,9 @@ public class GameManager : MonoBehaviour
 
         if(deadEnemyCount == maxEnemyCount)
         {
+            GameState = GameState.Ready;
             EventManager<Area>.TriggerEvent("AreaClear", areas[++areaIndex]);
-            UIManager.ShowInfoText("신호기의 빛을 따라가세요.");
+            UIManager.ShowInfoText("신호기의 빛을 따라가세요.&");
         }
 
         UIManager.UpdateInfo(maxEnemyCount, deadEnemyCount);

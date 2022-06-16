@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
-    private float moveSpeed = 5;
+    private float moveSpeed = 10;
     private float rotationSpeed = 130;
 
     private Rigidbody rigid;
@@ -34,9 +34,10 @@ public class PlayerController : MonoBehaviour
         curHp = initHp;
     }
 
-    void Update()
+    void LateUpdate()
     {
-        if (!GameManager.Instance.IsGameStart) return;
+        if (GameManager.Instance.GameState != GameState.Game &&
+            GameManager.Instance.GameState != GameState.Ready) return;
 
         Move();
         Jump();
@@ -62,7 +63,7 @@ public class PlayerController : MonoBehaviour
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
-        Vector3 moveDir = rigid.velocity;
+        Vector3 moveDir = Vector3.zero;
         moveDir.x = h;
         moveDir.z = v;
 
@@ -76,7 +77,9 @@ public class PlayerController : MonoBehaviour
             transform.forward = Vector3.Slerp(transform.forward, FollowCamera.cameraDirection, 10f * Time.deltaTime);
         }
 
-        transform.position = GameManager.Instance.ClampArea(transform.position);
+        if (GameManager.Instance.GameState == GameState.Game)
+            transform.position = GameManager.Instance.ClampArea(transform.position);
+
         onMove.Invoke(h, v);
     }
 

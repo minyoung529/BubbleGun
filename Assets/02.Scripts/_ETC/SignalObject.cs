@@ -24,5 +24,7 @@ public class SignalObject : MonoBehaviour
         Vector3 position = area.areaTransform.position;
         position.y = transform.localScale.y * 0.5f;
         transform.position = position;
+
+        gameObject.SetActive(true);
     }
 }

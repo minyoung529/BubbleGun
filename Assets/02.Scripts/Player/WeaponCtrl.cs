@@ -13,7 +13,6 @@ public class WeaponCtrl : MonoBehaviour
     private GameObject muzzleFlash;
 
     [SerializeField] private UnityEvent onPlayerShoot;
-    [SerializeField] private UnityEvent onChangeWeapon;
 
     [SerializeField] List<GameObject> weapons;
 
@@ -30,6 +29,8 @@ public class WeaponCtrl : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance.GameState != GameState.Game) return;
+
         if (Input.GetMouseButtonDown(0))
         {
             weaponAttacks[(int)PlayerController.WeaponType].Invoke();
@@ -41,7 +42,6 @@ public class WeaponCtrl : MonoBehaviour
         onPlayerShoot.Invoke();
         StartCoroutine(ShowMuzzleFlash());
         PoolManager.Pop(bulletPrefab, firePos.position, firePos.rotation);
-        //PoolManager.Instantiate(bulletPrefab, firePos.position, firePos.rotation);
     }
 
     IEnumerator ShowMuzzleFlash()
@@ -60,6 +60,5 @@ public class WeaponCtrl : MonoBehaviour
     {
         weapons.ForEach(x => x.gameObject.SetActive(false));
         weapons[(int)weapon].SetActive(true);
-        onChangeWeapon.Invoke();
     }
 }
