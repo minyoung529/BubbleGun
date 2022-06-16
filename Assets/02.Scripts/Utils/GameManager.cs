@@ -14,10 +14,14 @@ public class GameManager : MonoBehaviour
 
     public bool isSpawnMonster = true;
 
-    public List<Area> areas;
+    [SerializeField] private List<Area> areas;
     private Vector3 areaLeftTop;
     private Vector3 areaRightBottom;
     private int areaIndex = 0;
+    public Area CurrentArea
+    {
+        get => areas[areaIndex];
+    }
 
     public PaintManager PaintManager { get; private set; }
     public UIManager UIManager { get; private set; }
