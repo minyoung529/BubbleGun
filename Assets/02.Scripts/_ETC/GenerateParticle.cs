@@ -11,6 +11,8 @@ public class GenerateParticle : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (collision.transform.CompareTag("PLAYER")) return;
+
         GameObject obj = PoolManager.Pop(particle);
 
         Vector3 pos = collision.GetContact(0).point;
@@ -31,7 +33,6 @@ public class GenerateParticle : MonoBehaviour
         {
             obj.transform.SetParent(collision.transform);
         }
-        Destroy(
-            obj, 3f);
+        PoolManager.Push(obj, 3f);
     }
 }

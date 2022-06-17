@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
+using DG.Tweening;
 
 public class FollowCamera : MonoBehaviour
 {
@@ -28,19 +28,63 @@ public class FollowCamera : MonoBehaviour
     public static Vector3 cameraDirection;
 
     [SerializeField] private LayerMask obstacleLayer;
+    [SerializeField] private Transform cityView;
+
+    private bool canFollow = true;
+
+    private Vector3 TargetLookAtPosition
+    {
+        get => targetTransform.position + (targetTransform.up * targetOffset);
+    }
 
     void Start()
     {
         cameraTransform = GetComponent<Transform>();
         curDistance = distance;
         forward = -targetTransform.forward;
+
+        EventManager<Area>.StartListening("AreaClear", Clear);
+        EventManager.StartListening("Win", ShowCity);
     }
 
     void Update()
     {
+        if (canFollow)
+        {
+            FollowTarget();
+        }
+
+        cameraDirection = cameraTransform.forward;
+        cameraDirection.y = 0f;
+        cameraDirection.Normalize();
+    }
+
+    private void FollowTarget()
+    {
         float x = Input.GetAxisRaw("Mouse X") * rotateSpeed;
         angle += x;
 
+        //Ray ray = new Ray(targetTransform.position, transform.position - targetTransform.position);
+        //RaycastHit hitInfo;
+
+        //if (Physics.Raycast(ray, out hitInfo, distance, obstacleLayer))
+        //{
+        //    pos = targetTransform.position
+        //              + (forward * (hitInfo.distance - 2.5f))
+        //              + (Vector3.up * height);
+
+        //    cameraTransform.position = Vector3.Slerp(cameraTransform.position, pos, moveDamping * Time.deltaTime);
+        //}
+        //else
+        //{
+        cameraTransform.position = Vector3.Slerp(cameraTransform.position, GetCameraPosition(), moveDamping * Time.deltaTime);
+        //}
+
+        cameraTransform.LookAt(TargetLookAtPosition);
+    }
+
+    private Vector3 GetCameraPosition()
+    {
         forward.x += Mathf.Sin(angle * Mathf.Deg2Rad);
         forward.z += Mathf.Cos(angle * Mathf.Deg2Rad);
         forward.Normalize();
@@ -48,27 +92,51 @@ public class FollowCamera : MonoBehaviour
         Vector3 pos = targetTransform.position
                       + (forward * curDistance)
                       + (Vector3.up * height);
+        return pos;
+    }
 
-        Ray ray = new Ray(targetTransform.position, transform.position - targetTransform.position);
-        RaycastHit hitInfo;
+    private void Clear(Area area)
+    {
+        Vector3 targetPoint = area.areaTransform.position;
+        targetPoint.y += 3f;
+        targetPoint -= (targetPoint - transform.position).normalized * 10f;
 
-        if (Physics.Raycast(ray, out hitInfo, distance, obstacleLayer))
-        {
-            pos = targetTransform.position
-                      + (forward * (hitInfo.distance - 2.5f))
-                      + (Vector3.up * height);
+        ShuttleMove(targetPoint, targetPoint, GetCameraPosition(), TargetLookAtPosition, 3f);
+    }
 
-            cameraTransform.position = Vector3.Slerp(cameraTransform.position, pos, moveDamping * Time.deltaTime);
-        }
-        else
-        {
-            cameraTransform.position = Vector3.Slerp(cameraTransform.position, pos, moveDamping * Time.deltaTime);
-        }
+    private void ShowCity()
+    {
+        ShuttleMove
+            (
+            cityView.position, Vector3.zero,
+            GetCameraPosition(), TargetLookAtPosition, 5f,
+            GameManager.Instance.UIManager.OnGameEnd
+            );
+    }
 
-        cameraTransform.LookAt(targetTransform.position + (targetTransform.up * targetOffset));
+    private void ShuttleMove(Vector3 targetPoint, Vector3 startTarget, Vector3 endPoint, Vector3 endTarget, float time, TweenCallback callback = null)
+    {
+        Sequence seq = DOTween.Sequence();
 
-        cameraDirection = cameraTransform.forward;
-        cameraDirection.y = 0f;
-        cameraDirection.Normalize();
+        seq.AppendCallback(() => canFollow = false);
+        seq.AppendCallback(() => GameManager.Instance.GameState = GameState.None);
+
+        seq.Append(transform.DOMove(targetPoint, time));
+        seq.Join(transform.DOLookAt(startTarget, time));
+
+        seq.Append(transform.DOMove(endPoint, time));
+        seq.Append(transform.DOLookAt(endTarget, time));
+
+        seq.AppendCallback(() => GameManager.Instance.GameState = GameState.Ready);
+        seq.AppendCallback(() => canFollow = true);
+
+        if (callback != null)
+            seq.AppendCallback(callback);
+    }
+
+    private void OnDestroy()
+    {
+        EventManager<Area>.StopListening("AreaClear", Clear);
+        EventManager.StopListening("Win", ShowCity);
     }
 }

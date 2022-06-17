@@ -7,10 +7,22 @@ public class Area
 {
     public Transform areaTransform;
 
-    // index: 0 => carrot
-    // index: 1 => pepper
-    public int[] monsterCount;
+    public MonsterGenerate[] monsterGenerates;
 
     [TextArea]
     public string infoMessage;
+}
+
+[System.Serializable]
+public struct MonsterGenerate
+{
+    public float time;
+    public MonsterType monsterType;
+    public int count;
+}
+
+public enum MonsterType
+{
+    Carrot,
+    Pepper
 }

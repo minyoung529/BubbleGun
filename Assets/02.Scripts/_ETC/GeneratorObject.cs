@@ -12,12 +12,18 @@ public class GeneratorObject : MonoBehaviour
     private readonly int actHash = Animator.StringToHash("Act");
 
     [SerializeField] private SpriteRenderer fButton;
+    [SerializeField] private List<int> activeAreas;
+    [SerializeField] private float distance = 7f;
+    [SerializeField] private float radius = 3f;
+    [SerializeField] private Transform fButtonAround;
 
     private bool isActivate = false;
 
-    private void Awake()
+
+    private void Start()
     {
         EventManager<Area>.StartListening("AreaClear", OnActiveSignal);
+
         animator = GetComponent<Animator>();
         posY = transform.position.y;
         player = GameManager.Instance.PlayerController.transform;
@@ -27,13 +33,14 @@ public class GeneratorObject : MonoBehaviour
     private void Update()
     {
         if (isActivate) return;
-        if (Vector3.Distance(player.position, transform.position) < 6f)
+        if (Vector3.Distance(player.position, transform.position) < distance)
         {
             FollowFButton();
 
             if (Input.GetKeyDown(KeyCode.F))
             {
-                animator.SetTrigger(actHash);
+                if (animator != null)
+                    animator.SetTrigger(actHash);
                 isActivate = true;
                 GameManager.Instance.GameStart();
                 fButton.DOFade(0f, 1f);
@@ -47,6 +54,13 @@ public class GeneratorObject : MonoBehaviour
 
     private void OnActiveSignal(Area area)
     {
+        if (!activeAreas.Contains(GameManager.Instance.AreaIndex))
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+
+        isActivate = false;
         gameObject.SetActive(true);
         Vector3 position = area.areaTransform.position;
         position.y = posY;
@@ -57,8 +71,8 @@ public class GeneratorObject : MonoBehaviour
     {
         fButton.DOFade(1f, 1f);
 
-        Vector3 direction = (player.position - transform.position).normalized;
-        Vector3 pos = direction * 3f;
+        Vector3 direction = (player.position - fButtonAround.position).normalized;
+        Vector3 pos = direction * radius;
         pos.y = 3f;
 
         fButton.transform.localPosition = pos;

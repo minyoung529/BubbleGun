@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,18 +16,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<Area> areas;
     private Vector3 areaLeftTop;
     private Vector3 areaRightBottom;
-    private int areaIndex = 0;
+    public int AreaIndex { get; private set; } = 0;
     public Area CurrentArea
     {
-        get => areas[areaIndex];
+        get => areas[AreaIndex];
     }
-
-    public PaintManager PaintManager { get; private set; }
-    public UIManager UIManager { get; private set; }
-
-    public PlayerController PlayerController { get; private set; }
-
-    public GameState GameState { get; set; }
+    public bool IsClear
+    {
+        get => AreaIndex >= areas.Count - 1;
+    }
 
     private static GameManager instance;
     public static GameManager Instance
@@ -48,7 +44,12 @@ public class GameManager : MonoBehaviour
             return instance;
         }
     }
+    public PaintManager PaintManager { get; private set; }
+    public UIManager UIManager { get; private set; }
+    public PlayerController PlayerController { get; private set; }
 
+
+    public GameState GameState { get; set; }
     public Camera MainCam { get; set; }
 
     private int maxEnemyCount = 0;
@@ -67,6 +68,8 @@ public class GameManager : MonoBehaviour
 
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Locked;
+
+        EventManager.StartListening("GameOver", OnGameOver);
     }
 
     void Start()
@@ -76,9 +79,9 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.LeftControl))
+        if (Input.GetKeyDown(KeyCode.LeftControl))
         {
-            if(isSpawnMonster)
+            if (isSpawnMonster)
             {
                 foreach (var m in CurrentMonster)
                 {
@@ -106,29 +109,29 @@ public class GameManager : MonoBehaviour
 
     public void ClearArea()
     {
-        Transform curArea = areas[areaIndex].areaTransform;
+        Transform curArea = areas[AreaIndex].areaTransform;
 
         areaLeftTop = curArea.position;
         areaRightBottom = curArea.position;
-        
+
         areaLeftTop.x -= curArea.localScale.x * 5f;
         areaLeftTop.z += curArea.localScale.z * 5f;
 
         areaRightBottom.x += curArea.localScale.x * 5f;
         areaRightBottom.z -= curArea.localScale.z * 5f;
 
-        for (int i = 0; i < monsterPrefabs.Length; ++i)
+        if(AreaIndex + 1 == areas.Count)
         {
-            for(int j = 0; j < areas[areaIndex].monsterCount[i]; ++j)
-            {
-                if (isSpawnMonster)
-                    CreateMonster(monsterPrefabs[i], areaLeftTop, areaRightBottom);
-
-                ++maxEnemyCount;
-            }
+            EventManager.TriggerEvent("Win");
+            Debug.Log("clear");
         }
 
-        UIManager.ShowInfoText(string.Format(areas[areaIndex].infoMessage, maxEnemyCount));
+        StartCoroutine(GenerateMonsterCoroutine());
+
+        foreach (MonsterGenerate info in CurrentArea.monsterGenerates)
+            maxEnemyCount += info.count;
+
+        UIManager.ShowInfoText(string.Format(areas[AreaIndex].infoMessage, maxEnemyCount));
     }
 
     private void CreateMonster(GameObject _monster, Vector3 lt, Vector3 rb)
@@ -136,7 +139,7 @@ public class GameManager : MonoBehaviour
         float randX = Random.Range(lt.x, rb.x);
         float randZ = Random.Range(lt.z, rb.z);
 
-        _monster = PoolManager.Instantiate(_monster, new Vector3(randX, 0f, randZ),Quaternion.identity);
+        _monster = PoolManager.Instantiate(_monster, new Vector3(randX, 0f, randZ), Quaternion.identity);
 
         MonsterCtrl monster = _monster.GetComponent<MonsterCtrl>();
 
@@ -162,13 +165,55 @@ public class GameManager : MonoBehaviour
     {
         deadEnemyCount++;
 
-        if(deadEnemyCount == maxEnemyCount)
+        if (deadEnemyCount == maxEnemyCount)
         {
             GameState = GameState.Ready;
-            EventManager<Area>.TriggerEvent("AreaClear", areas[++areaIndex]);
+
+            if (areas.Count > AreaIndex)
+            {
+                EventManager<Area>.TriggerEvent("AreaClear", areas[++AreaIndex]);
+            }
+
             UIManager.ShowInfoText("신호기의 빛을 따라가세요.&");
         }
 
         UIManager.UpdateInfo(maxEnemyCount, deadEnemyCount);
+    }
+
+    private IEnumerator GenerateMonsterCoroutine()
+    {
+        int index = 0;
+
+        while (index < CurrentArea.monsterGenerates.Length)
+        {
+            yield return new WaitForSeconds(CurrentArea.monsterGenerates[index].time);
+
+            MonsterGenerate generateInfo = CurrentArea.monsterGenerates[index];
+
+            if (generateInfo.count == 0)
+            {
+                yield break;
+            }
+
+            for (int i = 0; i < generateInfo.count; ++i)
+            {
+                if (isSpawnMonster)
+                    CreateMonster(monsterPrefabs[(int)generateInfo.monsterType], areaLeftTop, areaRightBottom);
+            }
+
+            index++;
+        }
+    }
+
+    private void OnGameOver()
+    {
+        GameState = GameState.None;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.StopListening("GameOver", OnGameOver);
     }
 }

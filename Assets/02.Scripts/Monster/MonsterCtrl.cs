@@ -236,6 +236,7 @@ public class MonsterCtrl : MonoBehaviour
         agent.isStopped = true;
         onDie.Invoke();
         GetComponent<CapsuleCollider>().enabled = false;
+
         SphereCollider[] spheres = GetComponentsInChildren<SphereCollider>();
         foreach (SphereCollider sphere in spheres)
         {
@@ -243,7 +244,6 @@ public class MonsterCtrl : MonoBehaviour
         }
 
         GameManager.Instance.OnEnemyDie();
-        PoolManager.Pop(gumItem, transform.position + Vector3.up * 1.5f, Quaternion.identity);
 
         yield return new WaitForSeconds(3.0f);
 

@@ -12,15 +12,16 @@ public class PlayerAnimation : MonoBehaviour
     private readonly int jump = Animator.StringToHash("jump");
     private readonly int weaponHash = Animator.StringToHash("Weapon");
     private readonly int standUpHash = Animator.StringToHash("standUp");
+    private readonly int winHash = Animator.StringToHash("win");
 
     private Animator animator;
-
 
     void Awake()
     {
         animator = GetComponent<Animator>();
 
         EventManager.StartListening("GameStart", SetEveryWeightActive);
+        EventManager.StartListening("Win", WinAnimation);
     }
 
     private void SetEveryWeightActive()
@@ -61,8 +62,16 @@ public class PlayerAnimation : MonoBehaviour
         animator.SetTrigger(standUpHash);
     }
 
+    private void WinAnimation()
+    {
+        animator.SetLayerWeight(1, 0f);
+        animator.SetLayerWeight(2, 0f);
+        animator.SetTrigger(winHash);
+    }
+
     private void OnDestroy()
     {
         EventManager.StopListening("GameStart", SetEveryWeightActive);
+        EventManager.StopListening("Win", WinAnimation);
     }
 }

@@ -7,11 +7,23 @@ using DG.Tweening;
 
 public class UIManager : MonoBehaviour
 {
+    [Header("Game")]
     [SerializeField] private Text infoText;
     [SerializeField] private Text playerText;
     [SerializeField] private Text scoreText;
 
     [SerializeField] private Image hpBar;
+
+    [Header("GameOver")]
+    [SerializeField] private CanvasGroup gameOverCanvas;
+    [SerializeField] private CanvasGroup shootingCanvas;
+    [SerializeField] private CanvasGroup gameClearCanvas;
+
+    private void Awake()
+    {
+        EventManager.StartListening("GameOver", () => ShowCanvasGroup(gameOverCanvas));
+        EventManager.StartListening("Win", () => UnShowCanvasGroup(shootingCanvas));
+    }
 
     public void UpdateScore(int score)
     {
@@ -55,12 +67,24 @@ public class UIManager : MonoBehaviour
 
     public void ShowCanvasGroup(CanvasGroup group)
     {
+        group.gameObject.SetActive(true);
         group.alpha = 0f;
         group.DOFade(1f, 2f);
     }
 
     public void UnShowCanvasGroup(CanvasGroup group)
     {
-        group.DOFade(0f, 1f);
+        group.DOFade(0f, 1f).OnComplete(() => group.gameObject.SetActive(false));
+    }
+
+    public void OnGameEnd()
+    {
+        ShowCanvasGroup(gameClearCanvas);
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.StopListening("GameOver", () => ShowCanvasGroup(gameOverCanvas));
+        EventManager.StopListening("Win", () => UnShowCanvasGroup(shootingCanvas));
     }
 }

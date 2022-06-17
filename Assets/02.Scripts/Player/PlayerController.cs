@@ -100,7 +100,7 @@ public class PlayerController : MonoBehaviour
     }
     void PlayerDie()
     {
-        Debug.Log("Player Die!");
+        EventManager.TriggerEvent("GameOver");
 
         GameObject[] monsters = GameObject.FindGameObjectsWithTag("MONSTER");
         foreach (GameObject monster in monsters)
