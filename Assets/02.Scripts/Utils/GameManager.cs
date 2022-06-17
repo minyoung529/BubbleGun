@@ -183,6 +183,9 @@ public class GameManager : MonoBehaviour
     private IEnumerator GenerateMonsterCoroutine()
     {
         int index = 0;
+        WaitForSeconds delay = new WaitForSeconds(0.1f);
+
+        yield return new WaitForSeconds(2f);
 
         while (index < CurrentArea.monsterGenerates.Length)
         {
@@ -199,8 +202,9 @@ public class GameManager : MonoBehaviour
             {
                 if (isSpawnMonster)
                     CreateMonster(monsterPrefabs[(int)generateInfo.monsterType], areaLeftTop, areaRightBottom);
+             
+                yield return delay;
             }
-
             index++;
         }
     }

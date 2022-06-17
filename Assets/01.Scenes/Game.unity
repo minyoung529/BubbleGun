@@ -1940,6 +1940,12 @@ MonoBehaviour:
     - time: 0
       monsterType: 1
       count: 5
+    - time: 10
+      monsterType: 1
+      count: 10
+    - time: 0
+      monsterType: 0
+      count: 10
     infoMessage: "\uBC1C\uC804\uAE30\uB97C \uC791\uB3D9\uD574 \uC801\uB4E4\uC774
       \uBAA8\uC5EC\uB4ED\uB2C8\uB2E4.,\uC601\uC5ED \uB0B4 \uBAA8\uB4E0 \uBAAC\uC2A4\uD130\uB97C
       \uACF5\uACA9\uD574 \uAECC\uC73C\uB85C \uB9CC\uB4DC\uC138\uC694. ( 0/{0} )&"
@@ -1951,6 +1957,18 @@ MonoBehaviour:
     - time: 0
       monsterType: 1
       count: 5
+    - time: 10
+      monsterType: 0
+      count: 10
+    - time: 0
+      monsterType: 1
+      count: 10
+    - time: 5
+      monsterType: 0
+      count: 20
+    - time: 0
+      monsterType: 1
+      count: 20
     infoMessage: "\uBC1C\uC804\uAE30\uB97C \uC791\uB3D9\uD574 \uC801\uB4E4\uC774
       \uBAA8\uC5EC\uB4ED\uB2C8\uB2E4.,\uC601\uC5ED \uB0B4 \uBAA8\uB4E0 \uBAAC\uC2A4\uD130\uB97C
       \uACF5\uACA9\uD574 \uAECC\uC73C\uB85C \uB9CC\uB4DC\uC138\uC694. ( 0/{0} )&"
