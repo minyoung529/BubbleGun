@@ -33,8 +33,13 @@ public class WeaponCtrl : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            weaponAttacks[(int)PlayerController.WeaponType].Invoke();
+            Attack();
         }
+    }
+
+    public void Attack()
+    {
+        weaponAttacks[(int)PlayerController.WeaponType].Invoke();
     }
 
     public void Shoot()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using DG.Tweening;
 
 public class PlayerController : MonoBehaviour
 {
@@ -47,6 +48,8 @@ public class PlayerController : MonoBehaviour
     {
         if (other.CompareTag("PUNCH") && curHp >= 0.0f)
         {
+            GameManager.Instance.MainCam.transform.DOShakePosition(0.2f, 0.3f);
+
             curHp -= 10.0f;
             GameManager.Instance.UIManager.UpdateHp(curHp, initHp);
 
@@ -98,9 +101,11 @@ public class PlayerController : MonoBehaviour
         WeaponType = weaponType;
         onChangeWeapon.Invoke(weaponType);
     }
+
     void PlayerDie()
     {
         EventManager.TriggerEvent("GameOver");
+
 
         GameObject[] monsters = GameObject.FindGameObjectsWithTag("MONSTER");
         foreach (GameObject monster in monsters)
@@ -109,3 +114,4 @@ public class PlayerController : MonoBehaviour
         }
     }
 }
+

@@ -14,10 +14,13 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private Image hpBar;
 
-    [Header("GameOver")]
+    [Header("Canvas Group")]
     [SerializeField] private CanvasGroup gameOverCanvas;
     [SerializeField] private CanvasGroup shootingCanvas;
     [SerializeField] private CanvasGroup gameClearCanvas;
+
+    [Header("UI")]
+    [SerializeField] private Image dangerUI;
 
     private void Awake()
     {
@@ -33,6 +36,8 @@ public class UIManager : MonoBehaviour
     public void UpdateHp(float curHp, float initHp)
     {
         hpBar.fillAmount = curHp / initHp;
+
+        ShowDamageEffect((curHp / initHp) <= 0.2f);
     }
 
     public void ShowInfoText(string info)
@@ -64,7 +69,6 @@ public class UIManager : MonoBehaviour
         infoText.text = $"{info}( {deadCnt}/{maxCnt} )";
     }
 
-
     public void ShowCanvasGroup(CanvasGroup group)
     {
         group.gameObject.SetActive(true);
@@ -80,6 +84,13 @@ public class UIManager : MonoBehaviour
     public void OnGameEnd()
     {
         ShowCanvasGroup(gameClearCanvas);
+    }
+
+    public void ShowDamageEffect(bool isShow)
+    {
+        if (dangerUI.gameObject.activeSelf == isShow) return;
+
+        dangerUI.gameObject.SetActive(isShow);
     }
 
     private void OnDestroy()

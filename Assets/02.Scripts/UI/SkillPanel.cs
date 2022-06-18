@@ -14,6 +14,8 @@ public class SkillPanel : MonoBehaviour
     // 스킬 쿨 타임 이미지
     [SerializeField] private Image filledImage;
 
+    [SerializeField] private Sound[] sounds;
+
     private void Awake()
     {
         GameManager.Instance.SkillPanels.Add(keyCode, this);
@@ -30,6 +32,11 @@ public class SkillPanel : MonoBehaviour
     public void UseSkill()
     {
         filledImage.fillAmount = 1f;
+
+        foreach(Sound sound in sounds)  
+        {
+            SoundManager.Instance.PlayOneShot(sound.chanel, sound.clip);
+        }
     }
 
     public bool CanUseSkill()

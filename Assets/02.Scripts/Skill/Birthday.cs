@@ -9,7 +9,7 @@ public class Birthday : ISkill
     public void OnEnterSkill()
     {
         GameManager.Instance.PlayerController.SetWeaponType(WeaponType.Hammer);
-        GameObject.FindObjectOfType<WeaponCtrl>().Shoot();
+        GameObject.FindObjectOfType<WeaponCtrl>().Attack();
     }
 
     public void OnExitSkill()

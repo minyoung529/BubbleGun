@@ -46,7 +46,7 @@ public class ShootingStar : ISkill
                 MoveSpotLight(hitInfo.point);
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !isUsingSkill)
         {
             UseSkill();
         }
