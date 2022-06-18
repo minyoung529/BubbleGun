@@ -1,8 +1,9 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class GoToSceneButton : MonoBehaviour
+public class GoToSceneButton : MonoBehaviour, IPointerClickHandler
 {
     private Button button;
     public string sceneName;
@@ -14,6 +15,11 @@ public class GoToSceneButton : MonoBehaviour
     }
 
     public void GoToScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
     {
         SceneManager.LoadScene(sceneName);
     }

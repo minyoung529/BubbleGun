@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody rigid;
 
-    private float jumpForce = 200f;
+    public float jumpForce = 200f;
 
     private readonly float initHp = 100.0f;
     private float curHp;

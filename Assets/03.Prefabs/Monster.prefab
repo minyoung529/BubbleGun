@@ -87,6 +87,12 @@ MonoBehaviour:
   attackDist: 2
   initHp: 100
   gumItem: {fileID: 5365614426139214950, guid: 3110a3b629240164da15df06741ee964, type: 3}
+  attackSound:
+    chanel: 3
+    clip: {fileID: 8300000, guid: 586ea27fbe6144c4f8825a7f0d59d26f, type: 3}
+  hitSound:
+    chanel: 2
+    clip: {fileID: 8300000, guid: cad72db41b423114588fbfbd3fea20a5, type: 3}
   onGotHit:
     m_PersistentCalls:
       m_Calls:

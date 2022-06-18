@@ -17,6 +17,7 @@ public class WeaponCtrl : MonoBehaviour
     [SerializeField] List<GameObject> weapons;
 
     private Action[] weaponAttacks = new Action[(int)WeaponType.Count];
+    [SerializeField] private Sound[] shootSounds;
 
     private void Start()
     {
@@ -40,6 +41,9 @@ public class WeaponCtrl : MonoBehaviour
     public void Attack()
     {
         weaponAttacks[(int)PlayerController.WeaponType].Invoke();
+
+        Sound sound = shootSounds[(int)PlayerController.WeaponType];
+        SoundManager.Instance.PlayOneShot(sound.chanel, sound.clip, 0.5f);
     }
 
     public void Shoot()

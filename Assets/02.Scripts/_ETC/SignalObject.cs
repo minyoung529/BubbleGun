@@ -10,7 +10,7 @@ public class SignalObject : MonoBehaviour
     {
         EventManager<Area>.StartListening("AreaClear", OnActiveSignal);
         signalScale = transform.localScale;
-        gameObject.SetActive(false);
+        transform.localScale = Vector3.zero;
     }
 
     private void OnActiveSignal(Area area)
@@ -24,7 +24,10 @@ public class SignalObject : MonoBehaviour
         Vector3 position = area.areaTransform.position;
         position.y = transform.localScale.y * 0.5f;
         transform.position = position;
+    }
 
-        gameObject.SetActive(true);
+    private void OnDestroy()
+    {
+        EventManager<Area>.StopListening("AreaClear", OnActiveSignal);
     }
 }

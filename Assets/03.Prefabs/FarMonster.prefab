@@ -59,7 +59,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8864846101553981933}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.00000023841858, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.7, y: 1, z: 0.7}
   m_Children:
   - {fileID: 6122423226891555037}
@@ -119,6 +119,12 @@ MonoBehaviour:
   attackDist: 20
   initHp: 50
   gumItem: {fileID: 5365614426139214950, guid: 3110a3b629240164da15df06741ee964, type: 3}
+  attackSound:
+    chanel: 3
+    clip: {fileID: 0}
+  hitSound:
+    chanel: 2
+    clip: {fileID: 8300000, guid: cad72db41b423114588fbfbd3fea20a5, type: 3}
   onGotHit:
     m_PersistentCalls:
       m_Calls:
@@ -138,12 +144,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1995770306012784741}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+        m_TargetAssemblyTypeName: MonsterAnimation, Assembly-CSharp
+        m_MethodName: PlayDieAnimation
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

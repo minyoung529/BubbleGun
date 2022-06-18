@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public Dictionary<KeyCode, SkillPanel> SkillPanels { get; private set; } = new Dictionary<KeyCode, SkillPanel>();
 
     public bool isSpawnMonster = true;
+    public AudioClip startSound;
 
     [SerializeField] private List<Area> areas;
     private Vector3 areaLeftTop;
@@ -47,7 +48,6 @@ public class GameManager : MonoBehaviour
     public PaintManager PaintManager { get; private set; }
     public UIManager UIManager { get; private set; }
     public PlayerController PlayerController { get; private set; }
-
 
     public GameState GameState { get; set; }
     public Camera MainCam { get; set; }
@@ -183,6 +183,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator GenerateMonsterCoroutine()
     {
         int index = 0;
+        SoundManager.Instance.PlayOneShot(SoundType.EffectSound, startSound);
         WaitForSeconds delay = new WaitForSeconds(0.1f);
 
         yield return new WaitForSeconds(2f);

@@ -40,6 +40,8 @@ public class MonsterCtrl : MonoBehaviour
     protected int currHp;
 
     [SerializeField] protected GameObject gumItem;
+    [SerializeField] protected Sound attackSound;
+    [SerializeField] protected Sound hitSound;
 
     public bool IsMove { get; set; } = true;
 
@@ -167,6 +169,7 @@ public class MonsterCtrl : MonoBehaviour
         if (collision.collider.CompareTag("BULLET") || collision.collider.CompareTag("HAMMER"))
         {
             onGotHit.Invoke();
+            SoundManager.Instance.PlayOneShot(hitSound.chanel, hitSound.clip);
 
             float stunTime = collision.collider.CompareTag("BULLET") ? 0.5f : 1f;
 
@@ -208,6 +211,9 @@ public class MonsterCtrl : MonoBehaviour
 
     protected virtual void OnAttack()
     {
+        if (!transform.Find("Sound"))
+            SoundManager.Instance.PlayOneShot(attackSound.chanel, attackSound.clip, transform);
+
         onAttack.Invoke();
 
         Quaternion rot = Quaternion.LookRotation(targetTransform.position);

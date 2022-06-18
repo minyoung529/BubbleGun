@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class SoundManager : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class SoundManager : MonoBehaviour
     }
 
     private AudioSource[] audioSources;
+    public AudioMixerGroup[] audioMixerGroups;
 
     void Awake()
     {
@@ -40,8 +42,28 @@ public class SoundManager : MonoBehaviour
         audioSources[(int)chanel].Play();
     }
 
-    public void PlayOneShot(SoundType chanel, AudioClip clip)
+    public void ChangeMusic(AudioClip audioClip)
     {
-        audioSources[(int)chanel].PlayOneShot(clip);
+        Play(SoundType.Music, audioClip);
+    }
+
+    public void PlayOneShot(SoundType chanel, AudioClip clip, float volume = 1f)
+    {
+        if (clip == null) return;
+
+        audioSources[(int)chanel].PlayOneShot(clip, volume);
+    }
+
+    public void PlayOneShot(SoundType chanel, AudioClip clip, Transform parent, float volume = 1f)
+    {
+        if (clip == null) return;
+
+        AudioSource audio = PoolManager.Pop("Sound").GetComponent<AudioSource>();
+        audio.transform.SetParent(parent);
+        audio.transform.localPosition = Vector3.zero;
+        audio.outputAudioMixerGroup = audioMixerGroups[(int)chanel];
+        audio.PlayOneShot(clip, volume);
+
+        PoolManager.Push(audio.gameObject, clip.length);
     }
 }

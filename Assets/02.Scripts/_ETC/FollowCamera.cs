@@ -5,6 +5,7 @@ using DG.Tweening;
 
 public class FollowCamera : MonoBehaviour
 {
+    [Header("Follow")]
     public Transform targetTransform;
 
     private Transform cameraTransform;
@@ -27,10 +28,13 @@ public class FollowCamera : MonoBehaviour
 
     public static Vector3 cameraDirection;
 
+    private bool canFollow = true;
+
+    [Header("Cut Scene")]
     [SerializeField] private LayerMask obstacleLayer;
     [SerializeField] private Transform cityView;
 
-    private bool canFollow = true;
+    public Sound shuttleSound;
 
     private Vector3 TargetLookAtPosition
     {
@@ -101,7 +105,8 @@ public class FollowCamera : MonoBehaviour
         targetPoint.y += 3f;
         targetPoint -= (targetPoint - transform.position).normalized * 10f;
 
-        ShuttleMove(targetPoint, targetPoint, GetCameraPosition(), TargetLookAtPosition, 3f);
+        SoundManager.Instance.PlayOneShot(shuttleSound.chanel, shuttleSound.clip);
+        ShuttleMove(targetPoint, targetPoint, TargetLookAtPosition, 3f);
     }
 
     private void ShowCity()
@@ -109,22 +114,24 @@ public class FollowCamera : MonoBehaviour
         ShuttleMove
             (
             cityView.position, Vector3.zero,
-            GetCameraPosition(), TargetLookAtPosition, 5f,
+           TargetLookAtPosition, 5f,
             GameManager.Instance.UIManager.OnGameEnd
             );
     }
 
-    private void ShuttleMove(Vector3 targetPoint, Vector3 startTarget, Vector3 endPoint, Vector3 endTarget, float time, TweenCallback callback = null)
+    private void ShuttleMove(Vector3 targetPoint, Vector3 startTarget, Vector3 endTarget, float time, TweenCallback callback = null)
     {
         Sequence seq = DOTween.Sequence();
 
         seq.AppendCallback(() => canFollow = false);
         seq.AppendCallback(() => GameManager.Instance.GameState = GameState.None);
 
+        seq.SetDelay(1.5f);
+
         seq.Append(transform.DOMove(targetPoint, time));
         seq.Join(transform.DOLookAt(startTarget, time));
 
-        seq.Append(transform.DOMove(endPoint, time));
+        seq.Append(transform.DOMove(GetCameraPosition(), time));
         seq.Append(transform.DOLookAt(endTarget, time));
 
         seq.AppendCallback(() => GameManager.Instance.GameState = GameState.Ready);
