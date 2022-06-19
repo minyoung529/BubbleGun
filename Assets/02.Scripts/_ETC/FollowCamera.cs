@@ -123,8 +123,8 @@ public class FollowCamera : MonoBehaviour
     {
         Sequence seq = DOTween.Sequence();
 
-        seq.AppendCallback(() => canFollow = false);
-        seq.AppendCallback(() => GameManager.Instance.GameState = GameState.None);
+        canFollow = false;
+        GameManager.Instance.GameState = GameState.None;
 
         seq.SetDelay(1.5f);
 

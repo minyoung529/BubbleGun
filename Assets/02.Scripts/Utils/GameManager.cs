@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    private int totalScore = 0;
     public GameObject[] monsterPrefabs;
 
     public List<MonsterCtrl> CurrentMonster { get; private set; } = new List<MonsterCtrl>();
@@ -70,11 +69,6 @@ public class GameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         EventManager.StartListening("GameOver", OnGameOver);
-    }
-
-    void Start()
-    {
-        AddScore(0);
     }
 
     private void Update()
@@ -145,12 +139,6 @@ public class GameManager : MonoBehaviour
 
         if (!CurrentMonster.Contains(monster))
             CurrentMonster.Add(monster);
-    }
-
-    public void AddScore(int score)
-    {
-        totalScore += score;
-        UIManager.UpdateScore(totalScore);
     }
 
     public Vector3 ClampArea(Vector3 position)

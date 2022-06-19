@@ -10,7 +10,6 @@ public class UIManager : MonoBehaviour
     [Header("Game")]
     [SerializeField] private Text infoText;
     [SerializeField] private Text playerText;
-    [SerializeField] private Text scoreText;
 
     [SerializeField] private Image hpBar;
 
@@ -26,11 +25,6 @@ public class UIManager : MonoBehaviour
     {
         EventManager.StartListening("GameOver", () => ShowCanvasGroup(gameOverCanvas));
         EventManager.StartListening("Win", () => UnShowCanvasGroup(shootingCanvas));
-    }
-
-    public void UpdateScore(int score)
-    {
-        scoreText.text = score.ToString();
     }
 
     public void UpdateHp(float curHp, float initHp)

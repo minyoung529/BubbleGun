@@ -82,4 +82,10 @@ public class PoolManager : MonoBehaviour
         value.SetActive(true);
         return value;
     }
+
+    private void OnDestroy()
+    {
+        pools.Clear();
+        poolTransform = null;
+    }
 }
