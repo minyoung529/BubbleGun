@@ -218,6 +218,9 @@ public class MonsterCtrl : MonoBehaviour
 
         Quaternion rot = Quaternion.LookRotation(targetTransform.position);
         transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 10.0f);
+
+        if (GameManager.Instance.GameState == GameState.Game)
+            transform.position = GameManager.Instance.ClampArea(transform.position);
     }
 
     protected virtual void OnIdle()
@@ -230,6 +233,9 @@ public class MonsterCtrl : MonoBehaviour
 
     protected virtual void OnTrace()
     {
+        if (GameManager.Instance.GameState == GameState.Game)
+            transform.position = GameManager.Instance.ClampArea(transform.position);
+
         agent.SetDestination(targetTransform.position);
         agent.isStopped = false;
 

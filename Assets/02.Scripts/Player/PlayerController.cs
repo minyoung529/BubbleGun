@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour
 
         rigid.velocity = moveDir;
 
-        if (moveDir.sqrMagnitude > 0.01f)
+        if (moveDir.sqrMagnitude > 0.1f)
         {
             transform.forward = Vector3.Slerp(transform.forward, FollowCamera.cameraDirection, 10f * Time.deltaTime);
         }
@@ -108,7 +108,6 @@ public class PlayerController : MonoBehaviour
     void PlayerDie()
     {
         EventManager.TriggerEvent("GameOver");
-
 
         GameObject[] monsters = GameObject.FindGameObjectsWithTag("MONSTER");
         foreach (GameObject monster in monsters)

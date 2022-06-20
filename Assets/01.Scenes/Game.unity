@@ -2512,7 +2512,7 @@ MonoBehaviour:
   monsterPrefabs:
   - {fileID: 8864846101553981933, guid: 87caacdcdb56f174790d2bfd548008c4, type: 3}
   - {fileID: 8864846101553981933, guid: c660fd6a01e49994b8a826e01f9692d7, type: 3}
-  isSpawnMonster: 1
+  isSpawnMonster: 0
   startSound: {fileID: 8300000, guid: 6527eaed7ec160147a1ada22312446b1, type: 3}
   areas:
   - areaTransform: {fileID: 1109960847}
@@ -3869,7 +3869,7 @@ MonoBehaviour:
   targetTransform: {fileID: 494309271}
   distance: 6.3
   height: 3.3
-  moveDamping: 150
+  moveDamping: 120
   rotateDamping: 10
   rotateSpeed: 2
   targetOffset: 2
@@ -6825,6 +6825,19 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3969317089cf65d49985ac8acdbf573c, type: 3}
   m_PrefabInstance: {fileID: 2101210986}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2101210993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2101210987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e49d3c06122967a40b149e8700898026, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sparkEffect: {fileID: 0}
 --- !u!1 &2113271927
 GameObject:
   m_ObjectHideFlags: 0

@@ -68,22 +68,7 @@ public class FollowCamera : MonoBehaviour
         float x = Input.GetAxisRaw("Mouse X") * rotateSpeed;
         angle += x;
 
-        //Ray ray = new Ray(targetTransform.position, transform.position - targetTransform.position);
-        //RaycastHit hitInfo;
-
-        //if (Physics.Raycast(ray, out hitInfo, distance, obstacleLayer))
-        //{
-        //    pos = targetTransform.position
-        //              + (forward * (hitInfo.distance - 2.5f))
-        //              + (Vector3.up * height);
-
-        //    cameraTransform.position = Vector3.Slerp(cameraTransform.position, pos, moveDamping * Time.deltaTime);
-        //}
-        //else
-        //{
         cameraTransform.position = Vector3.Slerp(cameraTransform.position, GetCameraPosition(), moveDamping * Time.deltaTime);
-        //}
-
         cameraTransform.LookAt(TargetLookAtPosition);
     }
 

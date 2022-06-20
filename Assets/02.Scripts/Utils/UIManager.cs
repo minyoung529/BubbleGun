@@ -23,7 +23,7 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
-        EventManager.StartListening("GameOver", () => ShowCanvasGroup(gameOverCanvas));
+        EventManager.StartListening("GameOver", GameOver);
         EventManager.StartListening("Win", () => UnShowCanvasGroup(shootingCanvas));
     }
 
@@ -77,7 +77,17 @@ public class UIManager : MonoBehaviour
 
     public void OnGameEnd()
     {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
         ShowCanvasGroup(gameClearCanvas);
+    }
+
+    private void GameOver()
+    {
+        ShowCanvasGroup(gameOverCanvas);
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     public void ShowDamageEffect(bool isShow)
@@ -89,7 +99,7 @@ public class UIManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        EventManager.StopListening("GameOver", () => ShowCanvasGroup(gameOverCanvas));
+        EventManager.StopListening("GameOver", GameOver);
         EventManager.StopListening("Win", () => UnShowCanvasGroup(shootingCanvas));
     }
 }

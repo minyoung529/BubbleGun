@@ -11,16 +11,6 @@ public class RemoveBullet : MonoBehaviour
     {
         if( collision.collider.CompareTag("BULLET"))
         {
-            if(sparkEffect)
-            {
-                ContactPoint cp = collision.GetContact(0);
-                Quaternion rotSpark = Quaternion.LookRotation(-cp.normal);
-
-                // 스파크 파티클 생성
-                GameObject spark = PoolManager.Pop(sparkEffect, cp.point, rotSpark);
-                PoolManager.Push(spark, 0.5f);
-            }
-
             PoolManager.Push(collision.gameObject);
         }
     }
