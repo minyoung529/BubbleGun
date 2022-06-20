@@ -6,14 +6,17 @@ public class PaintingObject : MonoBehaviour
 {
     private Color color;
     private int baseColorID = Shader.PropertyToID("_BaseColor");
+    new private Renderer renderer;
 
     private void Start()
     {
-        color = GetComponent<Renderer>().materials[0].GetColor(baseColorID);
+        renderer = GetComponent<Renderer>();
     }
 
     private void OnCollisionEnter(Collision collision)
     {
+        color = renderer.material.GetColor(baseColorID);
+
         Paintable[] paintableObjects = collision.transform.GetComponentsInChildren<Paintable>();
 
         if (paintableObjects == null || paintableObjects.Length == 0) return;
@@ -22,7 +25,7 @@ public class PaintingObject : MonoBehaviour
 
         foreach (Paintable obj in paintableObjects)
         {
-            GameManager.Instance.PaintManager.Paint(obj, point, Random.Range(1f, 3f), 1, 1, color);
+            GameManager.Instance.PaintManager.Paint(obj, point, Random.Range(0.5f, 0.9f), 1, 1, color);
         }
     }
 }

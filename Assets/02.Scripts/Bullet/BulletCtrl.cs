@@ -23,13 +23,15 @@ public class BulletCtrl : MonoBehaviour
     {
         yield return null;
 
+        trailRenderer?.Clear();
         bulletRigidbody.WakeUp();
         bulletRigidbody.AddForce(transform.forward * force);
     }
 
-    private void OnCollisionEnter(Collision collision)
+
+    private void OnTriggerEnter(Collider other)
     {
-        if(collision.transform.CompareTag("PLATFORM"))
+        if (other.CompareTag("PLATFORM"))
         {
             PoolManager.Push(gameObject);
         }

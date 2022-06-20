@@ -19,7 +19,7 @@ public class ParticlesPainting : MonoBehaviour
     {
         part = GetComponent<ParticleSystem>();
         collisionEvents = new List<ParticleCollisionEvent>();
-        paintColor = GetComponent<ParticleSystemRenderer>().material.GetColor(baseColorID);
+        paintColor = GetComponent<ParticleSystemRenderer>().material.color;
     }
 
     void OnParticleCollision(GameObject other)
@@ -34,6 +34,7 @@ public class ParticlesPainting : MonoBehaviour
         for (int i = 0; i < numCollisionEvents; i++)
         {
             Vector3 pos = collisionEvents[i].intersection;
+
             float radius = Random.Range(minRadius, maxRadius);
             GameManager.Instance.PaintManager.Paint(p, pos, radius, 1f, 1f, paintColor);
         }

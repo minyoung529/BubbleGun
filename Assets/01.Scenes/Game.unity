@@ -2624,7 +2624,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   infoText: {fileID: 649514153}
   playerText: {fileID: 1282737501}
-  scoreText: {fileID: 0}
   hpBar: {fileID: 193382723}
   gameOverCanvas: {fileID: 460154335}
   shootingCanvas: {fileID: 1072839384}
@@ -3197,10 +3196,10 @@ RectTransform:
   m_Father: {fileID: 1072839383}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 142.1}
-  m_SizeDelta: {x: 421.5, y: 32.2308}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -50}
+  m_SizeDelta: {x: 421.5, y: 32.230804}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &876711673
 MonoBehaviour:
@@ -7098,5 +7097,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2203012408020190729, guid: b13ecdbc92773a445b0819cee81be74c, type: 3}
+      propertyPath: hurtClip
+      value: 
+      objectReference: {fileID: 8300000, guid: a97cafb234b65d84496532a6954911b2, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b13ecdbc92773a445b0819cee81be74c, type: 3}

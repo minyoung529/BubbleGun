@@ -22,7 +22,7 @@ public class GenerateParticle : MonoBehaviour
 
         if (isColor)
         {
-            Color myColor = GetComponent<Renderer>().materials[0].GetColor("_BaseColor");
+            Color myColor = GetComponent<Renderer>().material.GetColor("_BaseColor");
             ParticleSystemRenderer[] objs = obj.GetComponentsInChildren<ParticleSystemRenderer>();
 
             foreach(ParticleSystemRenderer p in objs)

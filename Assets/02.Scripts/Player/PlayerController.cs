@@ -23,6 +23,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private UnityEvent onJump;
     [SerializeField] private UnityEvent<WeaponType> onChangeWeapon;
 
+    [SerializeField] private AudioClip hurtClip;
+
     IEnumerator Start()
     {
         float temp = rotationSpeed;
@@ -52,6 +54,7 @@ public class PlayerController : MonoBehaviour
 
             curHp -= 10.0f;
             GameManager.Instance.UIManager.UpdateHp(curHp, initHp);
+            SoundManager.Instance.PlayOneShot(SoundType.Voice, hurtClip);
 
             if (curHp <= 0.0f)
             {

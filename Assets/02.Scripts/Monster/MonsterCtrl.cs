@@ -212,7 +212,7 @@ public class MonsterCtrl : MonoBehaviour
     protected virtual void OnAttack()
     {
         if (!transform.Find("Sound"))
-            SoundManager.Instance.PlayOneShot(attackSound.chanel, attackSound.clip, transform);
+            SoundManager.Instance.PlayOneShot(attackSound.chanel, attackSound.clip, transform, 0.5f);
 
         onAttack.Invoke();
 
