@@ -34,7 +34,15 @@ public class FollowCamera : MonoBehaviour
     [SerializeField] private LayerMask obstacleLayer;
     [SerializeField] private Transform cityView;
 
+    [Header("Vertical Move")]
+    [SerializeField] private Transform muzzle;
+    [SerializeField] private float verticalSens;
+    private float verticalInput = 0f;
+    private readonly float muzzleMinPosY = 1.5f + 0.5f;
+    private readonly float muzzleMaxPosY = 2.07f + 0.5f;
+
     public Sound shuttleSound;
+
 
     private Vector3 TargetLookAtPosition
     {
@@ -56,11 +64,29 @@ public class FollowCamera : MonoBehaviour
         if (canFollow)
         {
             FollowTarget();
+            MoveVertical();
         }
 
         cameraDirection = cameraTransform.forward;
         cameraDirection.y = 0f;
         cameraDirection.Normalize();
+    }
+
+    private void MoveVertical()
+    {
+        float y = Input.GetAxis("Mouse Y");
+        verticalInput += y;
+
+        y *= verticalSens;
+
+        muzzle.position += Vector3.up * y;
+        Vector3 muzzlePos = muzzle.position;
+        if(muzzlePos.y > muzzleMinPosY && muzzlePos.y < muzzleMaxPosY)
+        {
+            transform.eulerAngles = new Vector3(verticalInput * 0.5f, transform.eulerAngles.y, transform.eulerAngles.z);
+        }
+        muzzlePos.y = Mathf.Clamp(muzzlePos.y, muzzleMinPosY, muzzleMaxPosY);
+        muzzle.position = muzzlePos;
     }
 
     private void FollowTarget()
