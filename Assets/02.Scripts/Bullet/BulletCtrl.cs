@@ -25,6 +25,8 @@ public class BulletCtrl : MonoBehaviour
 
         trailRenderer?.Clear();
         bulletRigidbody.WakeUp();
+
+        Debug.Log("Bullet  " + transform.rotation);
         bulletRigidbody.AddForce(transform.forward * force);
     }
 

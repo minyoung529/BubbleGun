@@ -335,7 +335,7 @@ GameObject:
   - component: {fileID: 7840856}
   m_Layer: 2
   m_Name: Wall (2)
-  m_TagString: Untagged
+  m_TagString: PLATFORM
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -705,7 +705,7 @@ GameObject:
   - component: {fileID: 35634773}
   m_Layer: 2
   m_Name: Wall (1)
-  m_TagString: Untagged
+  m_TagString: PLATFORM
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1141,7 +1141,7 @@ GameObject:
   - component: {fileID: 85788134}
   m_Layer: 2
   m_Name: Wall (3)
-  m_TagString: Untagged
+  m_TagString: PLATFORM
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2129,7 +2129,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &244688078
 Transform:
   m_ObjectHideFlags: 0
@@ -3441,7 +3441,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &666399553
 Transform:
   m_ObjectHideFlags: 0
@@ -5257,7 +5257,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1238637170
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7033,7 +7033,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -1.976593, y: 0}
   m_SizeDelta: {x: 3.9532, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -7293,7 +7293,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1792481662
 Transform:
   m_ObjectHideFlags: 0
@@ -7572,7 +7572,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1843348991
 Transform:
   m_ObjectHideFlags: 0
@@ -8600,7 +8600,7 @@ GameObject:
   - component: {fileID: 2113271932}
   m_Layer: 2
   m_Name: Wall
-  m_TagString: Untagged
+  m_TagString: PLATFORM
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

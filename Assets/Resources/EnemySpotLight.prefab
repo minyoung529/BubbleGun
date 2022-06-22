@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3346150287063492128}
   - component: {fileID: 3346150287063492131}
   m_Layer: 0
-  m_Name: SpotLight
+  m_Name: EnemySpotLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42,7 +42,7 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 0, g: 0.01856329, b: 0.2735849, a: 1}
+  m_Color: {r: 0.27450982, g: 0, b: 0.0027998758, a: 1}
   m_Intensity: 1000
   m_Range: 40
   m_SpotAngle: 111.36363

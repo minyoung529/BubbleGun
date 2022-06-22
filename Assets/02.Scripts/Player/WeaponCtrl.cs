@@ -50,7 +50,8 @@ public class WeaponCtrl : MonoBehaviour
     {
         onPlayerShoot.Invoke();
         StartCoroutine(ShowMuzzleFlash());
-        PoolManager.Pop(bulletPrefab, firePos.position, firePos.rotation);
+        Debug.Log("Player  " + transform.rotation);
+        PoolManager.Pop(bulletPrefab, firePos.position, transform.rotation);
     }
 
     IEnumerator ShowMuzzleFlash()

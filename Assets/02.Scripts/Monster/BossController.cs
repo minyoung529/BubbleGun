@@ -9,6 +9,7 @@ public class BossController : MonoBehaviour
     private int BossHp { get; set; } = maxHp;
 
     private bool isAttack;
+    private bool isDead = false;
     public List<Transform> lasers;
 
     public Transform bossTransform;
@@ -24,7 +25,7 @@ public class BossController : MonoBehaviour
         EventManager.StartListening("Boss", BossActive);
         bossTransform.gameObject.SetActive(false);
         targetTransform = GameManager.Instance.PlayerController.transform;
-        spotLight = Resources.Load<GameObject>("SpotLight");
+        spotLight = Resources.Load<GameObject>("EnemySpotLight");
 
         attacks[0] = "IntervalAttack";
         attacks[1] = "Laser";
@@ -32,7 +33,7 @@ public class BossController : MonoBehaviour
 
     private void Update()
     {
-        if (!isAttack)
+        if (!isAttack && !isDead)
         {
             StartCoroutine(attacks[Random.Range(0, attacks.Length)]);
         }
@@ -56,6 +57,8 @@ public class BossController : MonoBehaviour
             if (BossHp <= 0)
             {
                 EventManager.TriggerEvent("Win");
+                isDead = true;
+                transform.DORotate(new Vector3(-85f, -30f, 0f), 2f);
             }
         }
     }
