@@ -3004,7 +3004,7 @@ MonoBehaviour:
   monsterPrefabs:
   - {fileID: 8864846101553981933, guid: 87caacdcdb56f174790d2bfd548008c4, type: 3}
   - {fileID: 8864846101553981933, guid: c660fd6a01e49994b8a826e01f9692d7, type: 3}
-  isSpawnMonster: 0
+  isSpawnMonster: 1
   startSound: {fileID: 8300000, guid: 6527eaed7ec160147a1ada22312446b1, type: 3}
   areas:
   - areaTransform: {fileID: 1109960847}
@@ -3061,7 +3061,7 @@ MonoBehaviour:
   - areaTransform: {fileID: 1173405677}
     monsterGenerates: []
     infoMessage: 
-  <AreaIndex>k__BackingField: 2
+  <AreaIndex>k__BackingField: 0
 --- !u!4 &558439212
 Transform:
   m_ObjectHideFlags: 0
@@ -5624,7 +5624,7 @@ MonoBehaviour:
   - "\uB3C4\uB300\uCCB4 \uB204\uAD6C \uC9D3\uC77C\uAE4C?"
   text: {fileID: 1282737501}
   textDelay: 0.05
-  sentenceDelay: 0.1
+  sentenceDelay: 1
   startEvent:
     m_PersistentCalls:
       m_Calls:

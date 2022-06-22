@@ -115,7 +115,7 @@ public class GameManager : MonoBehaviour
         areaRightBottom.x += curArea.localScale.x * 5f;
         areaRightBottom.z -= curArea.localScale.z * 5f;
 
-        if (AreaIndex + 1 == areas.Count)
+        if (AreaIndex + 1 == areas.Count && AreaIndex != areas.Count - 1)
         {
             EventManager.TriggerEvent("Win");
             Debug.Log("clear");
