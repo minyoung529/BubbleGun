@@ -20,6 +20,7 @@ public class UIManager : MonoBehaviour
 
     [Header("UI")]
     [SerializeField] private Image dangerUI;
+    [SerializeField] private Slider bossSlider;
 
     private void Awake()
     {
@@ -60,7 +61,14 @@ public class UIManager : MonoBehaviour
     {
         string info = infoText.text.Split('(')[0];
 
-        infoText.text = $"{info}( {deadCnt}/{maxCnt} )";
+        if (infoText.text.Contains("HP"))
+        {
+            infoText.text = $"{info}( {deadCnt}/{maxCnt} )";
+        }
+        else
+        {
+            infoText.text = $"{info}( {deadCnt}/{maxCnt} )";
+        }
     }
 
     public void ShowCanvasGroup(CanvasGroup group)
@@ -101,5 +109,11 @@ public class UIManager : MonoBehaviour
     {
         EventManager.StopListening("GameOver", GameOver);
         EventManager.StopListening("Win", () => UnShowCanvasGroup(shootingCanvas));
+    }
+
+    public void UpdateBossHp(int maxhp, int curHp)
+    {
+        bossSlider.gameObject.SetActive(curHp != 0);
+        bossSlider.value = (curHp / (float)maxhp);
     }
 }

@@ -29,10 +29,10 @@ public class LookIK : MonoBehaviour
         if (isIKStart)
         {
             anim.SetIKPosition(AvatarIKGoal.RightHand, target.position);
-            anim.SetIKPositionWeight(AvatarIKGoal.RightHand, 0.5f);
+            anim.SetIKPositionWeight(AvatarIKGoal.RightHand, 0.25f);
 
             anim.SetIKPosition(AvatarIKGoal.LeftHand, target.position);
-            anim.SetIKPositionWeight(AvatarIKGoal.LeftHand, 0.5f);
+            anim.SetIKPositionWeight(AvatarIKGoal.LeftHand, 0.25f);
         }
     }
 

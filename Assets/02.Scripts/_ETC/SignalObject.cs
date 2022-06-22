@@ -9,6 +9,7 @@ public class SignalObject : MonoBehaviour
     private void Awake()
     {
         EventManager<Area>.StartListening("AreaClear", OnActiveSignal);
+        EventManager.StartListening("Boss", Inactive);
         signalScale = transform.localScale;
         transform.localScale = Vector3.zero;
     }
@@ -24,6 +25,11 @@ public class SignalObject : MonoBehaviour
         Vector3 position = area.areaTransform.position;
         position.y = transform.localScale.y * 0.5f;
         transform.position = position;
+    }
+
+    private void Inactive()
+    {
+        gameObject.SetActive(false);
     }
 
     private void OnDestroy()

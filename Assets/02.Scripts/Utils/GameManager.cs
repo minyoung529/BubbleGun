@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<Area> areas;
     private Vector3 areaLeftTop;
     private Vector3 areaRightBottom;
+    [field: SerializeField]
     public int AreaIndex { get; private set; } = 0;
     public Area CurrentArea
     {
@@ -114,7 +115,7 @@ public class GameManager : MonoBehaviour
         areaRightBottom.x += curArea.localScale.x * 5f;
         areaRightBottom.z -= curArea.localScale.z * 5f;
 
-        if(AreaIndex + 1 == areas.Count)
+        if (AreaIndex + 1 == areas.Count)
         {
             EventManager.TriggerEvent("Win");
             Debug.Log("clear");
@@ -191,7 +192,7 @@ public class GameManager : MonoBehaviour
             {
                 if (isSpawnMonster)
                     CreateMonster(monsterPrefabs[(int)generateInfo.monsterType], areaLeftTop, areaRightBottom);
-             
+
                 yield return delay;
             }
             index++;

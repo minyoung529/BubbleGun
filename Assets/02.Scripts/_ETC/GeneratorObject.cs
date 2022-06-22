@@ -11,6 +11,7 @@ public class GeneratorObject : MonoBehaviour
 
     private readonly int actHash = Animator.StringToHash("Act");
 
+    public bool isInteract = true;
     [SerializeField] private SpriteRenderer fButton;
     [SerializeField] private List<int> activeAreas;
     [SerializeField] private float distance = 7f;
@@ -33,6 +34,8 @@ public class GeneratorObject : MonoBehaviour
     private void Update()
     {
         if (isActivate) return;
+        if (!isInteract) return;
+
         if (Vector3.Distance(player.position, transform.position) < distance)
         {
             FollowFButton();
@@ -44,6 +47,12 @@ public class GeneratorObject : MonoBehaviour
                 isActivate = true;
                 GameManager.Instance.GameStart();
                 fButton.DOFade(0f, 1f);
+
+                if(GameManager.Instance.AreaIndex == 2)
+                {
+                    EventManager.TriggerEvent("Boss");
+                    gameObject.SetActive(false);
+                }
             }
         }
         else
