@@ -9,6 +9,8 @@ public class BulletCtrl : MonoBehaviour
     private Rigidbody bulletRigidbody = null;
     private TrailRenderer trailRenderer;
 
+    public bool IsPlayerBullet = false;
+
     private void OnEnable()
     {
         bulletRigidbody ??= GetComponent<Rigidbody>();
@@ -26,8 +28,11 @@ public class BulletCtrl : MonoBehaviour
         trailRenderer?.Clear();
         bulletRigidbody.WakeUp();
 
-        Debug.Log("Bullet  " + transform.rotation);
-        bulletRigidbody.AddForce(transform.forward * force);
+        if (IsPlayerBullet)
+            bulletRigidbody.AddForce(GameManager.Instance.PlayerController.transform.forward * force);
+
+        else
+            bulletRigidbody.AddForce(transform.forward * force);
     }
 
 
@@ -41,6 +46,7 @@ public class BulletCtrl : MonoBehaviour
 
     private void OnDisable()
     {
+        IsPlayerBullet = false;
         bulletRigidbody.velocity = Vector3.zero;
         bulletRigidbody.angularVelocity = Vector3.zero;
         bulletRigidbody.Sleep();

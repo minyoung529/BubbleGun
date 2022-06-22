@@ -50,8 +50,8 @@ public class GeneratorObject : MonoBehaviour
 
                 if(GameManager.Instance.AreaIndex == 2)
                 {
-                    EventManager.TriggerEvent("Boss");
                     gameObject.SetActive(false);
+                    EventManager.TriggerEvent("Boss");
                 }
             }
         }

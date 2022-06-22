@@ -8,7 +8,7 @@ public class BossController : MonoBehaviour
     private const int maxHp = 200;
     private int BossHp { get; set; } = maxHp;
 
-    private bool isAttack;
+    private bool isAttack = false;
     private bool isDead = false;
     public List<Transform> lasers;
 
@@ -20,15 +20,16 @@ public class BossController : MonoBehaviour
 
     private string[] attacks = new string[2];
 
-    void Start()
+    void Awake()
     {
         EventManager.StartListening("Boss", BossActive);
-        bossTransform.gameObject.SetActive(false);
         targetTransform = GameManager.Instance.PlayerController.transform;
         spotLight = Resources.Load<GameObject>("EnemySpotLight");
 
         attacks[0] = "IntervalAttack";
         attacks[1] = "Laser";
+
+        bossTransform.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -41,6 +42,7 @@ public class BossController : MonoBehaviour
 
     private void BossActive()
     {
+        bossTransform ??= transform.parent;
         bossTransform.gameObject.SetActive(true);
         bossTransform.position -= Vector3.up * 12f;
         bossTransform.DOMoveY(0f, 1f);
@@ -50,13 +52,12 @@ public class BossController : MonoBehaviour
     {
         if (collision.transform.CompareTag("BULLET"))
         {
-            Debug.Log("sfd");
             BossHp -= 1;
             GameManager.Instance.UIManager.UpdateBossHp(maxHp, BossHp);
 
             if (BossHp <= 0)
             {
-                EventManager.TriggerEvent("Win");
+                EventManager.TriggerEvent("AreaClear");
                 isDead = true;
                 transform.DORotate(new Vector3(-85f, -30f, 0f), 2f);
             }
@@ -100,8 +101,8 @@ public class BossController : MonoBehaviour
             randomPos.x += Random.Range(-1f, 1f);
             randomPos.z += Random.Range(-1f, 1f);
 
-            bossTransform.DOLookAt(randomPos, 2.5f);
-            yield return new WaitForSeconds(2.5f);
+            bossTransform.DOLookAt(randomPos, 3f);
+            yield return new WaitForSeconds(3f);
 
             yield return new WaitForSeconds(Random.Range(1f, 3f));
         }

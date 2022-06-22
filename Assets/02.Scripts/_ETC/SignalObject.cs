@@ -29,7 +29,8 @@ public class SignalObject : MonoBehaviour
 
     private void Inactive()
     {
-        gameObject.SetActive(false);
+        if (gameObject)
+            gameObject.SetActive(false);
     }
 
     private void OnDestroy()

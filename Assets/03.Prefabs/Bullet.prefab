@@ -246,6 +246,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   force: 2000
+  IsPlayerBullet: 0
 --- !u!114 &6830414180224028308
 MonoBehaviour:
   m_ObjectHideFlags: 0
