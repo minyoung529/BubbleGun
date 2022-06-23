@@ -10,9 +10,9 @@ public class BossController : MonoBehaviour
 
     private bool isAttack = false;
     private bool isDead = false;
-    public List<Transform> lasers;
+    public List<MeshRenderer> lasers;
 
-    public Transform bossTransform;
+    public Transform boss;
     Transform targetTransform;
 
     private GameObject spotLight;
@@ -20,16 +20,24 @@ public class BossController : MonoBehaviour
 
     private string[] attacks = new string[2];
 
+    int cucomberColor = Shader.PropertyToID("_BaseColor");
+
     void Awake()
     {
+        Debug.Log(FindObjectsOfType<BossController>().Length);
+
         EventManager.StartListening("Boss", BossActive);
-        targetTransform = GameManager.Instance.PlayerController.transform;
         spotLight = Resources.Load<GameObject>("EnemySpotLight");
 
         attacks[0] = "IntervalAttack";
         attacks[1] = "Laser";
 
-        bossTransform.gameObject.SetActive(false);
+        boss.gameObject.SetActive(false);
+    }
+
+    private void Start()
+    {
+        targetTransform = GameManager.Instance.PlayerController.transform;
     }
 
     private void Update()
@@ -42,10 +50,10 @@ public class BossController : MonoBehaviour
 
     private void BossActive()
     {
-        bossTransform ??= transform.parent;
-        bossTransform.gameObject.SetActive(true);
-        bossTransform.position -= Vector3.up * 12f;
-        bossTransform.DOMoveY(0f, 1f);
+        boss ??= transform.parent;
+        boss.gameObject.SetActive(true);
+        boss.position -= Vector3.up * 12f;
+        boss.DOMoveY(0f, 1f);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -97,12 +105,11 @@ public class BossController : MonoBehaviour
         lasers.ForEach(x => x.gameObject.SetActive(true));
         for (int i = 0; i < count; i++)
         {
-            Vector3 randomPos = bossTransform.position;
-            randomPos.x += Random.Range(-1f, 1f);
-            randomPos.z += Random.Range(-1f, 1f);
-
-            bossTransform.DOLookAt(randomPos, 3f);
-            yield return new WaitForSeconds(3f);
+            lasers.ForEach(x => x.material.SetColor(cucomberColor, Color.red));
+            yield return new WaitForSeconds(0.6f);
+            lasers.ForEach(x => x.material.SetColor(cucomberColor, Color.white));
+            boss.DOLookAt(boss.position - boss.forward, 3.4f);
+            yield return new WaitForSeconds(4f);
 
             yield return new WaitForSeconds(Random.Range(1f, 3f));
         }

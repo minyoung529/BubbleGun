@@ -6,6 +6,8 @@ using DG.Tweening;
 public class SignalObject : MonoBehaviour
 {
     Vector3 signalScale;
+    GameObject obj;
+
     private void Awake()
     {
         EventManager<Area>.StartListening("AreaClear", OnActiveSignal);
@@ -29,12 +31,12 @@ public class SignalObject : MonoBehaviour
 
     private void Inactive()
     {
-        if (gameObject)
-            gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     private void OnDestroy()
     {
         EventManager<Area>.StopListening("AreaClear", OnActiveSignal);
+        EventManager.StopListening("Boss", Inactive);
     }
 }
