@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     private readonly float initHp = 100.0f;
     private float curHp;
 
+    public LayerMask platform;
+
     public static WeaponType WeaponType { get; private set; } = WeaponType.Gun;
 
     [SerializeField] private UnityEvent<float, float> onMove;
@@ -93,6 +95,8 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            if (Physics.OverlapBox(transform.position, Vector3.one * 0.5f, Quaternion.identity, platform).Length == 0) return;
+
             rigid.AddForce(Vector3.up * jumpForce);
             onJump.Invoke();
         }

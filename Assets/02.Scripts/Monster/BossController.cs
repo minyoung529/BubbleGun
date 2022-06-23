@@ -10,7 +10,7 @@ public class BossController : MonoBehaviour
 
     private bool isAttack = false;
     private bool isDead = false;
-    public List<MeshRenderer> lasers;
+    public List<Cucumber> lasers;
 
     public Transform boss;
     Transform targetTransform;
@@ -19,8 +19,6 @@ public class BossController : MonoBehaviour
     public GameObject bulletPrefab;
 
     private string[] attacks = new string[2];
-
-    int cucomberColor = Shader.PropertyToID("_BaseColor");
 
     void Awake()
     {
@@ -98,6 +96,8 @@ public class BossController : MonoBehaviour
 
     private IEnumerator Laser()
     {
+        lasers.ForEach(x => x.Ready());
+            
         isAttack = true;
         yield return new WaitForSeconds(2.5f);
 
@@ -105,9 +105,9 @@ public class BossController : MonoBehaviour
         lasers.ForEach(x => x.gameObject.SetActive(true));
         for (int i = 0; i < count; i++)
         {
-            lasers.ForEach(x => x.material.SetColor(cucomberColor, Color.red));
-            yield return new WaitForSeconds(0.6f);
-            lasers.ForEach(x => x.material.SetColor(cucomberColor, Color.white));
+            lasers.ForEach(x => x.Ready());
+            yield return new WaitForSeconds(0.7f);
+            lasers.ForEach(x => x.OnActive());
             boss.DOLookAt(boss.position - boss.forward, 3.4f);
             yield return new WaitForSeconds(4f);
 

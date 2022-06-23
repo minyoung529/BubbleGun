@@ -69,6 +69,9 @@ public class MonsterCtrl : MonoBehaviour
         currHp = initHp;
         isDie = false;
 
+        transform.DOMoveY(-5f, 0f);
+        transform.DOMoveY(0, 1f);
+
         // 몬스터 콜라이더 활성화
         GetComponent<CapsuleCollider>().enabled = true;
         // 몬스터 펀치 콜라이더 활성화

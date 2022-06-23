@@ -56,7 +56,7 @@ public class FollowCamera : MonoBehaviour
         EventManager.StartListening("Win", ShowCity);
     }
 
-    void Update()
+    void LateUpdate()
     {
         if (canFollow)
         {
@@ -68,8 +68,6 @@ public class FollowCamera : MonoBehaviour
         cameraDirection.y = 0f;
         cameraDirection.Normalize();
     }
-
-    public float heightOffset = 3f;
 
     private void MoveVertical()
     {
@@ -88,7 +86,7 @@ public class FollowCamera : MonoBehaviour
 
         transform.eulerAngles -= Vector3.right * y * 70f;
 
-        height -= y * heightOffset;
+        //height -= y * heightOffset;
     }
 
     private void FollowTarget()
@@ -97,11 +95,7 @@ public class FollowCamera : MonoBehaviour
         angle += x;
 
         transform.position = Vector3.Slerp(transform.position, GetCameraPosition(), moveDamping * Time.deltaTime);
-
-        transform.LookAt(targetTransform);
-        Vector3 angles = transform.eulerAngles;
-        angles.x = 12f;
-        transform.eulerAngles = angles;
+        transform.rotation = Rotate();
     }
 
     private Vector3 GetCameraPosition()
@@ -113,6 +107,7 @@ public class FollowCamera : MonoBehaviour
         Vector3 pos = targetTransform.position
                       + (forward * distance)
                       + (Vector3.up * (height + targetOffset));
+
         return pos;
     }
 
@@ -123,39 +118,52 @@ public class FollowCamera : MonoBehaviour
         targetPoint -= (targetPoint - transform.position).normalized * 10f;
 
         SoundManager.Instance.PlayOneShot(shuttleSound.chanel, shuttleSound.clip);
-        ShuttleMove(targetPoint, targetPoint, TargetLookAtPosition, 3f);
+        StartCoroutine(CameraScene(targetPoint, GetCameraPosition(), 3f));
     }
 
     private void ShowCity()
     {
-        ShuttleMove
-            (
-            cityView.position, Vector3.zero,
-           TargetLookAtPosition, 5f,
-            GameManager.Instance.UIManager.OnGameEnd
-            );
+        StartCoroutine(CameraScene
+        (
+        cityView.position,
+        TargetLookAtPosition, 5f,
+        GameManager.Instance.UIManager.OnGameEnd
+        ));
     }
 
-    private void ShuttleMove(Vector3 targetPoint, Vector3 startTarget, Vector3 endTarget, float time, TweenCallback callback = null)
+    Quaternion Rotate()
     {
-        Sequence seq = DOTween.Sequence();
+        Quaternion LookRot = Quaternion.LookRotation(targetTransform.position - transform.position);
+        Vector3 angles = LookRot.eulerAngles;
+        angles.x = 12f;
+        LookRot.eulerAngles = angles;
 
+        return LookRot;
+    }
+
+    private IEnumerator CameraScene(Vector3 targetPoint, Vector3 endTarget, float time, System.Action callback = null)
+    {
+        Quaternion rotation = transform.rotation;
         canFollow = false;
         GameManager.Instance.GameState = GameState.None;
 
-        seq.SetDelay(1.5f);
+        yield return new WaitForSeconds(1.5f);
 
-        seq.Append(transform.DOMove(targetPoint, time));
-        seq.Join(transform.DOLookAt(startTarget, time));
+        transform.DOMove(targetPoint, time);
+        transform.DOLookAt(targetPoint, time);
 
-        seq.Append(transform.DOMove(GetCameraPosition(), time));
-        seq.Append(transform.DOLookAt(endTarget, time));
+        yield return new WaitForSeconds(time);
 
-        seq.AppendCallback(() => GameManager.Instance.GameState = GameState.Ready);
-        seq.AppendCallback(() => canFollow = true);
+        transform.DOMove(endTarget, time);
+        transform.DORotateQuaternion(rotation,time);
 
-        if (callback != null)
-            seq.AppendCallback(callback);
+        yield return new WaitForSeconds(time);
+
+        canFollow = true;
+
+        GameManager.Instance.GameState = GameState.Ready;
+
+        callback?.Invoke();
     }
 
     private void OnDestroy()
