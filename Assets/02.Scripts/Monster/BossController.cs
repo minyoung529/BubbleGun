@@ -5,11 +5,11 @@ using DG.Tweening;
 
 public class BossController : MonoBehaviour
 {
-    private const int maxHp = 200;
+    private const int maxHp = 100;
     private int BossHp { get; set; } = maxHp;
 
     private bool isAttack = false;
-    private bool isDead = false;
+    public static bool IsDead { get; set; } = false;
     public List<Cucumber> lasers;
 
     public Transform boss;
@@ -20,12 +20,16 @@ public class BossController : MonoBehaviour
 
     private string[] attacks = new string[2];
 
+    int curAttack = 0;
+
     void Awake()
     {
         Debug.Log(FindObjectsOfType<BossController>().Length);
 
         EventManager.StartListening("Boss", BossActive);
         spotLight = Resources.Load<GameObject>("EnemySpotLight");
+
+        GameManager.Instance.UIManager.UpdateHp(1f, 1f);
 
         attacks[0] = "IntervalAttack";
         attacks[1] = "Laser";
@@ -40,9 +44,9 @@ public class BossController : MonoBehaviour
 
     private void Update()
     {
-        if (!isAttack && !isDead)
+        if (!isAttack && !IsDead)
         {
-            StartCoroutine(attacks[Random.Range(0, attacks.Length)]);
+            StartCoroutine(attacks[curAttack++ % attacks.Length]);
         }
     }
 
@@ -63,8 +67,9 @@ public class BossController : MonoBehaviour
 
             if (BossHp <= 0)
             {
-                EventManager.TriggerEvent("AreaClear");
-                isDead = true;
+                GameManager.Instance.ClearBoss();
+                IsDead = true;
+                GameManager.Instance.OnEnemyDie();
                 transform.DORotate(new Vector3(-85f, -30f, 0f), 2f);
             }
         }
@@ -96,10 +101,12 @@ public class BossController : MonoBehaviour
 
     private IEnumerator Laser()
     {
-        lasers.ForEach(x => x.Ready());
-            
         isAttack = true;
+        lasers.ForEach(x => x.Ready());
+
         yield return new WaitForSeconds(2.5f);
+
+        Debug.Log("sdf");
 
         int count = Random.Range(2, 4);
         lasers.ForEach(x => x.gameObject.SetActive(true));
@@ -108,7 +115,7 @@ public class BossController : MonoBehaviour
             lasers.ForEach(x => x.Ready());
             yield return new WaitForSeconds(0.7f);
             lasers.ForEach(x => x.OnActive());
-            boss.DOLookAt(boss.position - boss.forward, 3.4f);
+            boss.DOLookAt(boss.position - boss.forward, 4f);
             yield return new WaitForSeconds(4f);
 
             yield return new WaitForSeconds(Random.Range(1f, 3f));

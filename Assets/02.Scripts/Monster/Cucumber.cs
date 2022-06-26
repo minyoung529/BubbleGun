@@ -9,14 +9,17 @@ public class Cucumber : MonoBehaviour
 
     int cucomberColor = Shader.PropertyToID("_BaseColor");
 
-    void Start()
+    void Awake()
     {
-        meshRenderer = GetComponent<MeshRenderer>();
-        collider = GetComponent<Collider>();
+        meshRenderer ??= GetComponent<MeshRenderer>();
+        collider ??= GetComponent<Collider>();
     }
 
     public void Ready()
     {
+        meshRenderer ??= GetComponent<MeshRenderer>();
+        collider ??= GetComponent<Collider>();
+
         meshRenderer.material.SetColor(cucomberColor, Color.red);
         collider.enabled = false;
     }

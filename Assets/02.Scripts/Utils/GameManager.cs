@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     private Vector3 areaLeftTop;
     private Vector3 areaRightBottom;
     [field: SerializeField]
-    public int AreaIndex { get; private set; } = 0;
+    public int AreaIndex { get; private set; } = 2;
     public Area CurrentArea
     {
         get => areas[AreaIndex];
@@ -74,23 +74,28 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftControl))
+        if (Input.GetKeyDown(KeyCode.F10))
         {
-            if (isSpawnMonster)
+            ClearBoss();
+        }
+    }
+
+    public void ClearBoss()
+    {
+        if (isSpawnMonster)
+        {
+            foreach (var m in CurrentMonster)
             {
-                foreach (var m in CurrentMonster)
+                if (m.MonsterState != MonsterCtrl.State.DIE)
                 {
-                    if (m.MonsterState != MonsterCtrl.State.DIE)
-                    {
-                        m.MonsterState = MonsterCtrl.State.DIE;
-                    }
+                    m.MonsterState = MonsterCtrl.State.DIE;
                 }
             }
-            else
-            {
-                deadEnemyCount = maxEnemyCount - 1;
-                OnEnemyDie();
-            }
+        }
+        else
+        {
+            deadEnemyCount = maxEnemyCount - 1;
+            OnEnemyDie();
         }
     }
 
@@ -153,16 +158,22 @@ public class GameManager : MonoBehaviour
     {
         deadEnemyCount++;
 
-        if (deadEnemyCount == maxEnemyCount)
+        if (deadEnemyCount == maxEnemyCount && AreaIndex != areas.Count - 2)
         {
             GameState = GameState.Ready;
 
-            if (areas.Count > AreaIndex)
+            if (areas.Count > AreaIndex + 1)
             {
                 EventManager<Area>.TriggerEvent("AreaClear", areas[++AreaIndex]);
             }
 
             UIManager.ShowInfoText("신호기의 빛을 따라가세요.&");
+        }
+
+        else if (BossController.IsDead && AreaIndex == areas.Count - 2)
+        {
+            EventManager<Area>.TriggerEvent("AreaClear", areas[++AreaIndex]);
+            UIManager.ShowInfoText("껌 자판기를 따라가세요.&");
         }
 
         UIManager.UpdateInfo(maxEnemyCount, deadEnemyCount);
