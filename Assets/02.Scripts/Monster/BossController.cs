@@ -29,8 +29,6 @@ public class BossController : MonoBehaviour
         EventManager.StartListening("Boss", BossActive);
         spotLight = Resources.Load<GameObject>("EnemySpotLight");
 
-        GameManager.Instance.UIManager.UpdateHp(1f, 1f);
-
         attacks[0] = "IntervalAttack";
         attacks[1] = "Laser";
 
@@ -40,6 +38,7 @@ public class BossController : MonoBehaviour
     private void Start()
     {
         targetTransform = GameManager.Instance.PlayerController.transform;
+        GameManager.Instance.UIManager.UpdateBossHp(1, 1);
     }
 
     private void Update()
@@ -68,9 +67,13 @@ public class BossController : MonoBehaviour
             if (BossHp <= 0)
             {
                 GameManager.Instance.ClearBoss();
-                IsDead = true;
                 GameManager.Instance.OnEnemyDie();
-                transform.DORotate(new Vector3(-85f, -30f, 0f), 2f);
+                StopAllCoroutines();
+                IsDead = true;
+
+                lasers.ForEach(x => x.gameObject.SetActive(false));
+                boss.DOKill();
+                boss.DORotate(new Vector3(-85f, -30f, 0f), 2f);
             }
         }
     }

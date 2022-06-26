@@ -27,10 +27,6 @@ public class FollowCamera : MonoBehaviour
 
     private bool canFollow = true;
 
-    [Header("Cut Scene")]
-    [SerializeField] private LayerMask obstacleLayer;
-    [SerializeField] private Transform cityView;
-
     [Header("Vertical Move")]
     [SerializeField] private Transform muzzle;
     [SerializeField] private float verticalSens;
@@ -123,12 +119,9 @@ public class FollowCamera : MonoBehaviour
 
     private void ShowCity()
     {
-        StartCoroutine(CameraScene
-        (
-        cityView.position,
-        TargetLookAtPosition, 5f,
-        GameManager.Instance.UIManager.OnGameEnd
-        ));
+        canFollow = false;
+        transform.DOLookAt(targetTransform.position, 10f);
+        transform.DOMove(new Vector3(-210, 246, -174), 10f);
     }
 
     Quaternion Rotate()

@@ -158,25 +158,29 @@ public class GameManager : MonoBehaviour
     {
         deadEnemyCount++;
 
-        if (deadEnemyCount == maxEnemyCount && AreaIndex != areas.Count - 2)
+        if (AreaIndex != areas.Count - 2)
         {
-            GameState = GameState.Ready;
+            UIManager.UpdateInfo(maxEnemyCount, deadEnemyCount);
 
-            if (areas.Count > AreaIndex + 1)
+            if (deadEnemyCount == maxEnemyCount)
             {
-                EventManager<Area>.TriggerEvent("AreaClear", areas[++AreaIndex]);
-            }
+                GameState = GameState.Ready;
 
-            UIManager.ShowInfoText("신호기의 빛을 따라가세요.&");
+                if (areas.Count > AreaIndex + 1)
+                {
+                    EventManager<Area>.TriggerEvent("AreaClear", areas[++AreaIndex]);
+                }
+
+                UIManager.ShowInfoText("신호기의 빛을 따라가세요.&");
+            }
         }
 
         else if (BossController.IsDead && AreaIndex == areas.Count - 2)
         {
             EventManager<Area>.TriggerEvent("AreaClear", areas[++AreaIndex]);
             UIManager.ShowInfoText("껌 자판기를 따라가세요.&");
+            deadEnemyCount = 0;
         }
-
-        UIManager.UpdateInfo(maxEnemyCount, deadEnemyCount);
     }
 
     private IEnumerator GenerateMonsterCoroutine()

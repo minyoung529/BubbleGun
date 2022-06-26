@@ -25,7 +25,7 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         EventManager.StartListening("GameOver", GameOver);
-        EventManager.StartListening("Win", () => UnShowCanvasGroup(shootingCanvas));
+        EventManager.StartListening("Win", OnGameEnd);
     }
 
     public void UpdateHp(float curHp, float initHp)
@@ -88,7 +88,10 @@ public class UIManager : MonoBehaviour
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
 
-        ShowCanvasGroup(gameClearCanvas);
+        UnShowCanvasGroup(shootingCanvas);
+
+        Sequence seq = DOTween.Sequence().SetDelay(3f);
+        seq.AppendCallback(() => ShowCanvasGroup(gameClearCanvas));
     }
 
     private void GameOver()
@@ -108,12 +111,13 @@ public class UIManager : MonoBehaviour
     private void OnDestroy()
     {
         EventManager.StopListening("GameOver", GameOver);
-        EventManager.StopListening("Win", () => UnShowCanvasGroup(shootingCanvas));
+        EventManager.StopListening("Win", OnGameEnd);
     }
 
     public void UpdateBossHp(int maxhp, int curHp)
     {
-        bossSlider.gameObject.SetActive(curHp != 0);
+
+        bossSlider.gameObject.SetActive(curHp > 0);
         bossSlider.value = (curHp / (float)maxhp);
     }
 }
