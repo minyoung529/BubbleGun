@@ -32,7 +32,10 @@ public class UIManager : MonoBehaviour
     {
         hpBar.fillAmount = curHp / initHp;
 
-        ShowDamageEffect((curHp / initHp) <= 0.2f);
+        if ((curHp / initHp) > 0.2f)
+            StartCoroutine(OnDamaged());
+        else
+            dangerUI.gameObject.SetActive(true);
     }
 
     public void ShowInfoText(string info)
@@ -101,23 +104,22 @@ public class UIManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
     }
 
-    public void ShowDamageEffect(bool isShow)
+    private IEnumerator OnDamaged()
     {
-        if (dangerUI.gameObject.activeSelf == isShow) return;
+        dangerUI.gameObject.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        dangerUI.gameObject.SetActive(false);
+    }
 
-        dangerUI.gameObject.SetActive(isShow);
+    public void UpdateBossHp(int maxhp, int curHp)
+    {
+        bossSlider.gameObject.SetActive(curHp > 0);
+        bossSlider.value = (curHp / (float)maxhp);
     }
 
     private void OnDestroy()
     {
         EventManager.StopListening("GameOver", GameOver);
         EventManager.StopListening("Win", OnGameEnd);
-    }
-
-    public void UpdateBossHp(int maxhp, int curHp)
-    {
-
-        bossSlider.gameObject.SetActive(curHp > 0);
-        bossSlider.value = (curHp / (float)maxhp);
     }
 }

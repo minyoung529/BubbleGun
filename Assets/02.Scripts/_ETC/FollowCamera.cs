@@ -10,7 +10,6 @@ public class FollowCamera : MonoBehaviour
 
     [Range(2.0f, 20.0f)]
     public float distance = 10.0f;
-    private float curDistance;
 
     [Range(0.0f, 10.0f)]
     public float height = 2.0f;
@@ -27,25 +26,10 @@ public class FollowCamera : MonoBehaviour
 
     private bool canFollow = true;
 
-    [Header("Vertical Move")]
-    [SerializeField] private Transform muzzle;
-    [SerializeField] private float verticalSens;
-    private float verticalInput = 1f;
-    private readonly float muzzleMinPosY = 1.5f + 0.5f;
-    private readonly float muzzleMaxPosY = 2.07f + 0.5f;
-    private readonly float minYInput = 1f;
-    private readonly float maxYInput = 6f;
-
     public Sound shuttleSound;
-
-    private Vector3 TargetLookAtPosition
-    {
-        get => targetTransform.position + (targetTransform.up * targetOffset);
-    }
 
     void Start()
     {
-        curDistance = distance;
         forward = -targetTransform.forward;
 
         EventManager<Area>.StartListening("AreaClear", Clear);
@@ -57,32 +41,11 @@ public class FollowCamera : MonoBehaviour
         if (canFollow)
         {
             FollowTarget();
-            //MoveVertical();
         }
 
         cameraDirection = transform.forward;
         cameraDirection.y = 0f;
         cameraDirection.Normalize();
-    }
-
-    private void MoveVertical()
-    {
-        float y = Input.GetAxis("Mouse Y");
-
-        if (verticalInput + y > maxYInput || verticalInput + y < minYInput) return;
-
-        verticalInput += y;
-        y *= verticalSens;
-
-        muzzle.position += Vector3.up * y;
-
-        Vector3 muzzlePos = muzzle.position;
-        muzzlePos.y = Mathf.Clamp(muzzlePos.y, muzzleMinPosY, muzzleMaxPosY);
-        muzzle.position = muzzlePos;
-
-        transform.eulerAngles -= Vector3.right * y * 70f;
-
-        //height -= y * heightOffset;
     }
 
     private void FollowTarget()

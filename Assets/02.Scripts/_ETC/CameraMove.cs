@@ -12,8 +12,14 @@ public class CameraMove : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
+
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+
         transform.Translate(-transform.forward * Time.deltaTime * speed);
     }
 }

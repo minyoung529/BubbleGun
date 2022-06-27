@@ -78,6 +78,11 @@ public class GameManager : MonoBehaviour
         {
             ClearBoss();
         }
+
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
     }
 
     public void ClearBoss()

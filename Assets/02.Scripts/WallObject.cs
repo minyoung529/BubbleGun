@@ -1,15 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using DG.Tweening;
 
 public class WallObject : MonoBehaviour
 {
     private float height = 5f;
     private float originalZSize;
+    private NavMeshObstacle obstacle;
 
     void Awake()
     {
+        obstacle = GetComponent<NavMeshObstacle>();
         EventManager.StartListening("GameStart", SetArea);
         EventManager<Area>.StartListening("AreaClear", Inactive);
     }
@@ -55,6 +58,14 @@ public class WallObject : MonoBehaviour
         transform.up = (lookPos - transform.position).normalized;
 
         transform.position += Vector3.up * height * 5f;
+
+        StartCoroutine(SetObstacleSize());
+    }
+
+    private IEnumerator SetObstacleSize()
+    {
+        yield return new WaitForSeconds(1f);
+        obstacle.size = transform.localScale;
     }
 
     private void Inactive(Area area = null)
