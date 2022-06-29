@@ -4126,8 +4126,6 @@ MonoBehaviour:
   moveDamping: 120
   rotateSpeed: 2
   targetOffset: 0.7
-  muzzle: {fileID: 2203012406723009656}
-  verticalSens: 0.05
   shuttleSound:
     chanel: 2
     clip: {fileID: 8300000, guid: 84bcea5f65d69c8439f953c953df62e1, type: 3}
@@ -5509,7 +5507,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1639841484}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 21, y: -8.2, z: -174}
+  m_LocalPosition: {x: 21, y: -8.13, z: -174}
   m_LocalScale: {x: 30, y: 1, z: 50}
   m_Children: []
   m_Father: {fileID: 2101210991}
