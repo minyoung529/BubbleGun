@@ -4123,7 +4123,7 @@ MonoBehaviour:
   targetTransform: {fileID: 1364093002}
   distance: 6.3
   height: 3.3
-  moveDamping: 120
+  moveDamping: 2000
   rotateSpeed: 2
   targetOffset: 0.7
   shuttleSound:
@@ -4663,7 +4663,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -161}
+  m_AnchoredPosition: {x: 0, y: -188}
   m_SizeDelta: {x: 421.5017, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1282737501
@@ -4724,7 +4724,7 @@ MonoBehaviour:
   - "\uC5EC\uAE34 \uC5B4\uB514\uC9C0?"
   - "\uAFC8 \uC18D\uC778\uAC00?"
   - "\uB3C4\uC2DC\uAC00..."
-  - "\uBAA8\uB450 \uCD08\uB85D\uC0C9\uC774\uC796\uC544?"
+  - "\uC628\uD1B5 \uCD08\uB85D\uC0C9\uC774\uC796\uC544?"
   - "\uB3C4\uB300\uCCB4 \uB204\uAD6C \uC9D3\uC77C\uAE4C?"
   text: {fileID: 1282737501}
   textDelay: 0.05
