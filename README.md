@@ -1,5 +1,6 @@
 # Bubble Gun!
-2학년 1학기 엔진 응용 시간에 만든 FPS를 기반으로 새롭게 만든 개인 FPS  프로젝트입니다.
+2학년 1학기 엔진 응용 시간에 만든 FPS를 기반으로 새롭게 만든 개인 FPS  프로젝트입니다. <br>
+학년 우수 작품으로 선정되었습니다.
 
 ![BubbleGun1](https://user-images.githubusercontent.com/77655318/178115798-0958b63e-4148-4d39-9e32-cf402d4a42d4.png)
 
